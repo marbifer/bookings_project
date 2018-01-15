@@ -1,0 +1,13 @@
+/***********************************************
+                TRAVTION MODALS
+***********************************************/
+
+/***************************************************
+Modal container: apply width and height accordingly
+***************************************************/
+.travtion-modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

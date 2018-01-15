@@ -1,0 +1,67 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../../scss/generals/ams-variables";
+@import "../../../../scss/generals/ams-typography";
+@import "../../../../scss/generals/ams-generals";
+@import "../../../../scss/generals/ams-icons";
+@import "../../../../scss/generals/ams-positions";
+@import "../../../../scss/generals/ams-headings";
+@import "../../../../scss/generals/ams-resultsbar";
+@import "../../../../scss/generals/ams-buttons";
+@import "../../../../scss/generals/ams-forms";
+@import "../../../../scss/generals/ams-tables";
+@import "../../../../scss/generals/ams-alerts";
+@import "../../../../scss/generals/ams-datepicker";
+
+.datepicker-bar-wrapper{
+    margin-top: 40px;
+    height: 84px;
+    background-color: $lightgrey;
+    .row{
+        width: 100%;
+    }
+    .datepicker-wrapper{
+        height: 34px;
+        border-radius: 0;
+        p{
+            height: 100%;
+            width: 100px;
+            border: 1px solid #dcdcdc;
+            background-color: #eee;
+        }
+    }
+    .datepicker{
+        width: 202px;
+        height: 100%;
+        border: 1px solid #eee;
+        border-left: none;
+        .single-input{
+            width: 90px;
+            height: 98%;
+            position: relative;
+            display: inline-block;
+            input{
+                border-radius: 0;
+            }
+            .with-errors-text{
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+        }
+    }
+}
+
+.results-bar-wrapper{
+    margin-bottom: 40px;
+}
+
+.short-table{
+    a{
+        cursor: pointer;
+        &:hover{
+            color: initial;
+        }
+    }
+}

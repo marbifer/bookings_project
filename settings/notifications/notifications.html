@@ -1,0 +1,243 @@
+<div class="load"></div>
+<div id="wrapper-prov" [ngClass]="{'container' : view_port_width_not}">
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id="searchBox" type="text" autocomplete="off" [(ngModel)]="_service.search_notifications" />
+                        <div class="after" (click)="restore_search()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>Search for Notifications</p>
+                    </div>
+                </div>
+                <div class="text-search">
+                    <p class="open-search">Search for Notifications</p>
+                </div><br><br>
+            </div>
+        </div>
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-4 align-items-center">
+                    <!-- Checkbox icon-checked -->
+                    <template [ngIf]="justchange == true">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-check" (click)="unselect_all()">
+                                <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox with minus-icon -->
+                    <template [ngIf]="justchange == 'minus'">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-minus" (click)="select_all()">
+                                <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox icon-empty -->
+                    <template [ngIf]="_service._data_pagination.total_page != 0">
+                        <template [ngIf]="justchange == false">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div id="icon-empty" (click)="select_all()">
+                                    <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+                        <p class="select">Select All</p>
+                    </template>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <h1 class="title3">{{_service._data_pagination.total_page}} Results</h1>
+                    <!--<h1 class="title3">{{_providers_service._data_pagination.total_page}} Results</h1>-->
+                </div>
+                <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn-blue-lg" onclick="location.href='http://localhost:3000/#/app/settings/notifications/notifications-new'">New Notification Rule</button>
+                    <template [ngIf]="show_icons_not == true">
+                        <div class="trash d-flex align-items-center">
+                            <i *ngIf="_service._data_pagination.total_page != 0" class="fa fa-trash-o default-icon" aria-hidden="true" (click)="delete_all_mappings()"></i>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!--  Table External Providers -->
+        <div class="row" id="ext-providers">
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+
+                    <template [ngIf]="_service._data_pagination.total_page != 0">
+                        <tr>
+                            <th></th>
+                            <th>Rule Name</th>
+                            <th class="text-center"><i class="fa fa-bed" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i></th>
+                            <th class="text-center"><i class="fa fa-ticket" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i></th>
+                            <th class="text-center"><i class="fa fa-bus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i></th>
+                            <th class="text-center"><i class="fa fa-car" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i></th>
+                            <th class="text-center"><i class="fa fa-plane" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Air"></i></th>
+                            <th class="text-center"><i class="fa fa-shield" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i></th>
+                            <th class="text-center"><i class="fa fa-ship" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i></th>
+                            <th class="text-center"><i class="fa fa-th" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Packages"></i></th>
+                            <th class="text-center"><i class="fa fa-building-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Agency"></i></th>
+                            <th class="text-center"><i class="fa fa-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User"></i></th>
+                            <th class="text-center"><i class="fa fa-cog" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="System"></i></th>
+                            <th>Admin</th>
+                            <th class="status-th"></th>
+                            <th class="status-th"></th>
+                        </tr>
+                    </template>
+
+                    <template ngFor let-not [ngForOf]="_service.notifications" let-i="index">
+                        <tr>
+                            <td>
+                                <div class="checkbox abc-checkbox" (click)="show_icons_notifications()">
+                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="checkbox{{i}}" value="{{not.code}}" type="checkbox" (change)="change_to_minus()">
+                                    <label class="label-selected-pr" attr.for="checkbox{{i}}"></label>
+                                </div>
+                            </td>
+                            <td class="rule-name-td">
+                                {{not.name}}
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.apply_to_hotel == true,
+                                    'checked-icon': not.apply_to_hotel == true,
+                                    'fa-times': not.apply_to_hotel == false,
+                                    'unchecked-icon': not.apply_to_hotel == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.apply_to_attractions == true,
+                                    'checked-icon': not.apply_to_attractions == true,
+                                    'fa-times': not.apply_to_attractions == false,
+                                    'unchecked-icon': not.apply_to_attractions == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.apply_to_transfers == true,
+                                    'checked-icon': not.apply_to_transfers == true,
+                                    'fa-times': not.apply_to_transfers == false,
+                                    'unchecked-icon': not.apply_to_transfers == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                        'fa-check': not.apply_to_cars == true,
+                                        'checked-icon': not.apply_to_cars == true,
+                                        'fa-times': not.apply_to_cars == false,
+                                        'unchecked-icon': not.apply_to_cars == false
+                                    }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.apply_to_flights == true,
+                                    'checked-icon': not.apply_to_flights == true,
+                                    'fa-times': not.apply_to_flights == false,
+                                    'unchecked-icon': not.apply_to_flights == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.apply_to_insurances == true,
+                                    'checked-icon': not.apply_to_insurances == true,
+                                    'fa-times': not.apply_to_insurances == false,
+                                    'unchecked-icon': not.apply_to_insurances == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.apply_to_cruises == true,
+                                    'checked-icon': not.apply_to_cruises == true,
+                                    'fa-times': not.apply_to_cruises == false,
+                                    'unchecked-icon': not.apply_to_cruises == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.apply_to_packages == true,
+                                    'checked-icon': not.apply_to_packages == true,
+                                    'fa-times': not.apply_to_packages == false,
+                                    'unchecked-icon': not.apply_to_packages == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.agency_event == true,
+                                    'checked-icon': not.agency_event == true,
+                                    'fa-times': not.agency_event == false,
+                                    'unchecked-icon': not.agency_event == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.user_event == true,
+                                    'checked-icon': not.user_event == true,
+                                    'fa-times': not.user_event == false,
+                                    'unchecked-icon': not.user_event == false
+                                }"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not.system_event == true,
+                                    'checked-icon': not.system_event == true,
+                                    'fa-times': not.system_event == false,
+                                    'unchecked-icon': not.system_event == false
+                                }"></i>
+                            </td>
+                            <td class="admin-td">
+                                <p *ngFor="let admin of not.admins">{{admin}}</p>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa fa-pencil edit-icon" aria-hidden="true" onclick="location.href='http://localhost:3000/#/app/settings/notifications/notifications-detail'"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa fa-trash-o delete-icon" aria-hidden="true"></i>
+                            </td>
+                        </tr>
+                    </template>
+                </table> <!--Close Principal Table -->
+            </div>
+        </div>
+
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity">
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_notifications.length > 0"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_service.search_notifications}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+            <!--Notification Message if there is not results from Front-End (List Agencies)-->
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_notifications == undefined">
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, <strong>we couldn't find any results that met your search criteria</strong>. You can try using different filters and/or dates in the search box above.</p>
+                </div>
+            </template>
+            <!--Error Message if there are not registers in the table from Front-End -->
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_notifications.length == 0">
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>"Notifications Rules"</span> in the system yet. Create one from the button on the top right corner of this screen.</p>
+                </div>
+            </template>
+        </div>
+
+        <my-pagination *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)" ></my-pagination>
+
+    </div> <!-- Close container for Notifications and pagination -->
+</div> <!-- Close container wrapper-prov -->
+</div>

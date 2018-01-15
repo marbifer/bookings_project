@@ -1,0 +1,22 @@
+@media print {
+
+    .page-title{
+        display: none;
+    }
+
+    .ams-container{
+        /*width: 830px;*/
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+        overflow-y: overlay;
+        overflow-x: hidden;
+    }
+
+    .blue-heading{
+        .btn-close{
+            display: none;
+        }
+    }
+
+}

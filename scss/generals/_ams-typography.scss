@@ -1,0 +1,68 @@
+/*-----------------------------*/
+/*         TYPOGRAPHY          */
+/*-----------------------------*/
+.title{
+    font-family: $montserrat;
+    letter-spacing: 2.5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #474747;
+}
+.title1{
+    @extend .title;
+    font-size: 28px;
+}
+.title2{
+    @extend .title;
+    font-size: 24px;
+}
+.title3{
+    @extend .title;
+    font-size: 18px;
+}
+.title4{
+    @extend .title;
+    font-size: 14px;
+}
+.title5{
+    @extend .title;
+    font-size: 12px;
+}
+.alt-title1{
+    font-family: $open-sans;
+    font-size: 14px;
+    font-weight: bold;
+    color: #474747;
+}
+.alt-title2{
+    @extend .alt-title1;
+    font-size: 12px;
+}
+
+p, th, td{
+    font-family: $open-sans;
+    font-size: 14px;
+    font-weight: normal;
+    color: #474747;
+}
+.text-sm{
+    @extend p;
+    font-size: 12px !important;
+}
+a{
+    &:hover{
+        text-decoration: none;
+    }
+}
+
+.small-italic{
+    font-style: italic;
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+.notification{
+    white-space: normal;
+    border: 1px solid $disabled;
+    padding: 6px;
+}

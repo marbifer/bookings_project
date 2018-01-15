@@ -1,0 +1,528 @@
+<!-- Close modal Filters(click in body) -->
+<div class="close-modals" (click)="close_modal_filters()"></div>
+
+<!-- Filters Modal -->
+<div id="myModal" class="pull-right" role="dialog">
+    <div class="" id="no-center-modal">
+
+        <div class="container filters-container" id="myModalFilters">
+            <div id="wrapper-filters">
+                <main id="content" class="widget-login-container" role="main">
+                    <div class="row">
+                        <div id="column-filters" class="col-12 col-xs-12 center column-filters">
+                            <!-- Section title "Filter By" -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Filter By...</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button">
+                                            <button (click)="remove_modal_filters()" class="close" >
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- FILTERS COLUMN LIST -->
+                            <div id="filters" class="widget-body">
+                                <div class="filter-items center">
+                                    <ul class="sidebar-nav">
+                                        <li class="li-created-date" (click)="show_filter_created_date()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Created Date -->Created Date
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-service-date" (click)="show_filter_service_date()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Service Dates -->Service Dates
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-pax" (click)="show_filter_pax()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Passenger Name -->{{_filter_service.response_filters[0].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-loc" (click)="show_filter_loc()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Res. Code Locator -->{{_filter_service.response_filters[1].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-cancel" (click)="show_filter_auto_cancel()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Will Auto Cancel -->{{_filter_service.response_filters[2].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-status" (click)="show_filter_status()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Status -->{{_filter_service.response_filters[3].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-service" (click)="show_filter_service()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Service Type -->{{_filter_service.response_filters[4].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-provider" (click)="show_filter_provider()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Provider -->{{_filter_service.response_filters[5].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-agency" (click)="show_filter_agency()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Agency or User -->{{_filter_service.response_filters[6].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-destination" (click)="show_filter_destination()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Destination -->{{_filter_service.response_filters[7].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+        
+                            <!-- BUTTONS SEARCH FOR BOOKING OR FILES -->
+                            <div class="row">
+                                <div class="filter-button-container center">
+                                    <div class="col-12 col-xs-12 only-buttons-search">
+                                        <button class="search-bookings d-flex justify-content-center align-items-center" (click)="search_book_or_files('Bookings')" [ngClass]="{'active-button-book': _filter.filter_by_bookings_or_files == 'Bookings'}">
+                                            Search by Bookings
+                                        </button>
+                                    </div>
+                                    <div class="col-12 col-xs-12 only-buttons-search">
+                                        <button class="search-files d-flex justify-content-center align-items-center" (click)="search_book_or_files('Files')" [ngClass]="{'active-button-files': _filter.filter_by_bookings_or_files == 'Files'}">
+                                            Search by File Groups
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <!-- TITLE COLUMN FILTER CREATED DATE -->
+                    <div class="row">
+                        <div id="column-created-date" class="col-12 col-xs-12 center column-created-date secondFilter datepicker-column">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Created Date</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close" >
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER CREATED DATE WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="">
+                                    <label id="">From</label>
+                                    <div class="single-input">
+                                         <!-- <input type="text" class="form-control" id="" (keydown)="pax_enter($event)" [(ngModel)]="_filter_service.content_input_pax">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> -->
+
+                                        <input type="text" name="date_created_from" id="date_created_from2" class="form-control" [(ngModel)]="_filter_service.content_input_created_from" (click)="line_picker()">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group filterPax center" id="">
+                                    <label id="">To</label>
+                                    <div class="single-input">
+                                        <!-- <input type="text" class="form-control" id="" (keydown)="pax_enter($event)" [(ngModel)]="_filter_service.content_input_pax">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> -->
+
+                                        <input type="text" name="date_created_to" id="date_created_to2" class="form-control" [(ngModel)]="_filter_service.content_input_created_to" (click)="line_picker()">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="btn-group filterPax filter-button-container d-flex justify-content-center center" role="group">
+                                  <template [ngIf]="_filter_service.event_type == 'new'"> 
+                                    <button type="button" id="button-created-date" class="filter-button" [ngClass]="{'active-button-add-filter': _filter_service.content_input_created_from != '' || _filter_service.content_input_created_to != ''}" (click)="save_created_date()">Add Filter</button>
+                                  </template>                               
+                                  <template [ngIf]="_filter_service.event_type == 'edit'"> 
+                                      <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium':_filter_service.content_input_created_from != '' && _filter_service.content_input_created_from_backup != _filter_service.content_input_created_from || _filter_service.content_input_created_to != '' && _filter_service.content_input_created_to_backup != _filter_service.content_input_created_to}" (click)="update_input_created_from_to()">Update</button>
+
+                                      <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_created_from != '' || _filter_service.content_input_created_to != ''}" (click)="delete_content_input_created_from_to()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                  </template> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <!-- TITLE COLUMN FILTER SERVICE DATE -->
+                    <div class="row">
+                        <div id="column-service-date" class="col-12 col-xs-12 center column-service-date secondFilter datepicker-column">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                          <h4 class="modal-title" id="titleFilters">Service Dates</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </section>
+
+                            <!-- COLUMN FILTER SERVICE DATE WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group filterPax center" id="">
+                                    <label id="">From</label>
+                                    <div class="single-input">
+                                        <!-- <input type="text" class="form-control" id="" (keydown)="pax_enter($event)" [(ngModel)]="_filter_service.content_input_pax">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> -->
+
+                                        <input type="text" name="date_travel_from" id="date_travel_from2" class="form-control" [(ngModel)]="_filter_service.content_input_service_from" (click)="line_picker()">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group filterPax center" id="">
+                                    <label id="">To</label>
+                                    <div class="single-input">
+                                        <!-- <input type="text" class="form-control" id="" (keydown)="pax_enter($event)" [(ngModel)]="_filter_service.content_input_pax">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> -->
+
+                                        <input type="text" name="date_travel_to" id="date_travel_to2" class="form-control" [(ngModel)]="_filter_service.content_input_service_to" (click)="line_picker()">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-xs-12">
+                                <div class="btn-group filterPax filter-button-container d-flex justify-content-center center" role="group">
+                                  <template [ngIf]="_filter_service.event_type == 'new'"> 
+                                    <button type="button" id="button-destination" class="filter-button" [ngClass]="{'active-button-add-filter': _filter_service.content_input_service_from != '' || _filter_service.content_input_service_to != ''}" (click)="save_service_date()">Add Filter</button>
+                                  </template>                  
+                                  <template [ngIf]="_filter_service.event_type == 'edit'"> 
+                                    <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_service_from != '' && _filter_service.content_input_service_from != _filter_service.content_input_service_from_backup || _filter_service.content_input_service_to != '' && _filter_service.content_input_service_to != _filter_service.content_input_service_to_backup}" (click)="update_input_service_from_to()">Update</button>
+
+                                    <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_service_from != '' || _filter_service.content_input_service_to != ''}" (click)="delete_content_input_service_from_to()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                  </template> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER PASSENGER -->
+                    <div class="row">
+                        <div id="column-passenger" class="col-12 col-xs-12 center column-passenger secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                          <h4 class="modal-title" id="titleFilters">Passenger Name</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </section>
+
+                            <!-- COLUMN FILTER PASSENGER WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group filterPax center" id="filterPax">
+                                    <label id="label-pax" for="filterPax">Passenger Name</label>
+                                    <input type="text" class="form-control" id="inputPax" (keydown)="pax_enter($event)" [(ngModel)]="_filter_service.content_input_pax">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="btn-group filterPax filter-button-container d-flex justify-content-center center" role="group">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-pax" class="filter-button" [ngClass]="{'active-button-add-filter': _filter_service.content_input_pax.length > 0}" (click)="save_pax()">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'"> 
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_pax.length > 0 && _filter_service.content_input_pax != _filter_service.content_input_pax_backup}" (click)="update_input_pax()">Update</button>
+
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_pax != ''}" (click)="delete_content_input_pax()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER RES. CODE LOCATOR -->
+                    <div class="row">
+                        <div id="column-locator" class="col-12 col-xs-12 center column-locator secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="title-filters">Number/Locator</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER RES. CODE LOCATOR WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group filterLoc center" id="filterLoc">
+                                    <label id="" for="filterLoc">Confirmation Number or Record Locator</label>
+                                    <input type="text" class="form-control" id="inputLoc" (keydown)="loc_enter($event)" [(ngModel)]="_filter_service.content_input_loc">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="btn-group filter-button-container filterLoc d-flex justify-content-center center" role="group">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-loc" class="filter-button" [ngClass]="{'active-button-add-filter': _filter_service.content_input_loc.length > 0}" (click)="save_loc()">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'"> 
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_loc.length > 0 && _filter_service.content_input_loc != _filter_service.content_input_loc_backup}" (click)="update_input_loc()">Update</button>
+
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_loc != ''}" (click)="delete_content_input_loc()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER AUTO CANCEL -->
+                    <div class="row">
+                        <div id="column-auto-cancel" class="col-12 col-xs-12 center column-auto-cancel secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Will Auto-Cancel?</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </section>
+
+                            <!-- COLUMN FILTER AUTO CANCEL WITH BUTTONS -->
+                            <div class="col-12 col-xs-12">
+                                <div *ngFor="let yes_no of _filter_service.response_filters[2].sub_item_filter_list" class="form-group filterAutoCancel only-buttons d-flex justify-content-center center" id="filterAutoCancel">
+                                    <button type="button" id="button-auto-cancel" class="filter-button" [ngClass]="{'active': _filter_service.filter_cancel == yes_no.filter_type_code}" (click)="save_auto_cancel(yes_no.filter_type_code)">
+                                        {{yes_no.filter_type_name}}
+                                    </button>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER STATUS -->
+                    <div class="row">
+                        <div id="column-status" class="col-12 col-xs-12 center column-status secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Status</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </section>
+
+                            <!-- COLUMN FILTER STATUS WITH BUTTONS -->  
+                            <div class="col-12 col-xs-12">
+                                <div *ngFor="let status of _filter_service.response_filters[3].sub_item_filter_list; let i=index" class="form-group filterStatus only-buttons d-flex justify-content-center center" id="filterStatus">
+                                    <button type="button" id="buttons-status" class="filter-button" [ngClass]="{'active': _filter_service.filter_status_array[i] != undefined}" (click)="save_status(status.filter_type_code, i)">
+                                        {{status.filter_type_name}}
+                                    </button>
+                                </div>
+                            </div>     
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER SERVICE TYPE -->
+                    <div class="row">
+                        <div id="column-service" class="col-12 col-xs-12 center column-service secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Service Type</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </section>
+
+                            <!-- COLUMN FILTER SERVICE TYPE WITH BUTTONS -->
+                            <div class="col-12 col-xs-12">
+                                <div *ngFor="let service_type of _filter_service.response_filters[4].sub_item_filter_list; let i=index" class="form-group filterService only-buttons d-flex justify-content-center center" id="filterService">
+                                    <button type="button" id="button-service-type" class="filter-button" [ngClass]="{'active':_filter_service.filter_service_array[i] != undefined}" (click)="save_service_type(service_type.filter_type_code, i)">
+                                        {{service_type.filter_type_name}} 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER PROVIDER -->
+                    <div class="row">
+                        <div id="column-provider" class="col-12 col-xs-12 center column-provider secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Provider</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </section>
+
+                            <!-- COLUMN FILTER PROVIDER WITH BUTTONS -->
+                            <div class="col-12 col-xs-12">
+                                <div *ngFor="let provider of _filter_service.response_filters[5].sub_item_filter_list; let i=index" class="form-group filterProvider only-buttons d-flex justify-content-center center" id="filterProvider">
+                                    <button type="button" id="button-provider" class="filter-button" [ngClass]="{'active': _filter_service.filter_provider_array[i] != undefined}" (click)="save_provider(provider.filter_type_code, i)">
+                                        {{provider.filter_type_name}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER AGENCY OR USER -->
+                    <div class="row">
+                        <div id="column-agency" class="col-12 col-xs-12 center column-agency secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Agency or User</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER AGENCY OR USER WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group filterAgency center" id="filterAgency">
+                                    <label id="label-agency" for="filterAgency">Agency or User</label>
+                                    <input type="text" class="form-control" id="inputAgency" (keydown)="agency_enter($event)" [(ngModel)]="_filter_service.content_input_agency">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="btn-group filterAgency filter-button-container d-flex justify-content-center center" role="group">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-agency" class="filter-button" [ngClass]="{'active-button-add-filter': _filter_service.content_input_agency.length > 0}" (click)="save_agency()">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'">
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_agency.length > 0 && _filter_service.content_input_agency_backup != _filter_service.content_input_agency}" (click)="update_input_agency()">Update</button>
+
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_agency != ''}" (click)="delete_content_input_agency()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER DESTINATION -->
+                    <div class="row">
+                        <div id="column-destination" class="col-12 col-xs-12 center column-destination secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Destination</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER DESTINATION WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group filterDestination center" id="filterDestination">
+                                    <label id="label-destination" for="filterDestination">Destination</label>
+                                    <input type="text" class="form-control" id="inputDestination" (keydown)="destination_enter($event)" [(ngModel)]="_filter_service.content_input_destination">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="btn-group filterDestination filter-button-container d-flex justify-content-center center" role="group">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-destination" class="filter-button" [ngClass]="{'active-button-add-filter': _filter_service.content_input_destination.length > 0}" (click)="save_destination()">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'">
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_destination.length > 0 && _filter_service.content_input_destination_backup != _filter_service.content_input_destination}" (click)="update_input_destination()">Update</button>
+
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_destination != ''}" (click)="delete_content_input_destination()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

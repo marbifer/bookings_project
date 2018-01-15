@@ -1,0 +1,87 @@
+//@import "../../../../node_modules/ng2-datetime/src/vendor/bootstrap-datepicker/bootstrap-datepicker3.min";
+//@import "../../../../node_modules/ng2-datetime/src/vendor/bootstrap-timepicker/bootstrap-timepicker.min";
+@import "../../../scss/variables";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+
+/////////////////////////////////////////////
+/// Styles for PAGINATION ///
+
+.disabled {
+    text-align: right;
+    font-size: 25px;
+    color: #aeaeae;
+    margin-top: -3px;
+    & > a{
+        color: #999 !important;
+        background-color: #fff !important;
+        &:focus{
+            @extend a;
+        }
+        &:hover{
+            color: #999 !important;
+            background-color: #fff !important;
+        }
+    }
+}
+
+.elected{
+    z-index: 3;
+    color: #fff;
+    cursor: default !important;
+    background-color: #2c3e50 !important;
+    border-color: #2c3e50 !important;
+    /*padding: 4px 14px;
+    height: 27px !important;*/
+}
+
+#prev-map {
+    width: 48px;
+    font-size: 12px;
+    /*a{
+        margin-top: 2px !important;
+    }*/
+}
+#next-map{
+    @extend #prev-map;
+}
+.pager li > a{
+    font-size: 12px;
+    border-radius: 5px !important;
+    font-weight: 400 !important;
+    cursor: pointer;
+    &:hover{
+        background-color: #44607c;
+        color: #eae3e3;
+    }
+    &:not(.disabled):focus{
+        background-color: #fff;
+        color: #218BC3;
+    }
+}
+.pager li > span {
+    font-size: 12px;
+    border-radius: 5px !important;
+    font-weight: 400 !important;
+    cursor: pointer;
+    &:not(.elected):hover{
+        background-color: #44607c;
+        color: #eae3e3;
+    }
+}
+.active span {
+    width: 29px;
+    height: 29px;
+    vertical-align: middle;
+    font-size: 13px !important;
+    //padding-left: 9.5px !important;
+    margin: 0 auto;
+    padding: 5px 0 !important;
+}
+.points a {    
+    width: 29px;
+    height: 30px;
+    vertical-align: middle;
+    font-size: 13px !important;
+    padding-left: 8.7px !important;
+}

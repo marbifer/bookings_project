@@ -1,0 +1,309 @@
+@import "../../../../node_modules/ng2-datetime/src/vendor/bootstrap-datepicker/bootstrap-datepicker3.min";
+@import "../../../../node_modules/ng2-datetime/src/vendor/bootstrap-timepicker/bootstrap-timepicker.min";
+@import "../../../scss/variables";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+
+/***************\ IMPORTS GENERAL STYLES /**************/
+@import "../../../scss/generals/ams-variables";
+@import "../../../scss/generals/ams-generals";
+@import "../../../scss/generals/ams-typography";
+@import "../../../scss/generals/ams-positions";
+@import "../../../scss/generals/ams-buttons";
+@import "../../../scss/generals/ams-forms";
+
+
+/*------------------------------------------*/
+/*     Styles MODAL FILTERS LIST AGENCIES   */
+/*------------------------------------------*/
+
+/* Styles close modal filters LIST AGENCIES (click in body) */
+.modal-dialog{
+    margin: 0px auto;
+    height: 100%;
+}
+
+.modal-content {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    height: 100%;
+}
+
+.close-modals {
+    width: 2049px;
+    background: transparent;
+    min-height: 982px;
+    position: absolute;
+    margin-left: -12px;
+}
+
+.pull-right{
+    height: 100%;
+    background-color: #fff;
+}
+
+.modal-open .modal {
+    max-width: none !important;
+}
+
+#no-center-modal {
+    opacity: 1;
+    -webkit-transition: opacity 0.6s ease;
+    -moz-transition: opacity 0.6s ease;
+    -o-transition: opacity 0.6s ease;
+    transition: opacity 0.6s ease;
+    height: 100%;
+    background-color: #fff;
+}
+
+/*div#filters {
+    width: 281px;
+}*/
+
+.filters-container{
+    padding-right: 0px !important;
+    padding-left: 0px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #fff;
+}
+
+div#wrapper-filters-agencies {
+    position: relative !important;
+    right: auto;
+    background: #fff;
+    margin-right: 0px;
+    width: 320px;
+    height: 100%;
+    /*overflow-y: auto;
+    overflow-x: hidden;*/
+
+    .widget-login-container{
+        padding-bottom: 10%;
+        background-color: #fff;
+    }
+
+    #titleFilters, #title-filters {
+      font-family: "Montserrat", sans-serif;
+      font-size: 18px;
+      letter-spacing: 2.25px;
+      text-transform: uppercase;
+    }
+    #title-filters {
+      margin: -3px 0 0 3px !important;
+      line-height: 113%;
+    }
+    #header-filters {
+        height: 60px;
+        margin-top: -32px;
+        font-weight: bold;
+        background: $blue;
+        /*margin-left: -29px;*/
+        color: #FFF;
+        /*width: 320px;*/
+        width: 100%;
+        .bootstrap-dialog-close-button {
+            color: #fff;
+            .close {
+                margin-top: 0px;
+                color: #E7403F;
+                opacity: 8;
+                text-shadow: none;
+                font-size: 20px;
+            }
+        }
+    }
+    #section-title {
+      padding: 0px;
+    }
+    .filter-items { 
+        background: #eeeeee;
+        /*margin: -10px 0 0px -18px;*/
+        overflow: hidden;
+        width: 290px;
+        .active-filters{
+            background: #A0EBED;
+            border: none;
+        }
+        i{
+            font-size: 20px;
+            color: $grey;
+        }
+    }
+    .sidebar-nav {
+        list-style: none;
+        margin-bottom: 0px;
+        li a.collapsed .toggle {
+            color: #474747;
+            font-size: 20px;
+            transform: rotate(992deg);
+        }
+        > li > a {
+            position: relative;
+            /*padding-left: 16px;*/
+            padding: 0 16px;
+            /*line-height: 42px;*/
+            line-height: 1.5;
+            font-weight: 500;
+            font-size: 14px;
+            /*width: 300px;
+            height: 45px;*/
+            min-height: 45px;
+            height: auto;
+            border-top: 3px solid #ffffff !important;
+            color: #474747;
+            text-transform: capitalize;
+            &::before{
+                content: "";
+                background-color: #E7403F;
+                height: 100%;
+                width: 10px;
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                /*margin-left: -16px;*/
+                transition: all 0.2s linear;
+            }
+        }
+        > li:last-child > a {
+            height: 47px;
+            border-bottom: none;
+        }
+        > li > a:hover {
+            background: #eee;
+            color: #474747;
+            font-weight: bold;
+            font-style: italic;
+            i{
+                color: #E7403F
+            }
+        }
+        > li > a:hover:before{
+            display: inline-block;
+        }
+    }
+
+    .filter-button{
+        height: auto !important;
+        min-height: 45px;
+        word-wrap: break-word;
+    }
+
+    .filter-button-container{
+        /*margin-left: -18px;*/
+        margin-top: 20px;
+        button{
+            width: 290px;
+            height: 45px;
+            font-size: 13px;
+            font-family: $montserrat;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #fff;
+            padding: 0;
+            -webkit-appearance: none;
+            border: none;
+            border-radius: 4px;
+        }
+    }
+    .active-items a {
+        background: #eee;
+        color: #474747 !important;
+        font-weight: bold !important;
+        font-style: italic;
+        i{
+            color: #E7403F !important;
+        }
+        &::before{
+            content: "";
+            background-color: #E7403F;
+            height: 100%;
+            width: 10px;
+            display: inline-block !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            /*margin-left: -16px;*/
+            transition: all 0.2s linear;
+        }
+    }
+
+    /************ Styles Agency Name, Email, Phone, Tax, Location, Bookings, Status ************/
+    .secondFilter {
+        display: none;
+        label{
+            font-weight: 600;
+        }
+        .form-group{
+            /*margin-left: -18px;
+            width: 299px;*/
+            width: 290px;
+            margin-bottom: 10px;
+            input{
+                height: 40px;
+                width: 290px;
+            }
+        }
+        .update-filter-btn{
+            width: 143px;
+            &:first-child{
+                margin-right: 5px;
+            }
+        }
+        .btn-red-medium-default {
+          background: #eeeeee;
+          border-color: #eeeeee;
+          /*margin-right: 10px;*/
+          font-family: $montserrat;
+          font-size: 13px;
+          font-weight: bold !important;
+          color: #DCDCDC;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          font-weight: 500;
+          width: 143px;
+          height: 45px;
+        }
+        .btn-gray-medium:hover {
+          background-color: #E7403F;
+          &:hover i {
+            color: #FFFFFF !important;
+          }
+        }
+        .btn-flamengo{
+          i {
+            color: #E7403F !important;
+          }
+        }
+        .btn-gray-medium{
+          i {
+            font-size: 24px;
+            color: #DCDCDC;
+          }
+        }
+        .only-buttons{
+            margin-top: 0px;
+            margin-bottom: 0px !important;
+            .active{
+                background-color: #e7403f !important;
+                color: #fff !important;
+            }
+            button{
+                background-color: #eee !important;
+                color: #474747 !important;
+                &:last-child{
+                   margin-top: 5px;
+                }
+                &:hover{
+                    background-color: #e7403f !important;
+                    color: #fff !important;
+                }
+            }
+        }
+    }
+      
+} /* Close Styles MODAL FILTERS List agencies */

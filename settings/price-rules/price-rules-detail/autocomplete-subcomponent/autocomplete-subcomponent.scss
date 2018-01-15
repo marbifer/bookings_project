@@ -1,0 +1,47 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../../../scss/generals/ams-variables";
+@import "../../../../../scss/generals/ams-typography";
+@import "../../../../../scss/generals/ams-generals";
+@import "../../../../../scss/generals/ams-icons";
+@import "../../../../../scss/generals/ams-positions";
+@import "../../../../../scss/generals/ams-headings";
+@import "../../../../../scss/generals/ams-simple-listing";
+@import "../../../../../scss/generals/ams-resultsbar";
+@import "../../../../../scss/generals/ams-tables";
+@import "../../../../../scss/generals/ams-buttons";
+@import "../../../../../scss/generals/ams-forms";
+@import "../../../../../scss/generals/ams-alerts";
+
+.border-errors {
+    border: 2px solid #b72522 !important;
+}
+
+.opacity-price {
+    opacity: 0.4;
+    border: 1px solid #d4cfcf !important;
+}
+
+.caret{
+    position: absolute;
+    top: 50%;
+    right: 9%;
+    transform: translateY(-50%);
+    color: $disabled;
+}
+
+.autocomplete-list2{
+    width: 91%;
+    top: 40px;
+    ul{
+        padding-left: 0px;
+        li{
+            margin-left: 0px;
+            i{
+                color: #fff;
+                font-size: 18px;
+            }
+        }
+    }
+}

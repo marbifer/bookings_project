@@ -1,0 +1,183 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../scss/generals/ams-variables";
+@import "../../../scss/generals/ams-typography";
+@import "../../../scss/generals/ams-generals";
+@import "../../../scss/generals/ams-icons";
+@import "../../../scss/generals/ams-positions";
+@import "../../../scss/generals/ams-headings";
+@import "../../../scss/generals/ams-simple-listing";
+@import "../../../scss/generals/ams-resultsbar";
+@import "../../../scss/generals/ams-tables";
+@import "../../../scss/generals/ams-buttons";
+@import "../../../scss/generals/ams-forms";
+@import "../../../scss/generals/ams-alerts";
+
+
+.simple-listing{
+    .results-bar-wrapper{
+        .trash {
+            text-align: right;
+            font-size: 27px;
+            color: $grey;
+            margin-right: -10px;
+            i{
+                display: inline-block;
+                cursor: pointer;
+                &:hover{
+                    color: $btn-red;
+                }
+                &:first-child{
+                    margin-left: 10px;
+                    margin-right: -5px;
+                }
+                &:last-child{
+                    margin-right: 10px;
+                }
+            }
+        }
+        .btn-blue-lg{
+            width: 200px;
+        }
+    }
+    .table{
+        .checkboxes{
+            width: 1%;
+        }
+        .name-th{
+            /*width: 10%;*/
+            width: 4%;
+        }
+        .phone-th{
+            /*width: 10%;*/
+            width: 4%;
+        }
+        .email-th{
+            width: 80%;
+        }
+        .status-th{
+            width: 4%;
+        }
+        .name-td{
+            text-transform: uppercase;
+        }
+        .delete-row{
+            i{
+                font-size: 27px;
+                color: $disabled;
+                margin-left: 0px;
+                &:hover{
+                    color: $btn-red;
+                }
+            }
+        }
+    }
+    .edit-internal-provider{
+        background: #ffffff !important;
+        margin-bottom: 40px;
+        /*display: none;*/
+        .divider-line{
+            color: #dcdcdc;
+            margin-top: 60px;
+        }
+        label{
+            line-height: 19px;
+        }
+        .asteric{
+            color: $btn-red;
+            font-size: 14px;
+        }
+        .grey-heading{
+            height: 42px;
+            margin-top: 30px;
+            .title4{
+                margin-bottom: 0px;
+            }
+        }
+        .info-alert {
+            white-space: normal;
+            margin: 20px 0;
+        }
+        .opcional{
+            font-style: italic;
+            font-weight: normal;
+            font-size: 14px;
+        }
+        .form-group{
+            margin-bottom: 30px;
+        }
+        .first-form-group{
+            margin-top: 40px;
+            /*> div{
+                position: relative;
+                .with-errors-text{
+                    position: absolute;
+                    left: 15px;
+                    top: 100%;
+                }
+            }*/
+        }
+        .notification-rules-table{
+            margin: 0;
+            .grey-heading{
+                height: 60px;
+                margin-top: 0px;
+            }
+            table{
+                .status-th{
+                    width: 4%;
+                }
+                td{
+                    padding: 0.75rem !important;
+                    border-top: 1px solid #ddd !important;
+                }
+            }
+        }
+       .price-rules-table{
+            @extend .notification-rules-table;
+            margin: 40px 0;
+            .service-type-th{
+                width: 15%;
+            }
+            .service-type-td{
+                i{
+                    font-size: 24px;
+                    color: $grey;
+                    &:not(:last-child){
+                        margin-right: 3px;
+                    }
+                }
+            }
+        }
+        .save-or-cancel{
+            padding: 20px 0.9375rem;
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
+    }
+    .new-internal-provider{
+        @extend .edit-internal-provider;
+    }
+    .no-line{
+        border-bottom: 1px solid transparent;
+        border-top: 1px solid transparent;
+    }
+}
+
+#danger-alert-internal-amenity-new {
+    margin-top: 1.5em;
+}
+
+// i > .dinamicIcons{
+//     font-size: 24px;
+//     color: $grey;
+//     &:not(:last-child){
+//         margin-right: 3px;
+//     }
+// }
+
+.dinamicIcons {
+    font-size: 24px;
+    color: #9f9f9f;
+}

@@ -1,0 +1,69 @@
+.results-bar-wrapper{
+    background-color: #fff;
+    margin-top: 40px;
+    height: 60px;
+    .row{
+        width: 100%;
+        p{
+            margin-bottom: 0px;
+            font-size: 12px;
+            /*position: relative;
+            top: auto;
+            left: auto;*/
+        }
+        .select{
+            position: absolute;
+            top: 0;
+            text-transform: capitalize;
+            /*left: 62px;*/
+            left: 40px;
+        }
+        h1{
+            text-align: center;
+            margin-bottom: 0px;
+            line-height: 1.5;
+        }
+        .checkbox{
+            margin-bottom: 0px;
+            margin-right: 0px;
+            padding-left: 20px;
+            max-height: 20px;
+        }
+        .check-results {
+            padding: 0;
+            /*margin: -5px 14px 0 13px;*/
+            float: left;
+            margin-left: 0px;
+        }
+        #icon-empty {
+            position: relative;
+            left: 0px;
+            top: 0px !important;
+            .empty-icon{
+                cursor: pointer;
+                font-size: 22px;
+                color: $grey;
+            }
+        }
+        #icon-check {
+            position: relative;
+            left: 0px;
+            top: 0px !important;
+            .check-icon{
+                cursor: pointer;
+                font-size: 19px;
+                color: #eb5155;
+            }
+        }
+        #icon-minus {
+            position: relative;
+            left: 0px;
+            top: 0px !important;
+            .minus-icon{
+                cursor: pointer;
+                font-size: 19px;
+                color: #eb5155;
+            }
+        }
+    }
+}

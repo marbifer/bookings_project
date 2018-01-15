@@ -1,0 +1,298 @@
+
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../../scss/generals/ams-variables";
+@import "../../../../scss/generals/ams-typography";
+@import "../../../../scss/generals/ams-generals";
+@import "../../../../scss/generals/ams-icons";
+@import "../../../../scss/generals/ams-positions";
+@import "../../../../scss/generals/ams-modals";
+@import "../../../../scss/generals/ams-headings";
+@import "../../../../scss/generals/ams-tables";
+@import "../../../../scss/generals/ams-datepicker";
+@import "../../../../scss/generals/ams-buttons";
+@import "../../../../scss/generals/ams-forms";
+@import "../../../../scss/generals/ams-alerts";
+
+.travtion-modal{
+    width: 513px;
+    min-height: 275px;
+}
+
+.modal-header{
+    height: 128px;
+    background-color: #eee;
+    border: 1px solid $disabled;
+    position: relative;
+    border-radius: 7px 7px 0 0;
+    .fa-exclamation-circle{
+        font-size: 35px;
+        color: #FDBE27;
+    }
+    h1{
+        font-size: 18px;
+        color: #474747;
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
+    .close{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        opacity: 1;
+        color: $grey;
+        text-shadow: none;
+        font-size: 16px;
+    }
+}
+
+.modal-body{
+    height: 147px;
+    background-color: #fff;
+    border-radius: 0 0 7px 7px;
+    .hide-content-container{
+        width: 100%;
+        height: 100%;
+    }
+    .hide-content{
+        height: 100%;
+    }
+    .modal-text{
+        margin-bottom: auto;
+    }
+    .cancel-file{
+        font-size: 14px;
+        margin-bottom: 0px;
+    }
+    .modal-buttons{
+        width: 100%;
+        button{
+            width: 150px;
+            height: 34px;
+            &:last-child{
+                margin-left: 10px;
+                background-color: #DE1A1F;
+            }
+        }
+    }
+    .alert{
+        position: relative;
+        margin-bottom: auto;
+        margin-top: 0px;
+        .close{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 1;
+            color: #fff;
+            text-shadow: none;
+            font-size: 16px;
+            margin-right: 0px;
+        }
+    }
+    #close-modal{
+        width: 100%;
+        .show-content-container{
+            height: 100%;
+        }
+        .button-after-close{
+            width: 100%;
+            margin-top: auto;
+        }
+        button{
+            width: 100%;
+            height: 34px;
+            background-color: #DE1A1F;
+        }
+    }
+}
+
+#msg-success, #msg-failed {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.hidear {
+    display: none;
+}
+
+/*
+@import "../../../../scss/variables";
+@import "../../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../../node_modules/messenger/build/css/messenger";
+@import "../../../components/messenger/messenger";
+
+
+#modal-cancel{
+    width: 540px;
+    text-align: center;
+    position: relative;
+    top: 164px;
+    .yellow {
+        font-size: 35px;
+        color: #FDBE27;
+        margin-top: 16px;
+    }
+    .header-cancel-file{       
+        background: #EEEEEE;
+        border-radius: 7px 7px 0 0;
+        border: 1px solid #DCDCDC;
+        height: 128px;
+        width: 514px;
+        position: relative;
+        left: -25px;
+        top: -36px;
+        p {
+            font-size: 18px;
+            color: #474747;
+            margin-top: 13px;
+        }
+        #cross-modal-cancel-file {
+            float: right;
+            font-size: 20px;
+            font-weight: 700;
+            background: transparent;
+            border: none;
+            line-height: 1;
+            color: #9f9f9f !important;
+            text-shadow: 0 1px 0 #9f9f9f;
+            opacity: 9 !important;
+            margin: -6px -6px 0 0;
+            span {
+                font-size: 20px;
+            }
+        }
+    }
+    #no-bground{
+        background: transparent;
+    } 
+    div#width-cancel-file {
+        width: 106%;
+        text-align: left;
+        margin-top: 0px;
+        color: #474747;
+     p {
+            font-size: 14px;
+            margin-left: 24px;
+            color: #474747;
+        }
+    } 
+    div#modal_logout_cancel {
+        text-align: center;
+        margin: 15px 0 -26px 78px;
+        width: 435px;
+        .no-cancel{
+            background: #ffffff;
+            border: 1px solid #9F9F9F;
+            border-radius: 3px;
+            font-size: 14px;
+            color: #9F9F9F;
+            margin-right: 10px;
+            height: 34px;
+            width: 150px;
+        }
+        .yes-cancel {
+            background: #DE1A1F;
+            border-radius: 3px;
+            border: #DE1A1F;
+            font-size: 14px;
+            color: #FFFFFF;
+            height: 34px;
+            width: 150px;
+        }
+    } 
+    div#msg-failed {
+        width: 499px;
+        margin: 15px 0 -15px 0;
+        background: #de1a1f;
+        color: #ffffff;
+        text-align: left;
+        padding: 24px;
+        span {
+            font-size: 14px;
+            font-weight: inherit;
+            position: relative;
+            top: -6px;
+        }
+        #error-cancel-file, #success-cancel-file {
+            font-size: 35px;
+            margin-right: 15px;
+        }
+        .color-cross{
+            span {
+                color: #ffffff;
+                position: relative;
+                top: -17px;
+                right: -11px;
+                font-size: 19px;
+            }
+            p {
+                display: inline-block;
+                position: relative;
+                top: -7px;
+            }
+        }
+        strong, p {
+            position: relative;
+            top: -6px;
+        }
+    }
+    div#msg-success {
+        color: #ffffff;
+        text-align: left;
+        width: 500px;
+        .success-cancel-file {
+            margin-right: 15px;
+            margin-left: 8px;
+        }
+        .color-cross{
+            span {
+                color: #ffffff;
+                color: #ffffff;
+                position: relative;
+                top: -13px;
+                right: -6px;
+                opacity: 9;
+            }
+        }
+    }
+    #close-modal {
+        button {
+            background: #EB5155;
+            border: #eb5155;
+        }
+    }
+}
+div#modal_logout_cancel {
+    text-align: center;
+    width: 150px;
+    height: 34px;
+    padding: 0;
+    font-size: 14px;
+}
+
+div#modal_log section.widget.widget-login.animated.fadeInUp {
+    padding:  0;
+}
+
+#msg-success, #msg-failed {
+    display: none;
+}
+#close-modal {
+    display: none;
+}#close-modal {
+    display: none;
+}
+#loading-file{
+    position: relative;
+    z-index: 9999;
+    top: 9.5em;
+    text-align: center;
+    margin: 0 auto;
+}
+.widget-login-container {
+    background: #fff;
+    border-radius: 7px;
+}
+*/ 

@@ -1,0 +1,22 @@
+<!-- Pagination Table List Agencies  -->
+<br>
+<template [ngIf]="_map_list_agencies.total_page != 0">
+    <nav aria-label="...">
+            <ul class="pager" id="pager-b">
+                <li id="prev-map" [ngClass]="getClassesButtonPrev()">
+                    <a href="#" (click)="prev_page_map()">Prev</a>
+                </li>
+                
+                <li class="active" *ngFor="let page_b of _map_list_agencies.array_pages">
+                    <span class="cursor" [ngClass]="{ elected: page_b == _map_list_agencies.current_page }" (click)="select(page_b)" [attr.id]="page_b" >
+                    {{page_b}} <span class="sr-only">(current)</span>
+                    </span> 
+                </li>
+
+                <li class="points"><a>...</a></li>
+                <li id="next-map" [ngClass]="{'disabled': _map_list_agencies.blocker_next}">
+                    <a href="#" (click)="next_page_map()">Next</a>
+                </li>
+            </ul>
+        </nav>
+</template>

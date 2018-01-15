@@ -1,0 +1,93 @@
+<div class="load"></div>
+<!--<div class="container" id="modal-cancel">
+  <main id="content" class="widget-login-container" role="main">
+    <div class="row">
+      <div id="modal_log" class="col-xs-10 col-xs-offset-1">
+        <section id="no-bground" class="widget widget-login animated fadeInUp">
+          <header class="header-cancel-file">
+            <button (click)="remove_modal()" type="button" id="cross-modal-cancel-file" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <i class="fa fa-exclamation-circle yellow" aria-hidden="true"></i>
+            <p class="widget-login-logo animated fadeInUp">Cancel File?</p>     
+          </header>
+         
+          <div id="width-cancel-file" class="widget-body">
+            <p id="cancel-file" class="">
+              Canceling a File will permanently remove all of its Bookings.
+            </p>
+              <br>
+             <div id="modal_logout_cancel">
+              <button (click)="remove_modal()" class="btn btn-default no-cancel">No, Keep File</button>
+              <button (click)="cancel_bookings_of_files()" class="btn btn-primary yes-cancel">Yes, Cancel File</button>
+             </div>
+          </div>
+        </section>
+      </div>
+  <div class="container">
+    <div id="msg-success" class="alert alert-success" alert-dismissible>
+      <button type="button" class="close color-cross" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i id='success-cancel-file' class="fa fa-check-circle" aria-hidden="true"></i>
+      <p>Your Bookings has been canceled successfully</p>
+    </div>
+    <div id="msg-failed" class="alert alert-danger" alert-dismissible>
+      <button type="button" class="close color-cross" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <i id='error-cancel-file' class='fa fa-times-circle' aria-hidden='true'></i>
+       <strong>We're sorry!</strong> <span>We can't do the cancellation, please try again.</span>
+    </div>
+    <div id="close-modal"><button (click)="remove_modal()" class="btn btn-primary btn-lg btn-block">Close</button></div><br> 
+  </div>
+
+    </div>
+  </main>
+</div>-->
+
+
+<!-- Modal -->
+<div class="container travtion-modal cancel-modal" id="modal-cancel">
+    <div class="row modal-header align-items-center justify-content-center">
+        <div class="text-center">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            <h1>Cancel File?</h1>
+        </div>
+        <i class="fa fa-times close" aria-hidden="true" (click)="remove_modal()"></i>
+    </div>
+    <div class="row modal-body">
+        <div [ngClass]="{'hidear' : state_filesTemplateSuccess == false || state_filesTemplateError == false }" id="width-cancel-file" class="hide-content-container animated fadeInUp">
+            <div class="hide-content d-flex align-items-center flex-column">
+                <div class="modal-text">
+                    <p id="cancel-file" class="cancel-file text-center animated fadeInUp">
+                        Canceling a File will permanently remove all of its Bookings.
+                    </p>
+                </div>
+                <div class="modal-buttons d-flex align-items-end justify-content-end">
+                    <div id="modal_logout_cancel" class="d-flex align-items-center justify-content-end">
+                        <button (click)="remove_modal()" class="d-flex align-items-center justify-content-center btn-grey-transparent-md no-cancel">No, Keep File</button>
+                        <button (click)="cancel_bookings_of_files()" class="d-flex align-items-center justify-content-center btn-red-md yes-cancel">Yes, Cancel File</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="close-modal">
+            <div class="show-content-container d-flex align-items-center flex-column">
+                <div   [ngClass]="{'hidear' : state_filesTemplateSuccess == true }" id="msg-success">
+                    <div class="alert success-alert center d-flex align-items-center" alert-dismissible>
+                        <i class="fa fa-times close" aria-hidden="true" data-dismiss="alert" aria-label="Close"></i>
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>Your file has been canceled successfully</p>
+                    </div>
+                </div>
+                <div [ngClass]="{'hidear' : state_filesTemplateError == true }" id="msg-failed" >
+                    <div class="alert danger-alert center d-flex align-items-center" alert-dismissible>
+                        <i class="fa fa-times close" aria-hidden="true" data-dismiss="alert" aria-label="Close"></i>
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p><span>We're sorry!</span> We can't do the cancellation, please try again.</p>
+                    </div>
+                </div>
+                <div [ngClass]="{'hidear' : state_buttonClose == true ,  'button-after-close' : true }" >
+                    <button (click)="remove_modal()" class="btn-red-md d-flex align-items-center justify-content-center">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

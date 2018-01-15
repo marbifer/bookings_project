@@ -1,0 +1,584 @@
+<h1 class="page-title"></h1>
+
+<!-- RESPONSIVE CONTAINER -->
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container file-container">
+        <div class="blue-heading d-flex align-items-center">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h2 class="title2">
+                        Notification detail - <span>Rule 1</span>
+                    </h2>
+                </div>
+                <button type="button" class="btn-red-xs btn-close" id="close-agency" onclick="location.href='http://localhost:3000/#/app/settings/notifications'">
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="notifications-new">
+
+            <!-- RULE NAME -->
+            <div class="row">
+                <div class="col-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="rule-name">Rule Name</label>
+                        <input type="text" name="rule-name" id="rule-name" class="form-control" value="Rule 1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- WHEN TO SEND A NOTIFICATION -->
+            <div class="row">
+                <div class="col-12 col-xs-12">
+                    <div class="grey-heading d-flex align-items-center justify-content-center">
+                        <h3 class="title3">When to send a notification</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xs-12">
+                    <div class="row">
+                        <!-- GENERAL NOTIFICATIONS -->
+                        <div class="col-6 col-xs-6">
+                            <div class="small-grey-heading d-flex align-items-center justify-content-center">
+                                <h3 class="title4">General notifications</h3>
+                            </div>
+
+                            <!-- PANELS -->
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <!-- PANEL REPORTS -->
+                                <div class="panel panel-default">
+                                    <div class="checkbox abc-checkbox panel-checkbox">
+                                        <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="reports-checkbox" type="checkbox" (change)="change_to_minus()">
+                                        <label class="label-selected-pr" for="reports-checkbox"></label>
+                                    </div>
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="reportsHeading" data-toggle="collapse" data-parent="#accordion" href="#reportsPanel" aria-expanded="true" aria-controls="reportsPanel">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#reportsPanel" aria-expanded="true" aria-controls="reportsPanel">
+                                                Reports
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="reportsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="reportsHeading">
+                                        <div class="panel-body">
+                                            <!-- CADA ROW TRAE UN SUB ITEM -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="r-item1" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="r-item1"></label>
+                                                </div>
+                                                <span>Sub item 1</span>
+                                            </div><!-- END OF ROW -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="r-item2" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="r-item2"></label>
+                                                </div>
+                                                <span>Sub item 2</span>
+                                            </div><!-- END OF ROW -->
+                                        </div><!-- END OF PANEL BODY -->
+                                    </div>
+                                </div><!-- END OF REPORTS PANEL -->
+
+                                <!-- PANEL USER EVENTS -->
+                                <div class="panel panel-default">
+                                    <div class="checkbox abc-checkbox panel-checkbox">
+                                        <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="user-events-checkbox" type="checkbox" (change)="change_to_minus()">
+                                        <label class="label-selected-pr" for="user-events-checkbox"></label>
+                                    </div>
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="userEventsHeading" data-toggle="collapse" data-parent="#accordion" href="#userEventsPanel" aria-expanded="true" aria-controls="userEventsPanel">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#userEventsPanel" aria-expanded="true" aria-controls="userEventsPanel">
+                                                User Events
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="userEventsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="userEventsHeading">
+                                        <div class="panel-body">
+                                            <!-- CADA ROW TRAE UN SUB ITEM -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="ue-item1" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="ue-item1"></label>
+                                                </div>
+                                                <span>Sub item 1</span>
+                                            </div><!-- END OF ROW -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="ue-item2" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="ue-item2"></label>
+                                                </div>
+                                                <span>Sub item 2</span>
+                                            </div><!-- END OF ROW -->
+                                        </div><!-- END OF PANEL BODY -->
+                                    </div>
+                                </div><!-- END OF PANEL USER EVENTS -->
+
+                                <!-- PANEL AGENCY EVENTS -->
+                                <div class="panel panel-default">
+                                    <div class="checkbox abc-checkbox panel-checkbox">
+                                        <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="agency-events-checkbox" type="checkbox" (change)="change_to_minus()">
+                                        <label class="label-selected-pr" for="agency-events-checkbox"></label>
+                                    </div>
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="agencyEventsHeading" data-toggle="collapse" data-parent="#accordion" href="#agencyEventsPanel" aria-expanded="true" aria-controls="agencyEventsPanel">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#agencyEventsPanel" aria-expanded="true" aria-controls="agencyEventsPanel">
+                                                Agency Events
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="agencyEventsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="agencyEventsHeading">
+                                        <div class="panel-body">
+                                            <!-- CADA ROW TRAE UN SUB ITEM -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="ae-item1" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="ae-item1"></label>
+                                                </div>
+                                                <span>Sub item 1</span>
+                                            </div><!-- END OF ROW -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="ae-item2" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="ae-item2"></label>
+                                                </div>
+                                                <span>Sub item 2</span>
+                                            </div><!-- END OF ROW -->
+                                        </div><!-- END OF PANEL BODY -->
+                                    </div>
+                                </div><!-- END OF PANEL AGENCY EVENTS -->
+
+                                <!-- PANEL OTHER EVENTS -->
+                                <div class="panel panel-default">
+                                    <div class="checkbox abc-checkbox panel-checkbox">
+                                        <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="other-events-checkbox" type="checkbox" (change)="change_to_minus()">
+                                        <label class="label-selected-pr" for="other-events-checkbox"></label>
+                                    </div>
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="otherEventsHeading" data-toggle="collapse" data-parent="#accordion" href="#otherEventsPanel" aria-expanded="true" aria-controls="otherEventsPanel">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#otherEventsPanel" aria-expanded="true" aria-controls="otherEventsPanel">
+                                                Other Events
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="otherEventsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="otherEventsHeading">
+                                        <div class="panel-body">
+                                            <!-- CADA ROW TRAE UN SUB ITEM -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="oe-item1" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="oe-item1"></label>
+                                                </div>
+                                                <span>Sub item 1</span>
+                                            </div><!-- END OF ROW -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="oe-item2" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="oe-item2"></label>
+                                                </div>
+                                                <span>Sub item 2</span>
+                                            </div><!-- END OF ROW -->
+                                        </div><!-- END OF PANEL BODY -->
+                                    </div>
+                                </div><!-- END OF PANEL OTHER EVENTS -->
+
+                            </div><!-- END OF PANEL GROUP -->
+
+                        </div><!-- END OF GENERAL NOTIFICATIONS -->
+                        <!-- SPECIFIC SERVICE NOTIFICATIONS -->
+                        <div class="col-6 col-xs-6">
+                            <div class="small-grey-heading d-flex align-items-center justify-content-center">
+                                <h3 class="title4">Specific service notifications</h3>
+                            </div>
+
+                            <!-- CHOOSE YOUR SERVICE -->
+                            <!-- Se aplica la clase 'active' a los botones activos -->
+                            <div class="type-of-service-box d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="btn-toolbar d-flex align-items-start" role="toolbar">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default all-types-button d-flex justify-content-center active">
+                                                All Types
+                                            </button>
+                                        </div>
+                                        <p class="or">or</p>
+                                        <div class="d-flex flex-column">
+                                            <div class="btn-group types-buttons" role="group">
+                                                <!-- SERVICE TYPE HOTEL --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center hotel">
+                                                    <i class="fa fa-bed" aria-hidden="true"></i>
+                                                </button>
+
+                                                <!-- SERVICE TYPE ATTRACTION --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center attraction">
+                                                    <i class="fa fa-ticket" aria-hidden="true"></i>
+                                                </button>
+
+                                                <!-- SERVICE TYPE TRANSFER --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center transfer">
+                                                    <i class="fa fa-bus" aria-hidden="true"></i>
+                                                </button>
+
+                                                <!-- SERVICE TYPE CAR --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center car">
+                                                    <i class="fa fa-car" aria-hidden="true"></i>
+                                                </button>
+
+                                                <!-- SERVICE TYPE CRUISE --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center cruise">
+                                                    <i class="fa fa-ship" aria-hidden="true"></i>
+                                                </button>
+
+                                                <!-- SERVICE TYPE FLIGHT/AIR --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center air">
+                                                    <i class="fa fa-plane" aria-hidden="true"></i>
+                                                </button>
+
+                                                <!-- SERVICE TYPE PACKAGE --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center package">
+                                                    <i class="fa fa-th" aria-hidden="true"></i>
+                                                </button>
+
+                                                <!-- SERVICE TYPE INSURANCE --> 
+                                                <button type="button" class="btn btn-default d-flex justify-content-center insurance">
+                                                    <i class="fa fa-shield" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <div class="notification">
+                                                <p class="small-italic">You can choose all services or a specific service type</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- END OF CHOOSE YOUR SERVICE -->
+
+                            <!-- PANELS -->
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                                <!-- PANEL FILES EVENTS -->
+                                <div class="panel panel-default">
+                                    <div class="checkbox abc-checkbox panel-checkbox">
+                                        <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="file-events-checkbox" type="checkbox" (change)="change_to_minus()">
+                                        <label class="label-selected-pr" for="file-events-checkbox"></label>
+                                    </div>
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="fileEventsHeading" data-toggle="collapse" data-parent="#accordion" href="#fileEventsPanel" aria-expanded="true" aria-controls="fileEventsPanel">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#fileEventsPanel" aria-expanded="true" aria-controls="fileEventsPanel">
+                                                File Events
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="fileEventsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="fileEventsHeading">
+                                        <div class="panel-body">
+                                            <!-- CADA ROW TRAE UN SUB ITEM -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="fe-item1" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="fe-item1"></label>
+                                                </div>
+                                                <span>Sub item 1</span>
+                                            </div><!-- END OF ROW -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="fe-item2" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="fe-item2"></label>
+                                                </div>
+                                                <span>Sub item 2</span>
+                                            </div><!-- END OF ROW -->
+                                        </div><!-- END OF PANEL BODY -->
+                                    </div>
+                                </div><!-- END OF PANEL FILE EVENTS -->
+
+                                <!-- PANEL BOOKINGS EVENTS -->
+                                <div class="panel panel-default">
+                                    <div class="checkbox abc-checkbox panel-checkbox">
+                                        <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="booking-events-checkbox" type="checkbox" (change)="change_to_minus()">
+                                        <label class="label-selected-pr" for="booking-events-checkbox"></label>
+                                    </div>
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="bookingEventsHeading" data-toggle="collapse" data-parent="#accordion" href="#bookingEventsPanel" aria-expanded="true" aria-controls="bookingEventsPanel">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#bookingEventsPanel" aria-expanded="true" aria-controls="bookingEventsPanel">
+                                                Booking Events
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="bookingEventsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="bookingEventsHeading">
+                                        <div class="panel-body">
+                                            <!-- CADA ROW TRAE UN SUB ITEM -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="be-item1" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="be-item1"></label>
+                                                </div>
+                                                <span>Sub item 1</span>
+                                            </div><!-- END OF ROW -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="be-item2" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="be-item2"></label>
+                                                </div>
+                                                <span>Sub item 2</span>
+                                            </div><!-- END OF ROW -->
+                                        </div><!-- END OF PANEL BODY -->
+                                    </div>
+                                </div><!-- END OF PANEL BOOKINGS EVENTS -->
+
+                                <!-- PANEL PAYMENT EVENTS -->
+                                <div class="panel panel-default">
+                                    <div class="checkbox abc-checkbox panel-checkbox">
+                                        <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="payment-events-checkbox" type="checkbox" (change)="change_to_minus()">
+                                        <label class="label-selected-pr" for="payment-events-checkbox"></label>
+                                    </div>
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="paymentEventsHeading" data-toggle="collapse" data-parent="#accordion" href="#paymentEventsPanel" aria-expanded="true" aria-controls="paymentEventsPanel">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#paymentEventsPanel" aria-expanded="true" aria-controls="paymentEventsPanel">
+                                                Payment Events
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="paymentEventsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="paymentEventsHeading">
+                                        <div class="panel-body">
+                                            <!-- CADA ROW TRAE UN SUB ITEM -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="pe-item1" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="pe-item1"></label>
+                                                </div>
+                                                <span>Sub item 1</span>
+                                            </div><!-- END OF ROW -->
+                                            <div class="row align-items-center justify-content-start subitem-level1">
+                                                <div class="checkbox abc-checkbox">
+                                                    <input class="check-b check-table-not" name="options" [checked]="selected_c.indexOf(i)== true" id="pe-item2" type="checkbox" (change)="change_to_minus()">
+                                                    <label class="label-selected-pr" for="pe-item2"></label>
+                                                </div>
+                                                <span>Sub item 2</span>
+                                            </div><!-- END OF ROW -->
+                                        </div><!-- END OF PANEL BODY -->
+                                    </div>
+                                </div><!-- END OF PANEL PAYMENT EVENTS -->
+
+                            </div><!-- END OF PANEL GROUP -->
+
+                        </div><!-- END OF SPECIFIC SERVICE NOTIFICATIONS -->
+                    </div>
+                </div>
+            </div><!-- END OF WHEN TO SEND A NOTIFICATION -->
+
+            <!-- WHO WILL BE PART OF THE NOTIFICATION RULE -->
+            <div class="row">
+                <div class="col-12 col-xs-12">
+                    <div class="grey-heading d-flex align-items-center justify-content-center">
+                        <h3 class="title3">Who will be part of the notification rule?</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xs-12">
+                    <div class="row">
+                        <!-- DEFINE ADMINISTRATORS -->
+                        <div class="col-6 col-xs-6">
+                            <div class="small-grey-heading d-flex align-items-center justify-content-center">
+                                <h3 class="title4">Define administrators</h3>
+                            </div>
+                            <div class="define-box">
+                                
+                                <input type="text" class="form-control">
+
+                                <!-- Dejo comentado el autocomplete, al ser parecido al de price rules, saqué el de ahi
+
+                                <div class="list-city autocomplete-list2" style="overflow-y: auto; height: 153px;" *ngIf="length_of_filteredList > 0">
+                                    <ul class="margin-agency" id="margin-agency{{z}}" *ngFor="let item of filteredListAutocomplete; let z=index">
+                                        <li class="text-items-agency{{z}} d-flex align-items-center justify-content-between" (click)="select_autocomplete(item, list_of_codes_autocomplete[z], list_of_types_autocomplete[z])" (mouseover)='mouseover_color_text(".text-items-agency" + z)' (mouseleave)='mouseleave_color_text(".text-items-agency" + z)'>
+                                            <a>{{item}}</a>
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                        </li>
+                                    </ul>
+                                </div>-->
+
+                                <!-- Esto aparece solo cuando se agrega un administrator. Está oculto por defecto -->
+                                <div class="added-box">
+                                    <h5 class="title5">Administrators</h5>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Pablo Micolini (pablo@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Ana Luz Lopez (analuz@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Cintia Velardez (cintia@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- CLOSE DEFINE ADMINISTRATORS -->
+
+                        <!-- DEFINE AGENCIES -->
+                        <div class="col-6 col-xs-6">
+                            <div class="small-grey-heading d-flex align-items-center justify-content-center">
+                                <h3 class="title4">Define agencies</h3>
+                            </div>
+                            <div class="define-box">
+                                
+                                <div class="btn-group types-buttons" role="group">
+                                    <button type="button" class="btn btn-default d-flex justify-content-center align-items-center">
+                                        All Agencies
+                                    </button>
+                                    <!-- Se aplica la clase "active" al botón en donde se clickea -->
+                                    <button type="button" class="btn btn-default active d-flex justify-content-center align-items-center">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>Add Agencies
+                                    </button>
+                                    <button type="button" class="btn btn-default d-flex justify-content-center align-items-center">
+                                        None
+                                    </button>
+                                </div>
+
+                                <!-- Esto aparece solo cuando se agrega un administrator. Está oculto por defecto -->
+                                <div class="added-box">
+                                    <div class="notification d-flex align-items-center">
+                                        <p class="small-italic">The rule will only apply to Agencies added in this list.</p>
+                                    </div>
+
+                                    <input type="text" class="form-control">
+
+                                    <h5 class="title5">Agencies</h5>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Pablo Micolini (pablo@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Ana Luz Lopez (analuz@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Cintia Velardez (cintia@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- CLOSE DEFINE AGENCIES -->
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xs-12">
+                    <div class="row">
+                        <!-- DEFINE EXTERNAL PROVIDERS -->
+                        <div class="col-6 col-xs-6">
+                            <div class="small-grey-heading d-flex align-items-center justify-content-center">
+                                <h3 class="title4">Define external providers</h3>
+                            </div>
+                            <div class="define-box">
+                                
+                                <div class="btn-group types-buttons" role="group">
+                                    <button type="button" class="btn btn-default d-flex justify-content-center align-items-center">
+                                        All Ext. Providers
+                                    </button>
+                                    <!-- Se aplica la clase "active" al botón en donde se clickea -->
+                                    <button type="button" class="btn btn-default active d-flex justify-content-center align-items-center">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>Add Ext. Providers
+                                    </button>
+                                    <button type="button" class="btn btn-default d-flex justify-content-center align-items-center">
+                                        None
+                                    </button>
+                                </div>
+
+                                <!-- Esto aparece solo cuando se agrega un administrator. Está oculto por defecto -->
+                                <div class="added-box">
+                                    <div class="notification d-flex align-items-center">
+                                        <p class="small-italic">The rule will only apply to External Providers added in this list.</p>
+                                    </div>
+
+                                    <input type="text" class="form-control">
+
+                                    <h5 class="title5">External providers</h5>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Pablo Micolini (pablo@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Ana Luz Lopez (analuz@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Cintia Velardez (cintia@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- CLOSE DEFINE EXTERNAL PROVIDERS -->
+
+                        <!-- DEFINE INTERNAL PROVIDERS -->
+                        <div class="col-6 col-xs-6">
+                            <div class="small-grey-heading d-flex align-items-center justify-content-center">
+                                <h3 class="title4">Define internal providers</h3>
+                            </div>
+                            <div class="define-box">
+                                
+                                <div class="btn-group types-buttons" role="group">
+                                    <button type="button" class="btn btn-default d-flex justify-content-center align-items-center">
+                                        All Int. Providers
+                                    </button>
+                                    <!-- Se aplica la clase "active" al botón en donde se clickea -->
+                                    <button type="button" class="btn btn-default active d-flex justify-content-center align-items-center">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>Add Int. Providers
+                                    </button>
+                                    <button type="button" class="btn btn-default d-flex justify-content-center align-items-center">
+                                        None
+                                    </button>
+                                </div>
+
+                                <!-- Esto aparece solo cuando se agrega un administrator. Está oculto por defecto -->
+                                <div class="added-box">
+                                    <div class="notification d-flex align-items-center">
+                                        <p class="small-italic">The rule will only apply to Internal Providers added in this list.</p>
+                                    </div>
+
+                                    <input type="text" class="form-control">
+
+                                    <h5 class="title5">Internal Providers</h5>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Pablo Micolini (pablo@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Ana Luz Lopez (analuz@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                    <div class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>Cintia Velardez (cintia@travtion.com)</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- CLOSE DEFINE INTERNAL PROVIDERS -->
+
+                    </div>
+                </div>
+            </div><!-- CLOSE WHO WILL BE PART OF THE NOTIFICATION RULE -->
+
+            <!-- SAVE OR CANCEL -->
+            <div class="row">
+                <div class="col-12 col-xs-12 d-flex justify-content-end save-or-cancel">
+                    <button type="button" class="btn-grey-transparent-md">Cancel</button>
+                    <div class="dropdown">
+                        <button class="btn-red-md dropdown-toggle d-flex align-items-center justify-content-between" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Save Changes <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="save-dropdown">
+                            <li>
+                                <a>Save</a>
+                            </li>
+                            <li>
+                                <a>Save & send Update</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- CLOSE NEW NOTIFICATION -->
+    </div><!-- CLOSE AMS-CONATINER -->
+</div><!-- CLOSE OVERFLOW-X -->

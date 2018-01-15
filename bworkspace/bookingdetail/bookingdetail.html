@@ -1,0 +1,1428 @@
+<h1 class="page-title"></h1>
+<div class="load"></div>
+<!-- RESPONSIVE CONTAINER -->
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container file-container">
+        <div class="blue-heading d-flex align-items-center">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h2 class="title2">
+                        Booking Detail - <span>{{_propertiesb.book_agency_name}}</span>
+                        <template [ngIf]="_propertiesb.booking_detail_data.confirmation_number != ''">-</template>
+                        <span>{{_propertiesb.booking_detail_data.confirmation_number}}</span>
+                    </h2>
+                </div>
+                <button type="button" class="btn-red-xs btn-close" id="close-filedetail" (click)="close_booking_detail()">Close</button>
+            </div>
+        </div>
+        <div class="cancel-file d-flex align-items-center">
+            <div class="row center">
+                <div class="col-xs-6 d-flex align-items-center">
+                    <button class="btn-cancel d-flex align-items-center justify-content-center" [disabled]="_propertiesb.disable_booking_b" (click)="cancel_booking_detail()">Cancel Booking</button>
+                    <button class="btn-delete d-flex align-items-center justify-content-center" (click)="delete_booking_detail()">Delete</button>
+                </div>
+                <div class="col-xs-6 d-flex align-items-center justify-content-end">
+                    <i class="fa fa-envelope" aria-hidden="true" (mouseover)='action_icons_detail("fa-envelope")' (mouseleave)='mouseleave_icons_detail("fa-envelope")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Send by E-mail"></i>
+                    <i (click)="printPage()" class="fa fa-print" aria-hidden="true" (mouseover)='action_icons_detail("fa-print")' (mouseleave)='mouseleave_icons_detail("fa-print")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Print Res. Detail"></i>
+                    <i class="fa fa-download" aria-hidden="true" (mouseover)='action_icons_detail("fa-download")' (mouseleave)='mouseleave_icons_detail("fa-download")' (click)="download_invoice()" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download Invoice"></i>
+                    <i class="fa fa-file-text" [style.color]="_propertiesb.inactiveColor" (mouseover)='action_icons_detail("fa-file-text-o")' (mouseleave)='mouseleave_icons_detail("fa-file-text-o")' (click)="download_voucher()" aria-hidden="true" data-toggle="tooltip" data-placement="bottom"
+                        title="Download Voucher"></i>
+                </div>
+            </div>
+        </div>
+        <progress *ngIf="ocultarProgress == false" value="{{progressBarVal}}" max="100"></progress>
+        <div [ngClass]="{'booking-detail' : true , 'marginFile' : ocultarProgress == false }">
+            <div class="row">
+                <!-- WARNING Message if is on line from Front-End -->
+                <template [ngIf]="warningVisible == true ">
+                    <div class="onlineb-alert-container">
+                        <div class="warning-alert center d-flex align-items-center">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            <p><strong>Warning!</strong> This is an online booking. <strong>If you change the confirmation number, this booking will be disconnected from the provider's system.</strong></p>
+                        </div>
+                    </div>
+                </template>
+                <template [ngIf]="_propertiesb.cancellation_is_informed_by_provider == false && _propertiesb.status_b == 'Cancelled'">
+                    <!--<div [ngClass]="{'cancellation-alert-shown': checkCancellation()}" class="cancellation-alert-container">-->
+                    <div class="cancellation-alert-container">
+                        <div class="warning-alert center d-flex align-items-center">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            <p><span>Warning!</span> The cancellation price has been calculated automatically, please check with the provider and update if necessary.</p>
+                        </div>
+                    </div>
+                </template>
+                <table class="table table-bordered main-table">
+                    <tr>
+                        <!-- CONFIRMATION NUMBER -->
+                        <td id="confirmation-number-td" (mouseover)="edit_confirmation_status()" (mouseleave)="no_edit_confirmation_status()">
+                            <div class="td-holder d-flex align-items-center justify-content-center" (click)="editing_confirmation_status()">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <i class="fa fa-file-text-o icon-td" aria-hidden="true"></i>
+                                        <div id="locator2" class="text-center">
+                                            <h3>Confirmation Number</h3>
+                                            <h1 id="edit-locator" class="edit-locator editable-text">{{_propertiesb.booking_detail_data.confirmation_number}}</h1>
+                                            <input id="conf-status" type="text" [(ngModel)]="_propertiesb.book_detail_conf_status" (click)="clean_input_confirmation_status()" data-placement="bottom" data-toggle="tooltip" data-template="<div class='tooltip tool-container-conf'>
+                                              <div id='arrow-tool-conf' class='tooltip-arrow'></div>
+                                              <div class='tooltip-head'><i id='icon-tool-conf' class='fa fa-times-circle' aria-hidden='true'></i></div>
+                                              <div id='tool-error-conf' class='tooltip-inner container'></div>
+                                              </div>" attr.title=" {{_propertiesb.message_conf}}" data-trigger="manual">
+                                            <h3>Provider: <span id="book-prov1">{{_propertiesb.booking_detail_data.provider}}</span></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="locator3" class="edit-td pencil1">
+                                    <i id="pencil-loc" class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- BOOKING DATES -->
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <i class="fa fa-calendar icon-td" aria-hidden="true"></i>
+                                    <div class="text-center">
+                                        <p>Booking Start Date</p>
+                                        <h2>{{_propertiesb.booking_detail_data.booking_start_date}}</h2>
+                                        <p>Booking End Date</p>
+                                        <h2>{{_propertiesb.booking_detail_data.booking_end_date}}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- PRICES -->
+                        <td id="prices-td" colspan="3">
+                            <template [ngIf]="_propertiesb.status_b == 'Cancelled'">
+                                <div class="carousel-arrows d-flex justify-content-between">
+                                    <a class="carousel-control-prev" href="#pricesSlide" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#pricesSlide" role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            </template>
+                            <div id="pricesSlide" class="carousel slide" data-ride="carousel" data-interval="false">
+                                <div class="carousel-inner">
+                                    <!-- PRICE SLIDE -->
+                                    <div id="priceSlide" class="carousel-item active">
+                                        <div class="item-title price-title d-flex align-items-center justify-content-center">
+                                            <p>Price</p>
+                                        </div>
+                                        <div class="td-holder d-flex align-items-center justify-content-center" (mouseover)="edit_prices()" (mouseleave)="no_edit_prices()">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="costs-td d-flex align-items-center justify-content-between">
+                                                    <i class="fa fa-usd icon-td" aria-hidden="true"></i>
+                                                    <div class="text-right">
+                                                        <h4>Provider Cost</h4>
+                                                        <h4>Net Rate</h4>
+                                                        <h4>Client Commission</h4>
+                                                        <h4>Client Sale</h4>
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <h4 class="editable-text">{{_propertiesb.price_provider_cost}}</h4>
+                                                        <h4 class="editable-text">{{_propertiesb.price_net_rate}}</h4>
+                                                        <h4 class="editable-text">{{_propertiesb.price_client_commision}}</h4>
+                                                        <h4 class="editable-text">{{_propertiesb.price_client_sale}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="edit-td pencil2">
+                                                <i id="pencil2" class="fa fa-pencil" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CANCELLATION SLIDE -->
+                                    <template [ngIf]="_propertiesb.status_b == 'Cancelled'">
+                                        <div id="cancellationSlide" class="carousel-item">
+                                            <div class="item-title cancellation-title d-flex align-items-center justify-content-center">
+                                                <p>Cancellation Price</p>
+                                            </div>
+                                            <div class="td-holder d-flex align-items-center justify-content-center" (mouseover)="edit_prices()" (mouseleave)="no_edit_prices()">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="costs-td d-flex align-items-center justify-content-between">
+                                                        <i class="fa fa-usd icon-td" aria-hidden="true"></i>
+                                                        <div class="text-right">
+                                                            <h4>Provider Cost</h4>
+                                                            <h4>Net Rate</h4>
+                                                            <h4>Client Commission</h4>
+                                                            <h4>Client Sale</h4>
+                                                        </div>
+                                                        <div class="text-left">
+                                                            <h4 class="editable-text">{{_propertiesb.cancellation_provider_cost}}</h4>
+                                                            <h4 class="editable-text">{{_propertiesb.cancellation_net_rate}}</h4>
+                                                            <h4 class="editable-text">{{_propertiesb.cancellation_client_commision}}</h4>
+                                                            <h4 class="editable-text">{{_propertiesb.cancellation_client_sale}}</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="edit-td pencil2">
+                                                    <i id="pencil2" class="fa fa-pencil" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <!--<div class="td-holder d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="costs-td d-flex align-items-center justify-content-between">
+                                        <i class="fa fa-usd icon-td" aria-hidden="true"></i>
+                                        <div class="text-right">
+                                            <h4>Provider Cost</h4>
+                                            <h4>Net Rate</h4>
+                                            <h4>Client Commission</h4>
+                                            <h4>Client Sale</h4>
+                                        </div>
+                                        <div class="text-left">
+                                            <h4>{{_propertiesb.booking_detail_data.provider_cost}}</h4>
+                                            <h4>{{_propertiesb.booking_detail_data.net_rate}}</h4>
+                                            <h4>{{_propertiesb.booking_detail_data.client_commision}}</h4>
+                                            <h4>{{_propertiesb.booking_detail_data.client_sale}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="edit-td pencil2">
+                                    <i id="pencil2" class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>
+                            </div>-->
+                            <div class="save-cancel" id="editing-prices">
+                                <div class="d-flex align-items-center">
+                                    <i id="check2" class="fa fa-check save" aria-hidden="true" (mouseover)='rollover_icons_save_cancel("check2")' (mouseleave)='mouseleave_icons_save_cancel("check2")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save"></i>
+                                    <div id="check-mail2" class="save-notification d-flex align-items-center" (mouseover)='rollover_icons_save_cancel("check-mail2")' (mouseleave)='mouseleave_icons_save_cancel("check-mail2")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save & Send notification">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <p>+</p>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </div>
+                                    <i id="cross2" class="fa fa-times save" aria-hidden="true" (click)='cancel_editing_prices()' (mouseover)='rollover_icons_save_cancel("cross2")' (mouseleave)='mouseleave_icons_save_cancel("cross2")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <!-- RESERVATION STATUS -->
+                        <td rowspan="2" (mouseover)="edit_confirmation_status()" (mouseleave)="no_edit_confirmation_status()" id="reservationStatus-td">
+                            <div class="d-flex align-items-center justify-content-center reservation-status-td" (click)="editing_confirmation_status()">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <i class="fa fa-refresh icon-td" aria-hidden="true"></i>
+                                        <div id="locator2" class="text-center">
+                                            <h3>Reservation Status</h3>
+                                            <h1 id="edit-locator" class="edit-locator editable-text">{{_propertiesb.status_b}}</h1>
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <span id="book-prov" class="size-font">{{_propertiesb.status_b}}</span>
+                                                <span class="caret book-caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li class="text-items-status{{i}}" *ngFor="let status of conf.dropdown_response; let i=index" (click)="conf.select_status(status.name, status.code)" (mouseover)='mouseover_color_text(".text-items-status" + i)' (mouseleave)='mouseleave_color_text(".text-items-status" + i)'>
+                                                    <a>{{status.name}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="save-cancel" id="editLocator">
+                                <div class="d-flex align-items-center">
+                                    <i id="check1" class="fa fa-check save" aria-hidden="true" (click)="save_confirmation_status(false)" (mouseover)='rollover_icons_save_cancel("check1")' (mouseleave)='mouseleave_icons_save_cancel("check1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save"></i>
+                                    <div id="check-mail1" class="save-notification d-flex align-items-center" (click)="save_confirmation_status(true)" (mouseover)='rollover_icons_save_cancel("check-mail1")' (mouseleave)='mouseleave_icons_save_cancel("check-mail1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save & Send notification">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <p>+</p>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </div>
+                                    <i id="cross1" class="fa fa-times save" aria-hidden="true" (click)='cancel_editing_confirmation_status()' (mouseover)='rollover_icons_save_cancel("cross1")' (mouseleave)='mouseleave_icons_save_cancel("cross1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- CREATED DATE -->
+                        <td rowspan="2">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="text-center">
+                                        <i class="fa fa-shopping-cart icon-td" aria-hidden="true"></i>
+                                    </div>
+                                    <div id="dates-filedetail" class="text-center">
+                                        <p>Creation Date</p>
+                                        <h2>{{_propertiesb.booking_detail_data.date_created}}</h2>
+                                        <p>Record Locator</p>
+                                        <h2>
+                                            <a id="fileOpener" href="javascript:void(0)" (mousedown)="go_file_detail(_propertiesb.booking_detail_data.record_locator, $event)">{{_propertiesb.booking_detail_data.record_locator}}</a>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td colspan="2" class="text-center number-of-pax">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </td>
+                        <td rowspan="2" class="text-center">
+                            <i class="fa fa-moon-o" aria-hidden="true"></i>
+                            <p>Number of Nights</p>
+                            <h2>{{_propertiesb.booking_detail_data.number_of_nights}}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- ADULTS -->
+                        <td class="text-center number-of-pax">
+                            <h2>{{_propertiesb.booking_detail_data.number_of_adults}}</h2>
+                            <p>Adults</p>
+                        </td>
+
+                        <!-- CHILDS -->
+                        <td class="text-center number-of-pax">
+                            <h2>{{_propertiesb.booking_detail_data.number_of_children}}</h2>
+                            <p>Child</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Cancellation Slide for Print -->
+            <template [ngIf]="_propertiesb.status_b == 'Cancelled'">
+                <div id="cancellationPricePrint">
+                    <div class="cancellation-price-print">
+                        <div class="item-title cancellation-title d-flex align-items-center justify-content-center">
+                            <p>Cancellation Price</p>
+                        </div>
+                        <div class="cancellation-prices d-flex align-items-center justify-content-center" (mouseover)="edit_prices()" (mouseleave)="no_edit_prices()">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="costs-td d-flex align-items-center justify-content-between">
+                                    <i class="fa fa-usd icon-td" aria-hidden="true"></i>
+                                    <div class="text-right">
+                                        <h4>Provider Cost</h4>
+                                        <h4>Net Rate</h4>
+                                        <h4>Client Commission</h4>
+                                        <h4>Client Sale</h4>
+                                    </div>
+                                    <div class="text-left">
+                                        <h4 class="editable-text">{{_propertiesb.cancellation_provider_cost}}</h4>
+                                        <h4 class="editable-text">{{_propertiesb.cancellation_net_rate}}</h4>
+                                        <h4 class="editable-text">{{_propertiesb.cancellation_client_commision}}</h4>
+                                        <h4 class="editable-text">{{_propertiesb.cancellation_client_sale}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <div class="row">
+                <table class="table table-bordered details-table">
+                    <tr>
+                        <th class="agency-details-th">
+                            Agency Details
+                        </th>
+                        <th class="passenger-details-th">
+                            Passenger Details
+                        </th>
+                    </tr>
+                    <tr>
+                        <td id="agencyDetails-td" class="agency-details-td">
+                            <div class="row d-flex align-items-center" (click)="editing_agency_locator()" (mouseover)="edit_agency()" (mouseleave)="no_edit_agency()">
+                                <div class="col-xs-6">
+                                    <h1 class="edit-agency-details editable-text">Agency: {{_propertiesb.book_agency_name}}</h1>
+                                    <h1 class="edit-agency-details editable-text">Operator: {{_propertiesb.book_agency_operator}}</h1>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>{{_propertiesb.book_agency_email}}</p>
+                                    <p>{{_propertiesb.book_agency_phone}}</p>
+                                </div>
+                            </div>
+                            <div class="edit-td agency-details-pencil" (click)="editing_agency_locator()" (mouseover)="edit_agency()" (mouseleave)="no_edit_agency()">
+                                <i id="pencil-agency" class="fa fa-pencil" aria-hidden="true"></i>
+                            </div>
+                            <div class="row reference-container">
+                                <div class="col-xs-6">
+                                    <div class="reference d-flex align-items-center">
+                                        <!--<template [ngIf]="_propertiesb.book_agency_reference != ''">-->
+                                        <i class="fa fa-pencil" aria-hidden="true" (mouseover)="addHover()" (mouseleave)="takeHover()" (click)="toggleRefInput()" [ngClass]="{'hoverPencil' : hoverPencil == true , 'pencilRef' : true }"></i>
+                                        <h1 id="referenceId" class="d-flex align-items-center">
+                                            Reference Number:
+                                            <template [ngIf]="editReference != true && _propertiesb.book_agency_reference != ''">
+                                                    <span>{{_propertiesb.book_agency_reference}}</span>
+                                                </template>
+                                        </h1>
+                                        <template [ngIf]="editReference == true">
+                                            <div class="reference-editable d-flex align-items-center">
+                                                <div *ngIf="reference_error != true" class="danger-alert center d-flex align-items-center error-message-inline">
+                                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                                    <p>Warning! The reference data you entered couldn't be saved. Please check your internet connection and make sure the value is no longer than 1000 characters.</p>
+                                                </div>
+                                                <input (click)="focusInputReference()" [ngClass]="{'border-errors' : reference_error_message != '' , inputReference : true}"  type="text" [(ngModel)]="_propertiesb.book_agency_reference">
+                                            </div>
+                                        </template>
+                                        <!--</template>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <template [ngIf]="editReference == true">
+                                <div class="save-cancelRef" id="editR">
+                                    <div class="d-flex align-items-center">
+                                        <i id="check1" class="fa fa-check save" aria-hidden="true" (click)="save_reference_number(false)"  aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save"></i>
+                                        <div id="check-mail1" class="save-notification d-flex align-items-center" (click)="save_reference_number(true)"  aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save & Send notification">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <p>+</p>
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </div>
+                                        <i id="cross1" class="fa fa-times save" aria-hidden="true" (click)='cancel_editing_reference_number()' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                    </div>
+                                </div>
+                            </template>
+                        </td>
+                        <td rowspan="3" class="passenger-details-td" (mouseover)="edit_passenger_detail()" (mouseleave)="no_edit_passenger_detail()">
+
+                            <!-- PASSENGER DETAILS TO HOTELS -->
+                            <template [ngIf]="_propertiesb.service_type == 'hotel'">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="passenger-detail" *ngFor="let pass_b of _propertiesb.list_pass_rooms; let i=index">
+                                            <div class="passenger-detail-wrapper">
+                                                <div class="room-detail">
+                                                    <div class="room-title">
+                                                        <h2>{{pass_b.name}} - {{pass_b.rate_name}}</h2>
+                                                    </div>
+                                                    <div class="passenger-data-holder">
+                                                        <div class="passenger-data d-flex align-items-start" *ngFor="let pass_data of pass_b.list_passenger_details">
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <div class="passenger-type">
+                                                                    <h2>{{pass_data.passenger_type}}:</h2>
+                                                                </div>
+                                                                <div class="passenger-name">
+                                                                    <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} <template [ngIf]="pass_data.age != 0"> ({{pass_data.age}} years) </template></p>
+                                                                    <template [ngIf]="pass_data.nationality != ''">
+                                                                        <p>Nationality: {{pass_data.nationality}}</p>
+                                                                    </template>
+                                                                    <template [ngIf]="pass_data.document != ''">
+                                                                        <p>ID: {{pass_data.document}}</p>
+                                                                    </template>
+                                                                </div>
+                                                            </template>
+                                                            <!--<template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age < 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}}</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>-->
+                                                            <template [ngIf]="pass_data.passenger_type == 'children'">
+                                                                <!--<template [ngIf]="pass_data.age > 1"> -->
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                <!--</template> -->
+                                                                <!--<template [ngIf]="pass_data.age < 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} year)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template> -->
+                                                            </template>
+                                                            <!--<template [ngIf]="pass_data.document != ''">
+                                                                <p>ID: {{pass_data.document}}</p>
+                                                            </template>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <template [ngIf]="pass_b.remarks != ''">
+                                                    <div class="passenger-text">
+                                                        <p>{{pass_b.remarks}}</p>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <template [ngIf]="i < _propertiesb.count_rooms_hotel">
+                                                <div class="dotted"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="edit-td space-pencil" id="pencil-pass-hotel">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>-->
+                            </template>
+
+                            <!-- PASSENGER DETAILS TO PACKAGES -->
+                            <template [ngIf]="_propertiesb.service_type == 'package'">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="passenger-detail" *ngFor="let pass_data of _propertiesb.list_pass_pack">
+                                            <div class="passenger-detail-wrapper">
+                                                <div class="room-detail">
+                                                    <template [ngIf]="pass_data.service_name != ''">
+                                                        <div class="room-title">
+                                                            <h2>{{pass_data.service_name}}</h2>
+                                                        </div>
+                                                    </template>
+                                                    <div class="passenger-data-holder">
+                                                        <div class="passenger-data d-flex align-items-start">
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age > 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age < 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}}</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'children'">
+                                                                <template [ngIf]="pass_data.age > 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                                <template [ngIf]="pass_data.age < 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} year)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <!--<template [ngIf]="pass_data.document != ''">
+                                                                <p>ID: {{pass_data.document}}</p>
+                                                            </template>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <template [ngIf]="i < _propertiesb.count_rooms_hotel">
+                                                <div class="dotted"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="edit-td space-pencil" id="pencil-pass-pack">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>-->
+                            </template>
+
+                            <!-- PASSENGER DETAILS TO ATTRACTIONS -->
+                            <template [ngIf]="_propertiesb.service_type == 'attraction'">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="passenger-detail" *ngFor="let pass_data of _propertiesb.list_pass_pack">
+                                            <div class="passenger-detail-wrapper">
+                                                <div class="room-detail">
+                                                    <div class="passenger-data-holder">
+                                                        <div class="passenger-data d-flex align-items-start">
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age > 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age < 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}}</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'children'">
+                                                                <template [ngIf]="pass_data.age > 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                                <template [ngIf]="pass_data.age < 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} year)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <!--<template [ngIf]="pass_data.document != ''">
+                                                                <p>ID: {{pass_data.document}}</p>
+                                                            </template>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <template [ngIf]="i < _propertiesb.count_rooms_hotel">
+                                                <div class="dotted"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="edit-td space-pencil" id="pencil-pass2">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>-->
+                            </template>
+
+                            <!-- PASSENGER DETAILS TO CARS -->
+                            <template [ngIf]="_propertiesb.service_type == 'car'">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="passenger-detail" *ngFor="let pass_data of _propertiesb.list_pass_pack">
+                                            <div class="passenger-detail-wrapper">
+                                                <div class="room-detail">
+                                                    <div class="passenger-data-holder">
+                                                        <div class="passenger-data d-flex align-items-start">
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age > 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age < 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}}</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'children'">
+                                                                <template [ngIf]="pass_data.age > 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                                <template [ngIf]="pass_data.age < 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} year)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <!--<template [ngIf]="pass_data.document != ''">
+                                                                <p>ID: {{pass_data.document}}</p>
+                                                            </template>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <template [ngIf]="i < _propertiesb.count_rooms_hotel">
+                                                <div class="dotted"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="edit-td space-pencil" id="pencil-pass2">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>-->
+                            </template>
+
+                            <!-- PASSENGER DETAILS TO FLIGHTS -->
+                            <template [ngIf]="_propertiesb.service_type == 'flight'">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="passenger-detail" *ngFor="let pass_data of _propertiesb.list_pass_pack">
+                                            <div class="passenger-detail-wrapper">
+                                                <div class="room-detail">
+                                                    <div class="passenger-data-holder">
+                                                        <div class="passenger-data d-flex align-items-start">
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age > 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'adult'">
+                                                                <template [ngIf]="pass_data.age < 0">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}}</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template [ngIf]="pass_data.passenger_type == 'children'">
+                                                                <template [ngIf]="pass_data.age > 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} years)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                                <template [ngIf]="pass_data.age < 1">
+                                                                    <div class="passenger-type">
+                                                                        <h2>{{pass_data.passenger_type}}:</h2>
+                                                                    </div>
+                                                                    <div class="passenger-name">
+                                                                        <p id="edit-pax">{{pass_data.name_last}}, {{pass_data.name_first}} ({{pass_data.age}} year)</p>
+                                                                        <template [ngIf]="pass_data.nationality != ''">
+                                                                            <p>Nationality: {{pass_data.nationality}}</p>
+                                                                        </template>
+                                                                        <template [ngIf]="pass_data.document != ''">
+                                                                            <p>ID: {{pass_data.document}}</p>
+                                                                        </template>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <!--<template [ngIf]="pass_data.document != ''">
+                                                                <p>ID: {{pass_data.document}}</p>
+                                                            </template>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <template [ngIf]="i < _propertiesb.count_rooms_hotel">
+                                                <div class="dotted"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="edit-td space-pencil" id="pencil-pass2">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>-->
+                            </template>
+
+
+                            <div class="edit-td space-pencil" id="pencil-pass-detail">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="hotel-serivce-th">
+                            {{_propertiesb.service_type}} Service Details
+                            <i class="fa" [ngClass]="{
+                              'fa-bed': _propertiesb.service_type == 'hotel',
+                              'fa-ticket': _propertiesb.service_type == 'attraction',
+                              'fa-exchange': _propertiesb.service_type == 'transfer',
+                              'fa-car': _propertiesb.service_type == 'car',
+                              'fa-th': _propertiesb.service_type == 'package',
+                              'fa-plane': _propertiesb.service_type == 'flight'
+                            }" aria-hidden="true"></i>
+                        </th>
+                    </tr>
+                    <tr>
+                        <!-- SERVICE DETAILS -->
+                        <td class="hotel-service-td">
+                            <template [ngIf]="_propertiesb.service_type == 'hotel' || _propertiesb.service_type == 'package' || _propertiesb.service_type == 'attraction' || _propertiesb.service_type == 'car'">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <img src="{{_propertiesb.book_service_image}}" class="img-thumbnail img-responsive">
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <!-- HOTEL DETAILS -->
+                                        <template [ngIf]="_propertiesb.service_type == 'hotel'">
+                                            <h2>{{_propertiesb.book_service_name_hotel}}</h2>
+                                            <p>Address	{{_propertiesb.book_service_address}}</p>
+                                            <p>Hotel Phone	{{_propertiesb.book_service_phone}}</p>
+                                            <!--{{_propertiesb.book_service_address}}<br>-->
+                                            <div class="services-wrapper">
+                                                <div class="service-applied d-flex align-items-center justify-content-center" *ngFor="let pass_b of _propertiesb.list_pass_rooms">
+                                                    <p>{{pass_b.name}} {{pass_b.rate_name}} <template [ngIf]="pass_b.status != 'Available'"></template>- [{{pass_b.status}}]</p>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <!-- PACKAGES DETAILS -->
+                                        <template [ngIf]="_propertiesb.service_type == 'package'">
+                                            <h2>{{_propertiesb.book_service_pack.name}}</h2>
+                                            <div class="services-wrapper">
+                                                <div class="service-applied d-flex align-items-center justify-content-center">
+                                                    <p>Category: {{_propertiesb.book_service_pack.category}}</p>
+                                                </div>
+                                                <div class="service-applied d-flex align-items-center justify-content-center">
+                                                    <p>Service Name: {{_propertiesb.book_service_pack.service_name}}</p>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <!-- ATTRACTION DETAILS -->
+                                        <template [ngIf]="_propertiesb.service_type == 'attraction'">
+                                            <h2>{{_propertiesb.book_service_pack.name}}</h2>
+                                            <div class="services-wrapper">
+                                                <div class="service-applied d-flex align-items-center justify-content-center">
+                                                    <p>Ticket - {{_propertiesb.book_service_pack.ticket}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="more-details">
+                                                <p><b>Type</b> {{_propertiesb.book_service_pack.attraction_type}}</p>
+                                                <p><b>Date:</b> {{_propertiesb.book_service_pack.date}}</p>
+                                                <p><b>Duration:</b> {{_propertiesb.book_service_pack.duration}} {{_propertiesb.book_service_pack.duration_type}}</p>
+                                                <br>
+                                                <p>{{_propertiesb.book_service_pack.description}}</p>
+                                            </div>
+                                        </template>
+
+                                        <!-- CARS DETAILS -->
+                                        <template [ngIf]="_propertiesb.service_type == 'car'">
+                                            <h2>{{_propertiesb.book_service_pack.name}}</h2>
+                                            <div class="services-wrapper">
+                                                <div class="service-applied d-flex align-items-center justify-content-center">
+                                                    <p>Category: {{_propertiesb.book_service_pack.category}}</p>
+                                                </div>
+                                                <div class="service-applied d-flex align-items-center justify-content-center">
+                                                    <p>Renting Company: {{_propertiesb.book_service_pack.agency}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="more-details">
+                                                <p><b>Pick-up point:</b> {{_propertiesb.book_service_pack.pick_up}}</p>
+                                                <p><b>Drop-off point:</b> {{_propertiesb.book_service_pack.drop_off}}</p>
+                                                <p><b>Transmission:</b> {{_propertiesb.book_service_pack.transmission}}</p>
+                                                <template [ngIf]="_propertiesb.book_service_pack.air_conditioning == true">
+                                                    <p><b>A/C:</b> Yes</p>
+                                                </template>
+                                                <template [ngIf]="_propertiesb.book_service_pack.air_conditioning == false">
+                                                    <p><b>A/C:</b> No</p>
+                                                </template>
+                                                <p><b>Passengers:</b> {{_propertiesb.book_service_pack.passengers}}</p>
+                                                <p><b>Luggage:</b> {{_propertiesb.book_service_pack.luggage_small}} small, {{_propertiesb.book_service_pack.luggage_large}} large</p>
+                                                <p><b>Doors:</b> {{_propertiesb.book_service_pack.doors}}</p>
+                                                <p><b>Category:</b> {{_propertiesb.book_service_pack.category}}</p>
+                                                <p><b>Type:</b> {{_propertiesb.book_service_pack.type}}</p>
+                                                <p><b>Fuel:</b> {{_propertiesb.book_service_pack.fuel}}</p>
+                                                <!--<p><b>Seats:</b> {{_propertiesb.book_service_pack.passengers}}</p>
+                                                <p><b>Small Lug:</b> {{_propertiesb.book_service_pack.luggage_large}}</p>
+                                                <p><b>Large Lug:</b> {{_propertiesb.book_service_pack.luggage_small}}</p>
+                                                <p><b>Doors:</b> {{_propertiesb.book_service_pack.doors}}</p>
+                                                <p><b>Category:</b> {{_propertiesb.book_service_pack.category}}</p>
+                                                <p><b>Type:</b> {{_propertiesb.book_service_pack.type}}</p>
+                                                <p><b>Fuel:</b> {{_propertiesb.book_service_pack.fuel}}</p>-->
+                                            </div>
+                                        </template>
+
+                                        <!-- FLIGHTS DETAILS -->
+                                        <!--<template [ngIf]="_propertiesb.service_type == 'flight'">
+                                            <h2>{{_propertiesb.book_service_name_hotel}}</h2>
+                                            <div *ngFor="let flight of _propertiesb.book_service_pack.list_flights">
+                                                <div class="services-wrapper">
+                                                    <div class="service-applied d-flex align-items-center justify-content-center">
+                                                        <p><b>{{flight.origin_location_city_name}}</b> to <b>{{flight.destination_location_city_name}}</b></p>
+                                                    </div>
+                                                    <div class="service-applied d-flex align-items-center justify-content-center">
+                                                        <p>Duration: {{flight.duration}} - Scales: {{flight.scales}}</p>
+                                                    </div>
+                                                </div>
+                                                <table class="table short-table table-striped flights-table">
+                                                    <tr>
+                                                        <th>Airline</th>
+                                                        <th>Departure</th>
+                                                        <th>Arrival</th>
+                                                    </tr>
+                                                    <tr *ngFor="let segment of flight.list_segment">
+                                                        <td><p>Airline {{segment.airline_code}}<br>Flight number {{segment.flight_number}} </p></td>
+                                                        <td><p>{{segment.airport_departure}}<br>{{segment.date_departure | date:'dd-MMM-yyyy HH:mm' }}</p></td>
+                                                        <td><p>{{segment.airport_arrival}}<br>{{segment.date_arrival | date:'dd-MMM-yyyy HH:mm' }}</p></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </template>-->
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- FLIGHTS DETAILS -->
+                            <template [ngIf]="_propertiesb.service_type == 'flight'">
+                                <div class="row flight-details">
+                                    <div class="col-12 col-xs-12">
+                                        <div *ngFor="let flight of _propertiesb.book_service_pack.list_flights">
+                                            <div class="flight-info d-flex align-items-center justify-content-start">
+                                                <p><b>{{flight.origin_location_city_name}} - {{flight.destination_location_city_name}} </b>| Duration: {{flight.duration}} | {{flight.scales}} Stops</p>
+                                            </div>
+                                            <div class="flight-table">
+                                                <table class="table default-table">
+                                                    <tr>
+                                                        <th class="airline-th">Airline</th>
+                                                        <th>Departure</th>
+                                                        <th>Arrival</th>
+                                                        <th class="class-bags-th">Class & Bags</th>
+                                                    </tr>
+                                                    <tr *ngFor="let segment of flight.list_segment">
+                                                        <td class="airline-td">
+                                                            <div class="d-flex align-items-center flex-column">
+                                                                <img src="{{_propertiesb.book_service_image}}" class="img-thumbnail img-responsive">
+                                                                <p>{{segment.airline_code}} {{segment.flight_number}}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-start flex-column">
+                                                                <p><b>{{segment.airport_departure}}</b></p>
+                                                                <p>{{segment.date_departure | date:'dd-MMM-yyyy'}}</p>
+                                                                <p><b>{{segment.date_departure | date:'shortTime'}}</b></p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-start flex-column">
+                                                                <p><b>{{segment.airport_arrival}}</b></p>
+                                                                <p>{{segment.date_arrival | date:'dd-MMM-yyyy'}}</p>
+                                                                <p><b>{{segment.date_arrival | date:'shortTime'}}</b></p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="class-bags-td">
+                                                            <div class="class-bags-container d-flex align-items-center">
+                                                                <div class="class-bags-inner d-flex flex-column">
+                                                                    <div class="row flight-class align-items-center">
+                                                                        <div class="col-2 col-xs-2 text-center flight-col">
+                                                                            <i class="fa fa-plane" aria-hidden="true"></i>
+                                                                        </div>
+                                                                        <div class="col-10 col-xs-10 flight-col">
+                                                                            <p class="text-left">{{segment.flight_class}}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <template ngFor let-bag [ngForOf]="segment.bags">
+                                                                        <div class="row flight-bags align-items-center">
+                                                                            <div class="col-2 col-xs-2 text-center flight-col">
+                                                                                <i class="fa fa-suitcase" aria-hidden="true"></i>
+                                                                            </div>
+                                                                            <div class="col-10 col-xs-10 flight-col">
+                                                                                <p class="text-left small-italic">{{bag.passenger_type}}:
+                                                                                    <template ngFor let-bagDescription [ngForOf]="bag.bags">
+                                                                                        {{bagDescription.description}}
+                                                                                    </template>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </template>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row policies-table-container">
+                <table class="table table-bordered policies-table">
+                    <tr>
+                        <th>
+                            Policies
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- HOTEL POLICIES -->
+                            <template [ngIf]="_propertiesb.service_type == 'hotel'">
+                                <div class="policies-wrapper">
+                                    <template [ngIf]="_propertiesb.provider_comments != ''">
+                                        <div class="policy">
+                                            <h2>Provider comments</h2>
+                                            <p>{{_propertiesb.provider_comments}}</p>
+                                        </div>
+                                    </template>
+                                    <div *ngFor="let pass_b of _propertiesb.list_pass_rooms">
+                                        <h1>{{pass_b.name}} {{pass_b.rate_name}}</h1>
+                                        <div class="policy">
+                                            <h2>Cancellation</h2>
+                                            <p>{{pass_b.cancellation_policies}}</p>
+                                        </div>
+                                        <div class="policy">
+                                            <h2>Modification</h2>
+                                            <p>{{pass_b.modification_policies}}</p>
+                                        </div>
+                                        <div class="policy">
+                                            <h2>No Show</h2>
+                                            <p>{{pass_b.no_show_policies}}</p>
+                                        </div>
+                                        <div class="policy">
+                                            <h2>Payment</h2>
+                                            <p>{{pass_b.payment_policies}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- PACKAGE POLICIES -->
+                            <template [ngIf]="_propertiesb.service_type == 'package'">
+                                <div class="policies-wrapper">
+                                    <template [ngIf]="_propertiesb.provider_comments != ''">
+                                        <div class="policy">
+                                            <h2>Provider comments</h2>
+                                            <p>{{_propertiesb.provider_comments}}</p>
+                                        </div>
+                                    </template>
+                                    <div class="policy">
+                                        <h2>Cancellation</h2>
+                                        <p>{{_propertiesb.book_service_pack.cancellation_policies}}</p>
+                                    </div>
+                                    <div class="policy">
+                                        <h2>Modification</h2>
+                                        <p>{{_propertiesb.book_service_pack.modification_policies}}</p>
+                                    </div>
+                                    <div class="policy">
+                                        <h2>No Show</h2>
+                                        <p>{{_propertiesb.book_service_pack.no_show_policies}}</p>
+                                    </div>
+                                    <div class="policy">
+                                        <h2>Payment</h2>
+                                        <p>{{_propertiesb.book_service_pack.payment_policies}}</p>
+                                    </div>
+                                    <div class="policy">
+                                        <h2>Optionals</h2>
+                                        <p>{{_propertiesb.book_service_pack.list_optionals}}</p>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- ATTRACTION OR CAR POLICIES -->
+                            <template [ngIf]="_propertiesb.service_type == 'attraction' || _propertiesb.service_type == 'car' || _propertiesb.service_type == 'flight'">
+                                <div class="policies-wrapper">
+                                    <template [ngIf]="_propertiesb.provider_comments != ''">
+                                        <div class="policy">
+                                            <h2>Provider comments</h2>
+                                            <p>{{_propertiesb.provider_comments}}</p>
+                                        </div>
+                                    </template>
+                                    <h1>{{_propertiesb.book_service_pack.name}}</h1>
+                                    <div class="policy">
+                                        <h2>Cancellation</h2>
+                                        <p>{{_propertiesb.book_service_pack.cancellation_policies}}</p>
+                                    </div>
+                                    <div class="policy">
+                                        <h2>Modification</h2>
+                                        <p>{{_propertiesb.book_service_pack.modification_policies}}</p>
+                                    </div>
+                                    <div class="policy">
+                                        <h2>No Show</h2>
+                                        <p>{{_propertiesb.book_service_pack.no_show_policies}}</p>
+                                    </div>
+                                    <div class="policy">
+                                        <h2>Payment</h2>
+                                        <p>{{_propertiesb.book_service_pack.payment_policies}}</p>
+                                    </div>
+                                    <template [ngIf]="_propertiesb.service_type == 'car'">
+                                        <div class="policy">
+                                            <h2>Includes</h2>
+                                            <p *ngFor="let include of _propertiesb.book_service_pack.list_includes">{{include.name}}</p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- INTERNAL COMMENTS -->
+            <div class="internal-commetns-wrapper">
+                <div class="row add-internal-comments text-center" id="inline-comments-default" (click)="editing_internal_comments($event)">
+                    <template [ngIf]="_propertiesb.book_internal_comments == ''">
+                        <button (click)="show_internal_comments()">Add Internal Comments</button>
+                    </template>
+                </div>
+                <div class="row internal-comments" id="inline-comments">
+                    <template [ngIf]="_propertiesb.book_internal_comments != '' || _propertiesb.hide_comment == true">
+                        <div id="prueba" class="col-xs-12 grey-heading d-flex align-items-center justify-content-center" (click)="handle_collapse()">
+                            <h3 class="title3">Internal Comments</h3>
+                        </div>
+                        <template [ngIf]="_propertiesb.hide_comment == 'no_show'">
+                            {{_propertiesb.book_internal_comments}}
+                        </template>
+                        <div id="internalCommentsTable" (mouseover)="edit_internal_comments()" (mouseleave)="no_edit_internal_comments()">
+                            <div class="textarea-holder">
+                                <textarea rows="4" class="form-control" (click)="editing_internal_comments($event)" [(ngModel)]="_propertiesb.book_internal_comments" [ngClass]="{'border-comm': _propertiesb.hide_comment, 'well2': _propertiesb.hide_comment == false}" (mouseover)="edit_internal_comments()"
+                                    (mouseleave)="no_edit_internal_comments()"></textarea>
+                                <template [ngIf]="_propertiesb.hide_comment == true">
+                                    <div class="save-cancel" id="editing-comments">
+                                        <div class="d-flex align-items-center">
+                                            <i id="check-comm1" class="fa fa-check save" (click)="save_internal_comments(false)" (mouseover)='rollover_icons_save_cancel_comm("check-comm1")' (mouseleave)='mouseleave_icons_save_cancel_comm("check-comm1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save"></i>
+                                            <div id="check-mail-comm1" class="save-notification d-flex align-items-center" (click)="save_internal_comments(true)" (mouseover)='rollover_icons_save_cancel_comm("check-mail-comm1")' (mouseleave)='mouseleave_icons_save_cancel_comm("check-mail-comm1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save & Send notification">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                                <p>+</p>
+                                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            </div>
+                                            <i id="cross-comm1" class="fa fa-times save" (click)="cancel_editing_internal_comments(_propertiesb.book_internal_comments_backup)" (mouseover)='rollover_icons_save_cancel_comm("cross-comm1")' (mouseleave)='mouseleave_icons_save_cancel_comm("cross-comm1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            <template [ngIf]="_propertiesb.hide_comment == false">
+                                <div id="comm" class="col-md-0" (click)="editing_internal_comments($event)" (mouseover)="edit_internal_comments()" (mouseleave)="no_edit_internal_comments()">
+                                    <div class="pencil-comm">
+                                        <i id="pencil-comm" class="fa fa-pencil" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </template>
+                            <template [ngIf]="_propertiesb.hide_comment == true">
+                                <div class="notification-alert d-flex align-items-center message-comm">
+                                    <p><b>Note:</b> The information entered here is internal and only visible to administrators.</p>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template [ngIf]="_propertiesb.general_error_comm != ''">
+                        <div class="danger-alert center d-flex align-items-center error-message-inline">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                            <p>{{_propertiesb.general_error_comm}}</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Security log -->
+            <div class="row security-log">
+                <div class="col-xs-12 grey-heading d-flex align-items-center justify-content-center collapsed" data-toggle="collapse" data-target="#securityLogTable" aria-expanded="false" aria-controls="securityLogTable">
+                    <h3 class="title3">Activity Security Log</h3>
+                    <span class="caret"></span>
+                </div>
+                <div class="collapse" id="securityLogTable">
+                    <table class="table short-table table-striped table-hover">
+                        <tr>
+                            <th class="date-log">Date</th>
+                            <th>Time</th>
+                            <th>Operator</th>
+                            <th>IP</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr *ngFor="let logs_b of _propertiesb.booking_detail_logs">
+                            <td class="date-log">{{logs_b.date}}</td>
+                            <td>{{logs_b.time}}</td>
+                            <td>{{logs_b.log_operator}}</td>
+                            <template [ngIf]="logs_b.ip != '::1'">
+                                <td>
+                                    <a href="https://geoiptool.com/en/?IP={{logs_b.ip}}" target="_blank">{{logs_b.ip}}</a>
+                                </td>
+                            </template>
+                            <template [ngIf]="logs_b.ip == '::1'">
+                                <td></td>
+                            </template>
+                            <td>{{logs_b.action}}</td>
+                        </tr>
+                    </table>
+                    <template [ngIf]="_propertiesb.list_logs_count == 0">
+                        <div class="info-alert center d-flex align-items-center">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <p>There are no results.</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+
+            <!-- COMMUNICATION SLOG -->
+            <div class="row communication-log align-items-center">
+                <div class="grey-heading d-flex align-items-center">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4 d-flex align-items-center justify-content-center">
+                        <h3 class="title3">COMMUNICATION LOG</h3>
+                    </div>
+                    <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                        <button type="button" class="btn-blue-md d-flex align-items-center justify-content-center">
+                            New Email <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <template [ngIf]="_propertiesb.booking_detail_communication_logs_count > '0'">
+                    <table class="table short-table table-hover">
+                        <tr>
+                            <th>Date</th>
+                            <th>Subject</th>
+                            <th>Recipient</th>
+                            <th>Type</th>
+                            <th class="text-center">Status</th>
+                            <th></th>
+                        </tr>
+                        <template ngFor let-comLogs [ngForOf]="_propertiesb.booking_detail_communication_logs" let-i="index">
+                            <tr (dblclick)="openCommunicationLog(i , comLogs.code)">
+                                <td>{{comLogs.date | date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                <td>{{comLogs.subject}}</td>
+                                <td>{{comLogs.recipient}}</td>
+                                <td>{{comLogs.type_name}}</td>
+                                <td class="text-center">
+                                    <!-- Dependiendo del estatus, la clase de este div
+                                        - Delivered: 'delivered'
+                                        - Read: 'read'
+                                        - Sent: 'sent'
+                                        - Failure: 'failure'
+                                        - Pending: 'pending'
+                                    -->
+                                    <template [ngIf]="comLogs.status == 'delivered'">
+                                        <div class="delivered" data-toggle="tooltip" data-placement="bottom" title="Delivered">
+                                            <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                            <i class="fa fa-check checked-icon double-check" aria-hidden="true"></i>
+                                        </div>
+                                    </template>
+                                    <template [ngIf]="comLogs.status == 'sent'">
+                                        <div id="sent" class="sent" data-toggle="tooltip" data-placement="bottom" title="Sent">
+                                            <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                        </div>
+                                    </template>
+                                    <template [ngIf]="comLogs.status == 'failed'">
+                                        <div class="failure" data-toggle="tooltip" data-placement="bottom" title="Failure">
+                                            <i class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                        </div>
+                                    </template>
+                                    <!-- Falta el 'Read' acá, lo agrego por las dudas! -->
+                                    <template [ngIf]="comLogs.status == 'opened'"><!-- No se como es el valor, pongo esto de ejemplo -->
+                                        <div class="read" data-toggle="tooltip" data-placement="bottom" title="Read">
+                                            <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                            <i class="fa fa-check checked-icon double-check" aria-hidden="true"></i>
+                                        </div>
+                                    </template>
+                                    <!-- Este es el pending (relojito) -->
+                                    <template [ngIf]="comLogs.status == 'pending'"><!-- No se como es el valor, pongo esto de ejemplo -->
+                                        <div class="pending" data-toggle="tooltip" data-placement="bottom" title="Pending">
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        </div>
+                                    </template>
+                                </td>
+                                <td class="text-right">
+                                    <i class="fa fa-share forward-icon" aria-hidden="true" (click)="open_compose_modal()" data-toggle="modal" data-target="#composeModal"></i>
+                                </td>
+                            </tr>
+                            <div id="{{i}}communicationLogDetail" class="communication-log-detail communication-log-detail-hidden">
+                                <td colspan="6">
+                                    <div id="{{i}}divDetail" class="detail-container">
+                                        <template [ngIf]="iframe[i] == true">
+                                            <iframe id="{{i}}htmlDetail"></iframe>
+                                        </template>
+                                        <!--<communication-log></communication-log>-->
+                                        <!-- Mostrándolo con subcomponente -->
+                                    </div>
+                                </td>
+                            </div>
+                        </template>
+                        <!--<tr *ngFor="let comLogs of _propertiesb.booking_detail_communication_logs" (dblclick)="openCommunicationLog(i, comLogs.code)">
+                            <td>{{comLogs.date | date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                            <td>{{comLogs.subject}}</td>
+                            <td>{{comLogs.recipient}}</td>
+                            <td>{{comLogs.type_name}}</td>
+                            <td class="text-center">
+                                 Dependiendo de el estatus, la clase de este div
+                                    - Delivered: 'delivered'
+                                    - Read: 'read'
+                                    - Sent: 'sent'
+                                    - Failure: 'failure'
+                                    - Pending: 'pending'
+
+                                <template [ngIf]="comLogs.status == 'delivered'">
+                                    <div class="delivered" data-toggle="tooltip" data-placement="bottom" title="Delivered">
+                                        <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                        <i class="fa fa-check checked-icon double-check" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <template [ngIf]="comLogs.status == 'sent'">
+                                    <div class="sent" data-toggle="tooltip" data-placement="bottom" title="Sent">
+                                        <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <template [ngIf]="comLogs.status == 'failed'">
+                                    <div class="failure" data-toggle="tooltip" data-placement="bottom" title="Failure">
+                                        <i class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <template [ngIf]="comLogs.status == 'opened'">
+                                    <div class="read" data-toggle="tooltip" data-placement="bottom" title="Read">
+                                        <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                        <i class="fa fa-check checked-icon double-check" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <template [ngIf]="comLogs.status == 'pending'">
+                                    <div class="pending" data-toggle="tooltip" data-placement="bottom" title="Pending">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                            </td>
+                            <td class="text-right">
+                                <i class="fa fa-share forward-icon" aria-hidden="true" (click)="open_compose_modal()" data-toggle="modal" data-target="#composeModal"></i>
+                            </td>
+                        </tr>
+                        <tr class="communication-log-detail">
+                            <td colspan="6">
+                                <div>
+                                    <p>[12/05/117 15:43:11] Cintia Velardez: jajajajajja</p>
+                                    <p>[12/05/117 15:43:17] Ana Luz Lopez: JAJAJAJA</p>
+                                    <p>[12/05/117 15:46:20] Norbert Sparrow: jajajajaajajajajaajajajaja ke lo tiro....</p>
+                                </div>
+                            </td>
+                        </tr>-->
+                    </table>
+                </template>
+            </div>
+            <template [ngIf]="_propertiesb.auto_cancel_date != '' && _propertiesb.viewAutomaticCancellator == true">
+                  <!-- DISABLE CANCELLATION -->
+                <div class="row disable-cancellation align-items-center justify-content-between">
+                    <template [ngIf]="_propertiesb.is_auto_cancel == true">
+                        <div class="col-xs-6 d-flex align-items-center justify-content-start">
+                            <p class="small-italic">This booking is set to cancel by {{_propertiesb.auto_cancel_date}}</p>
+                        </div>
+                        <div class="col-xs-6 d-flex align-items-center justify-content-end">
+                            <p class="title5">Automatic cancellation</p>
+                            <i (click)="toggleAutocancel(false)" class="fa fa-toggle-on enabled-icon" aria-hidden="true"></i>
+                        </div>
+                    </template>
+                    <template  [ngIf]="_propertiesb.is_auto_cancel == false && _propertiesb.viewAutomaticCancellator == true">
+                        <div class="col-xs-6 d-flex align-items-center justify-content-start">
+                            <p class="small-italic">Disabled</p>
+                        </div>
+                        <div class="col-xs-6 d-flex align-items-center justify-content-end">
+                            <p class="title5">Automatic cancellation</p>
+                            <i (click)="toggleAutocancel(true)" class="fa fa-toggle-off enabled-icon disabled" aria-hidden="true"></i>
+                        </div>
+                    </template>
+
+                </div>
+            <!-- CLOSE DISABLE CANCELLATION -->
+            </template>
+
+            <footer>©2017 - Travtion Solutions LLC - <a href="#">http://www.travtion.com/</a></footer>
+        </div>
+    </div>
+</div>

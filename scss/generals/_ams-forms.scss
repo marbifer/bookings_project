@@ -1,0 +1,192 @@
+/*-----------------------------*/
+/*        FORM ELEMENTS        */
+/*          Checkboxes         */
+/*          Radios             */
+/*          Inputs             */
+/*          Labels             */
+/*-----------------------------*/
+
+label {
+    @extend p;
+    font-weight: bold;
+}
+
+.custom-control {
+    position: relative;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    min-height: 1.5rem;
+    padding-left: 1.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    .custom-control-input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        &:checked~.custom-control-indicator {
+            background-color: #fff !important;
+            border: 1px solid $enabled;
+            &:before {
+                background-color: $enabled;
+            }
+        }
+    }
+    .custom-control-indicator {
+        border-radius: 50px;
+        position: absolute;
+        top: 3px;
+        left: 0;
+        display: block;
+        width: 16px;
+        height: 16px;
+        pointer-events: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid $grey;
+        background-color: #fff !important;
+        background-repeat: no-repeat;
+        background-position: center center;
+        -webkit-background-size: 50% 50%;
+        background-size: 50% 50%;
+        &::before {
+            display: block;
+            position: absolute;
+            content: '';
+            border-radius: 100%;
+            height: 8px;
+            width: 8px;
+            top: 3px;
+            left: 3px;
+            margin: auto;
+            transition: background 0.25s linear;
+            -webkit-transition: background 0.25s linear;
+        }
+    }
+    .custom-control-description {
+        font-family: $open-sans;
+        font-weight: normal;
+        font-size: 14px;
+        font-style: italic;
+    }
+}
+
+.form-control {
+    &:focus {
+        box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+        border-color: rgba(82, 168, 236, 0.8);
+    }
+    &[readonly]{
+        &:focus{
+            box-shadow: none !important;
+            border-color: #ccc;
+            cursor: default;
+        }
+    }
+}
+
+.border-errors {
+    border: 2px solid #b72522 !important;
+}
+
+.with-errors-text {
+    font-size: 13px;
+    color: #b72522;
+    font-weight: 600;
+}
+
+.autocomplete-list2{
+    border: 1px solid #d8d8d8;
+    border-left-width: 0.5px !important;
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+    background: #fff;
+    overflow: hidden;
+    z-index: 999 !important;
+    top: 70px;
+    width: 95%;
+    /*top: 50px;
+    width: 100%;*/
+    ul {
+        margin-bottom: 0px;
+        cursor: pointer;
+        &:hover {
+            background-color: $enabled;
+        }
+        li {
+            list-style: none;
+            width: 100%;
+            margin-left: -2.6em;
+            padding: 0.4em 1em;
+            a {
+                color: #242424;
+                font-size: 14px;
+            }
+            .color-text {
+                font-weight: bold;
+                color: #fff;
+            }
+        }
+    }
+}
+
+.autocomplete-group {
+    input {
+        cursor: pointer;
+    }
+    .action-autocomplete {
+        position: absolute;
+        background: #dcdcdc;
+        border-radius: 2px;
+        border: 1px solid #bdbaba;
+        padding: 2px;
+        div {
+            border: 1px solid #bdbaba;
+            background: #f8f8f8;
+            padding: 0 4px;
+            border-radius: 4px;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+            &:first-child {
+                padding: 0 1.5px;
+            }
+            i {
+                color: #9a9a9a;
+                font-size: 19px;
+            }
+        }
+    }
+}
+
+/*********************************************************
+INPUT GROUP: Apply width and height on specific component
+*********************************************************/
+.input-group{
+    .input-group-btn{
+        button{
+            background-color: #eee;
+            border-color: $disabled;
+            color: #474747;
+            font-size: 14px;
+            padding: 0 10px;
+            .caret{
+                margin-left: 10px;
+            }
+        }
+        .dropdown-menu{
+            li{
+                &:hover{
+                    background-color: #E7403F;
+                    a{
+                        color: #fff;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

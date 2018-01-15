@@ -1,0 +1,9 @@
+<button type="button" class="btn btn-default dropdown-toggle dropdown-rightside d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="get_list_currency()">
+   {{dropdown_symbol}}
+   <span class="caret"></span>
+</button>
+    <ul class="dropdown-menu priceCurrencyList" aria-labelledby="priceCurrency">
+        <li *ngFor="let cur of currency_symbols; let z=index" (click)="select_currency(cur.name, cur.code)">
+             <a>{{cur.name}}</a>
+        </li>
+    </ul>

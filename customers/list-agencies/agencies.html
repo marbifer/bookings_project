@@ -1,0 +1,281 @@
+<h1 class="page-title"></h1>
+
+<!-- RESPONSIVE CONTAINER -->
+<div class="wrapper-bw" [ngClass]="{'container' : view_port_width_list_agen}">
+    <div class="overflow-x">
+        <!-- BOX CONTAINER CONTAINER -->
+        <div class="container ams-container">
+            <!-- SEARCH FORM CONTAINER -->
+            <div class="searchform-wrapper">
+                <div class="searchform-container center">
+                    <div class="row">
+                        <div class="col-xs-12 center">
+                            <h5 class="title5">Search for agencies</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 center search-input form-control d-flex align-items-center" (click)="open_modal_filters_agencies()" data-toggle="modal" data-target="#filtersModalAgencies">
+                            <!-- PILLS -->
+                            <!-- AGENCY NAME -->
+                            <div class="filters-wrapper">
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_name_array; let i=index" id="filter_name">
+                                    <span (click)="edit_pill('agency_name', $event, i)">
+                                        <span>{{_filter_service.response_filters[0].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_name_array', i)">x</button>
+                                </div>
+                                <!-- E-MAIL -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_email_array; let i=index" id="filter_email">
+                                    <span (click)="edit_pill('email', $event, i)">
+                                        <span>{{_filter_service.response_filters[1].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_email_array', i)">x</button>
+                                </div>
+                                <!-- PHONE NUMBER -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_phone_number_array; let i=index" id="filter_phone">
+                                    <span (click)="edit_pill('phone', $event, i)">
+                                        <span>{{_filter_service.response_filters[2].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_phone_number_array', i)">x</button>
+                                </div>
+                                <!-- TAX NUMBER -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_tax_number_array; let i=index" id="filter_tax">
+                                    <span (click)="edit_pill('tax', $event, i)">
+                                        <span>{{_filter_service.response_filters[3].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_tax_number_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION ADDRESS -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_address_array; let i=index" id="filter_address">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>Address:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_address_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION CITY -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_city_array; let i=index" id="filter_location">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>City:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_city_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION STATE -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_state_array; let i=index" id="filter_state">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>State:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_state_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION COUNTRY -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_country_array; let i=index" id="filter_country">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>Country:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_country_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION ZIP -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_zip_array; let i=index" id="filter_zip">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>Zip:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_zip_array', i)">x</button>
+                                </div>
+                                <!-- BOOKINGS -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_has_bookings_array; let i=index" id="filter_bookings">
+                                    <span (click)="edit_pill('bookings', $event, i)">
+                                        <span>{{_filter_service.response_filters[5].filter_type_name}}:</span>
+                                        <template [ngIf]="info == true">
+                                            <p>Has bookings</p>
+                                        </template>
+                                    </span>
+
+                                    <span (click)="edit_pill('bookings', $event, i)">
+                                        <template [ngIf]="info == false">
+                                            <p>Has never booked</p>
+                                        </template>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_has_bookings_array', i)">x</button>
+                                </div>
+                                <!-- STATUS -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_status_array; let i=index" id="filter_status">
+                                    <span (click)="edit_pill('status', $event, i)">
+                                        <span>{{_filter_service.response_filters[6].filter_type_name}}:</span>
+                                        <template [ngIf]="info == true">
+                                            <p>Enabled</p>
+                                        </template>
+                                    </span>
+                                    <span (click)="edit_pill('status', $event, i)">
+                                        <template [ngIf]="info == false">
+                                            <p>Disabled</p>
+                                        </template>
+                                    </span>
+                                    <!--<template ngFor let-status [ngForOf]="_filter_service.response_filters[6].sub_item_filter_list" let-i="index">
+                                    <p *ngIf="info == status.filter_type_code">{{status.filter_type_name}}</p>
+                                    </template>-->
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_status_array', i)">x</button>
+                                </div>
+                            </div>
+                            <div class="icon-search">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS BAR AND SELLECT ALL -->
+            <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+                <div class="row align-items-center">
+                    <div class="col-xs-4 align-items-center">
+
+                        <!-- Checkbox icon-checked -->
+                        <template [ngIf]="justchange == true">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div class="icon-check" id="icon-check" (click)="unselect_all()">
+                                    <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Checkbox with minus-icon -->
+                        <template [ngIf]="justchange == 'minus'">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div class="icon-minus" id="icon-minus" (click)="select_all()">
+                                    <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Checkbox icon-empty -->
+                        <template [ngIf]="_service.total_page != 0">
+                            <template [ngIf]="justchange == false">
+                                <div class="checkbox abc-checkbox check-results">
+                                    <div id="icon-empty" (click)="select_all()">
+                                        <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </template>
+                            <p class="text-sm select">Select all</p>
+                        </template>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <h1 class="title3">{{_service.total_page}} results</h1>
+                    </div>
+
+                    <!-- Icon: enable-disabled -->
+                    <div class="col-xs-4 text-right">
+                        <i *ngIf="_service.total_page != 0" class="fa fa-file-excel-o default-icon" aria-hidden="true" (click)="export_to_excel()"></i>
+                        <template [ngIf]="show_icons_agencies == true">
+                            <template [ngIf]="_service.toggle_status == true">
+                                <i *ngIf="_service.total_page != 0" class="fa fa-toggle-off default-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+
+                            <template [ngIf]="_service.toggle_status == false">
+                                <i *ngIf="_service.total_page != 0" class="fa fa-toggle-on enabled-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                        </template>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- AGENCIES TABLE -->
+            <table class="table default-table">
+                <template [ngIf]="_service.total_page != 0">
+                    <tr>
+                        <th class="short-td checkbox-column"></th>
+                        <th class="pl-0">Name</th>
+                        <th>Legal<br>Name</th>
+                        <th class="text-center short-td">Logo</th>
+                        <th class="text-right">Phone<br>Number</th>
+                        <th>E-mail</th>
+                        <th class="location-th">Location</th>
+                        <th class="text-center">Users</th>
+                        <th class="text-right">Tax<br>Number</th>
+                        <th class="text-right">Credit</th>
+                        <th class="text-center">Registered</th>
+                        <th class="text-center short-td">Status</th>
+                        <th class="text-center w-30"></th>
+                    </tr>
+                </template>
+                <template ngFor let-a [ngForOf]="_service.list_agencies" let-i="index">
+                    <tr class="color-agencies" (mouseover)='mouseover_icon_folder(i)' (mouseleave)='mouseleave_icon_folder()'>
+                        <td class="short-td checkbox-column">
+                            <div class="checkbox abc-checkbox check-table-ag" (click)="show_icons_list_agencies()">
+                                <input class="check-table-agencies" name="options" [checked]="selected_ag.indexOf(i) == true" id="checkbox{{i}}" value="{{a.id}}" type="checkbox" (change)="change_to_minus()">
+                                <label class="label-selected no-pad" attr.for="checkbox{{i}}"></label>
+                            </div>
+                        </td>
+                        <td class="pl-0 agency-name-td">{{a.name}}</td>
+                        <td class="agency-legalname-td">{{a.name_legal}}</td>
+                        <template [ngIf]="a.logo == true">
+                            <td class="text-center short-td"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                        </template>
+                        <template [ngIf]="a.logo == false">
+                            <td class="text-center short-td"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                        </template>
+                        <td class="text-right">{{a.phone_number}}</td>
+                        <td>{{a.email}}</td>
+                        <td class="normal-whitespace">{{a.location}}</td>
+                        <td class="text-center users"><a href="javascript:void(0)" (click)="go_usersInAgency(a.id, $event, i)">{{a.users}}</a></td>
+                        <td class="text-right">{{a.tax_number}}</td>
+                        <td class="text-right">{{a.credit}}</td>
+                        <td class="text-center">{{a.registered}}</td>
+
+                        <!-- Status toogle -->
+                        <template [ngIf]="a.status == false">
+                            <td class="text-center w-30 short-td"><i class="fa fa-toggle-off toggle-icon disabled" aria-hidden="true" (click)="enabled_disabled_toogle(true, a.id)"></i></td>
+                        </template>
+                        <template [ngIf]="a.status == true">
+                            <td class="text-center w-30 short-td"><i class="fa fa-toggle-on toggle-icon enabled" aria-hidden="true" (click)="enabled_disabled_toogle(false, a.id)"></i></td>
+                        </template>
+                        <!--<td class="text-center fixed-icon">
+                            <a id="agency-opener{{i}}">
+                                <i id="{{i}}icon-agen" class="fa fa-folder-open-o table-icon enabled open-icon" aria-hidden="true" (mousedown)="go_to_agency_detail(a.id, $event, i)"></i>
+                            </a>
+                        </td>-->
+                        <td class="text-center folder-td-wrapper">
+                            <div class="d-flex justify-content-end align-items-center">
+                                <div>
+                                    <div class="folder-wrapper center">
+                                        <a id="agency-opener{{i}}">
+                                            <i id="{{i}}icon-agen" class="fa fa-folder-open-o" aria-hidden="true" (mousedown)="go_to_agency_detail(a.id, $event, i)"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
+                <!--Close template "[ngForOf]="" -->
+            </table>
+            <!-- Notification Message if there is not results from Front-End (List Agencies) -->
+            <template [ngIf]="_service.total_page == 0">
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, <strong>we couldn't find any results that met your search criteria</strong>. You can try using different filters and/or dates in the search box above.</p>
+                </div>
+            </template>
+            <!-- Error Message if there are not registers in the table from Front-End 
+            <template [ngIf]="_service.total_page == 0"> 
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“Agencies“</span> in the system yet. Create one from the button on the top right corner of this screen.</p>
+                </div>
+            </template>-->
+
+            <!--{{Pagination insertada con componente hijo List Agencies}}-->
+            <my-pagination [paginationTrigger]="_filter_service.triggerInfo" *ngIf="_filter_service.showPaginationFilter" #pagination (change_current_page)="current_page_change($event)"></my-pagination>
+            <!--{{Close pagination insertada con componente hijo}}-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,276 @@
+<!-- RESPONSIVE CONTAINER -->
+<div class="wrapper-bw" [ngClass]="{'container' : view_port_width}" >
+<div class="overflow-x" (click)="remove_autocomplete()">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id="searchBox" type="text" autocomplete="off" [(ngModel)]="_service.search_price_rules"/>
+                        <div class="after" (click)="restore_search()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>Search for Price Rules</p>
+                    </div>
+                </div>
+                <div class="text-search">
+                    <p class="open-search">Search for Price Rules</p>
+                </div><br><br>
+            </div>
+        </div>
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-4 align-items-center">
+                    <!-- Checkbox icon-checked -->
+                    <template [ngIf]="justchange == true">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-check" (click)="unselect_all()">
+                                <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox with minus-icon -->
+                    <template [ngIf]="justchange == 'minus'">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-minus" (click)="select_all()">
+                                <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox icon-empty -->
+                    <template [ngIf]="_service._data_pagination.total_page != 0">
+                        <template [ngIf]="justchange == false">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div id="icon-empty" (click)="select_all()">
+                                    <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+                        <p class="select">Select All</p>
+                    </template>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <h1 class="title3">{{_service._data_pagination.total_page}} Results</h1>
+                </div>
+                <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                    <button (click)="open_new_detail()" type="button" id="new-pricerules-button" class="btn-blue-lg" data-toggle="collapse" data-target="#newPriceRules">New Price Rule</button>
+                    <template [ngIf]="show_icon == true">
+                        <div class="trash">
+                            <template [ngIf]="_service.toggle_status == true">
+                                <i class="fa fa-toggle-off default-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                            <template [ngIf]="_service.toggle_status == false">
+                                <i class="fa fa-toggle-on enabled-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                            <i class="fa fa-trash-o default-icon" aria-hidden="true" (click)="deletePriceRulesAll()"></i>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+        
+        <!-- NEW PRICE RULE FORM VOLVER -->
+        <div id="newPriceRules" class="collapse new-pricerules">
+           <price-detail (Update_object)='onNotify($event)' [send_detail_data]='list_object' [show_detail_send]='true' [i]='99'></price-detail>
+        </div>  <!-- close NEW PRICE RULE -->
+
+        <div id="priceRules" class="row">
+            <div class="load"></div>
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_service._data_pagination.total_page != 0">
+                        <tr>
+                            <th class="checkboxes"></th>
+                            <th class="nowrap-whitespace text-center service-type-th">Service Type</th>
+                            <th class="nowrap-whitespace rule-name-th">Rule Name</th>
+                            <th class="nowrap-whitespace price-range-th">Price Range</th>
+                            <th class="nowrap-whitespace amount-th">Amount</th>
+                            <th class="nowrap-whitespace type-th">Type</th>
+                            <th class="nowrap-whitespace agency-th">Agency</th>
+                            <th class="nowrap-whitespace text-center status-th">Status</th>
+                            <th class="ellipsis-th"></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-pr [ngForOf]="_service.price_rules" let-i="index">
+                        <tr class="pr-tr" (mouseover)='showEllipsisIcon(i)' (mouseleave)='hideEllipsisDropdown()'>
+                            <td>
+                                <div class="checkbox abc-checkbox" (click)="show_icon_price_rules()">
+                                    <input class="check-b check-table-pr" name="options" [checked]="selected_c.indexOf(i)== true" id="checkbox{{i}}" value="{{pr.code}}" type="checkbox" (change)="change_to_minus()">
+                                    <label class="label-selected-pr" attr.for="checkbox{{i}}"></label>
+                                </div>
+                            </td>
+                            <td class="nowrap-whitespace service-type-td text-center">
+                                
+                                <!-- Icon ALL -->
+                                <template [ngIf]="pr.service_type == 'all'">
+                                    <div>
+                                        All
+                                    </div>
+                                </template>
+                                <!-- Icon Hotel -->
+                                <template [ngIf]="pr.service_type == 'hotel'">
+                                    <div>
+                                        <i class="fa fa-bed" aria-hidden="true" (mouseover)='mouseover_icons("fa-bed")' (mouseleave)='mouseleave_icons("fa-bed")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Attraction -->
+                                <template [ngIf]="pr.service_type == 'attraction'">                                        
+                                    <div>
+                                        <i class="fa fa-ticket" aria-hidden="true" (mouseover)='mouseover_icons("fa-ticket")' (mouseleave)='mouseleave_icons("fa-ticket")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Transfer -->
+                                <template [ngIf]="pr.service_type == 'transfer'">
+                                    <div>
+                                        <i class="fa fa-bus" aria-hidden="true" (mouseover)='mouseover_icons("fa-bus")' (mouseleave)='mouseleave_icons("fa-bus")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Car -->
+                                <template [ngIf]="pr.service_type == 'car'">
+                                    <div>
+                                        <i class="fa fa-car" aria-hidden="true" (mouseover)='mouseover_icons("fa-car")' (mouseleave)='mouseleave_icons("fa-car")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Cruise -->
+                                <template [ngIf]="pr.service_type == 'cuise'">
+                                    <div>
+                                        <i class="fa fa-ship" aria-hidden="true" (mouseover)='mouseover_icons("fa-ship")' (mouseleave)='mouseleave_icons("fa-ship")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Flight/Air -->
+                                <template [ngIf]="pr.service_type == 'flight'">
+                                    <div>
+                                        <i class="fa fa-plane" aria-hidden="true" (mouseover)='mouseover_icons("fa-plane")' (mouseleave)='mouseleave_icons("fa-plane")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Air"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Package -->
+                                <template [ngIf]="pr.service_type == 'package'">
+                                    <div>
+                                        <i class="fa fa-th" aria-hidden="true" (mouseover)='mouseover_icons("fa-th")' (mouseleave)='mouseleave_icons("fa-th")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Packages"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Insurance -->
+                                <template [ngIf]="pr.service_type == 'insurance'">
+                                    <div>
+                                        <i class="fa fa-shield" aria-hidden="true" (mouseover)='mouseover_icons("fa-shield")' (mouseleave)='mouseleave_icons("fa-shield")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i>
+                                    </div>
+                                </template>
+                            </td>
+                            <td id="scrollToError{{i}}" class="nowrap-whitespace">{{pr.name}}</td>
+                            <td class="nowrap-whitespace">
+                                <template [ngIf]="pr.amount_start == '0.00' && pr.amount_end == '0.00'">
+                                    Any
+                                </template>
+
+                                <template [ngIf]="pr.amount_start == '0.00' && pr.amount_end != '0.00'">
+                                    {{pr.currency_default_symbol}}{{pr.amount_start}} to {{pr.currency_default_symbol}}{{pr.amount_end}}
+                                </template>
+
+                                <template [ngIf]="pr.amount_start != '0.00' && pr.amount_end == '0.00'">
+                                    {{pr.currency_default_symbol}}{{pr.amount_start}} to {{pr.currency_default_symbol}}{{pr.amount_end}}
+                                </template>  
+
+                                <template [ngIf]="pr.amount_start != '0.00' && pr.amount_end != '0.00'">
+                                    {{pr.currency_default_symbol}}{{pr.amount_start}} to {{pr.currency_default_symbol}}{{pr.amount_end}}
+                                </template>
+                            </td>
+                            <td class="nowrap-whitespace">
+                                <!-- Unspecified -->
+                                <template [ngIf]="pr.amount_type == 0"></template>
+
+                                <!-- Fixed Value Currency --> 
+                                <template [ngIf]="pr.amount_type == 1">{{pr.currency_default_symbol}}{{pr.amount}}</template>
+
+                                <!-- Porcentaje -->   
+                                <template [ngIf]="pr.amount_type == 2">{{pr.amount}}{{pr.amount_symbol}}</template>
+                            </td>
+                            <td class="nowrap-whitespace">{{pr.rule_type_name}}</td>
+                            <td class="nowrap-whitespace agencies-td">
+                                <ul>
+                                    <template ngFor let-agencies [ngForOf]="pr.agencies" let-a="index">
+                                        <li>{{agencies}}</li>
+                                    </template>
+                                </ul>
+                            </td>
+                            <td class="text-center">
+                                <template [ngIf]="pr.status == false">
+                                    <i class="fa fa-toggle-off untoggled-icon" aria-hidden="true" (click)="enabled_disabled_toggle(pr.code, true)"></i>
+                                </template>
+                                <template [ngIf]="pr.status == true">
+                                    <i class="fa fa-toggle-on toggled-icon" aria-hidden="true" (click)="enabled_disabled_toggle(pr.code, false)"></i>
+                                </template>
+                            </td>
+                            <!--<td class="ellipsis-td">
+                                <span id="fixed-ellipsis" class="prueba" [ngClass]="{'form-inline-users': !_edit_price.remove_class[i]}">
+                                    <p id="{{i}}ellipsisIcon" class="ellipsis-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</p>
+                                    <ul class="dropdown-menu" aria-labelledby="save-dorpdown">
+                                        <li>
+                                            <a data-toggle="collapse" (click)="get_data_price_rules(pr.code, i)">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a>Clone</a>
+                                        </li>
+                                        <li>
+                                            <a (click)="deletePriceRule(pr.code)">Delete</a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </td>-->
+                            <td class="text-center folder-td-wrapper" (mouseleave)="removeOpenedEllipsis(i)">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <div class="ellipsis-wrapper center" id="fixed-ellipsis" [ngClass]="{'form-inline-users': !_edit_price.remove_class[i]}">
+                                            <div class="ellipsis" id="{{i}}ellipsisIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</div>
+                                            <ul class="dropdown-menu" aria-labelledby="dorpdown">
+                                                <li>
+                                                    <a id="editPriceRule_{{i}}" data-toggle="collapse" (click)="get_data_price_rules(pr.code, i)">Edit</a>
+                                                </li>
+                                                <li><a (click)="open_load_new(pr.code)">Clone</a></li>
+                                                <li><a (click)="deletePriceRule(pr.code)">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Call Edit Form Price Rules Detail -->
+                        <tr class="form-inline-users{{i}}" [ngClass]="{'form-inline-users': _edit_price.remove_class[i]}">
+                            <td colspan="9" >
+                                <price-detail (Update_object)='onNotify($event)' [send_detail_data]='list_object' [show_detail_send]='true' [i]='i'></price-detail>
+                            </td>
+                        </tr>
+                </template>
+                </table>
+            </div>
+        </div>
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity" >
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_price_rules != ''"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_service.search_price_rules}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+
+            <!-- Error Message if there are not registers in the table from Front-End --> 
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_price_rules == ''"> 
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“Price Rules“</span> in the system yet. Create one from the button on the top right corner of this screen.</p>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <my-pagination  *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination>
+    
+</div>
+</div>

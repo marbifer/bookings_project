@@ -1,0 +1,636 @@
+    <!-- EDIT PRICE RULES -->               
+    <template [ngIf]="show_detail_send==true" > 
+        <div id="editPriceRules{{i}}" class="edit-pricerules">
+            <div class="row edit-tr-container">
+                <div class="col-xs-9 center">
+                    <!-- Error specific Message if the field Rule name, Effective date Start, Effective Date End, Amount Start, Amount End, is empty from Back-End (Price Rules Exist) -->
+                    <template [ngIf]="_edit_price.only_error[i] == true">
+                        <template [ngIf]="_edit_price.field_error_price_rules == 'name' || _edit_price.field_error_price_rules == 'effective_date_start' || _edit_price.field_error_price_rules == 'effective_date_end' || _edit_price.field_error_price_rules == 'amount_start' || _edit_price.field_error_price_rules == 'amount_end' || _edit_price.field_error_price_rules == 'amount' || _edit_price.field_error_price_rules == 'service_date_start' || _edit_price.field_error_price_rules == 'service_date_end' || _edit_price.field_error_price_rules == 'amount' || _edit_price.field_error_price_rules == 'amount_symbol' || _edit_price.field_error_price_rules == 'days_before_service_starts_to'"> 
+                            <div class="row">
+                                <div class="danger-alert center d-flex align-items-center danger-alert-price-exist">
+                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                                </div>
+                            </div><br>
+                        </template>
+                    </template>
+
+                    <!-- General Error Message from Back-End (Form Price Rules Exist) -->
+                    <template [ngIf]="_edit_price.general_error_price_rules_save != ''"> 
+                        <div class="danger-alert center d-flex align-items-center" id="danger-alert-user">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p>{{_edit_price.general_error_price_rules_save}}</p>
+                        </div><br>
+                    </template>
+
+                    <!-- TYPE OF SERVICE BOX -->
+                    <div class="edit-pricerules-box type-of-service-box">
+                        <div class="row">
+                            <div class="col-xs-6 form-group">
+                                <label id="scrollToError{{i}}" for="rule-name" class="title5">Rule Name</label>
+                                <input type="text" name="rule-name" id="rule-name{{i}}" class="form-control rule-name" value="{{_edit_price.rule_name[i]}}" [(ngModel)]="_edit_price.rule_name_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                    <template [ngIf]="_edit_price.rule_name_edit[i] == ''">
+                                        <span class="with-errors-text">{{_edit_price.message_name}}</span>
+                                    </template>
+                                </template>
+                            </div>
+                                                                                                    
+                            <div class="col-xs-6 form-group">
+                                <label for="date-active" class="title5">When is this rule active</label>
+                                <div class="d-flex align-items-center datepicker-wrapper">
+                                    <p class="d-flex justify-content-center align-items-center">Effective Dates</p>
+                                    <div class="datepicker datepicker-effective d-flex align-items-center">
+                                        <div class="single-input">
+                                            <input type="text" name="effective-start" value="{{_edit_price.effective_date_start[i]" id="effective-start{{i}}" class="form-control text-center effective-start" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true" [(ngModel)]="_edit_price.effective_date_start[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()" (click)="line_picker()">
+                                            <!-- Specifics error Datepicker Effective Start -->
+                                            <template [ngIf]="_edit_price.only_error[i] == true">
+                                                <template [ngIf]="_edit_price.effective_date_start[i] == ''">
+                                                    <span class="with-errors-text">{{_edit_price.message_effective_date_start}}</span>
+                                                </template>
+                                            </template>
+                                        </div>
+
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                        
+                                        <div class="single-input">
+                                            <input type="text" name="effective-end" value="{{_edit_price.effective_date_end[i]}}" id="effective-end{{i}}" class="form-control text-center effective-end" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true" [(ngModel)]="_edit_price.effective_date_end[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()" (click)="line_picker()">
+                                            <!-- Specifics error Datepicker Effective End -->
+                                            <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                                <template [ngIf]="_edit_price.effective_date_end[i] == ''">
+                                                    <span class="with-errors-text">{{_edit_price.message_effective_date_end}}</span>
+                                                </template>
+
+                                                <template [ngIf]="_edit_price.field_error_price_rules == 'effective_date_end'">
+                                                    <span class="with-errors-text">{{_edit_price.message_effective_date_end}}</span>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <label for="service-type" class="title5">Type of service to which this rule applies</label>
+                                <div class="d-flex align-items-center">
+                                    <div class="btn-toolbar" role="toolbar">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default all-types-button d-flex justify-content-center" (click)="select_services('all', i)" [ngClass]="{'active': _edit_price.services_button_all_types[i] == true}">
+                                                All Types
+                                            </button>
+                                        </div>
+                                        <p>or</p>
+                                        <div class="btn-group types-buttons" role="group">
+                                            <!-- SERVICE TYPE HOTEL --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center hotel" (click)="select_services('hotel', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 1}">
+                                                <i class="fa fa-bed" aria-hidden="true" (mouseover)='mouseover_icons("fa-bed")' (mouseleave)='mouseleave_icons("fa-bed")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i>
+                                            </button>
+
+                                            <!-- SERVICE TYPE ATTRACTION --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center attraction" (click)="select_services('attraction', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 2}">
+                                                <i class="fa fa-ticket" aria-hidden="true" (mouseover)='mouseover_icons("fa-ticket")' (mouseleave)='mouseleave_icons("fa-ticket")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i>
+                                            </button>
+
+                                            <!-- SERVICE TYPE TRANSFER --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center transfer" (click)="select_services('transfer', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 3}">
+                                                <i class="fa fa-bus" aria-hidden="true" (mouseover)='mouseover_icons("fa-bus")' (mouseleave)='mouseleave_icons("fa-bus")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i>
+                                            </button>
+
+                                            <!-- SERVICE TYPE CAR --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center car" (click)="select_services('car', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 7}">
+                                                <i class="fa fa-car" aria-hidden="true" (mouseover)='mouseover_icons("fa-car")' (mouseleave)='mouseleave_icons("fa-car")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i>
+                                            </button>
+
+                                            <!-- SERVICE TYPE CRUISE --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center cruise" (click)="select_services('cruise', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 8}">
+                                                <i class="fa fa-ship" aria-hidden="true" (mouseover)='mouseover_icons("fa-ship")' (mouseleave)='mouseleave_icons("fa-ship")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i>
+                                            </button>
+
+                                            <!-- SERVICE TYPE FLIGHT/AIR --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center air" (click)="select_services('air', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 9}">
+                                                <i class="fa fa-plane" aria-hidden="true" (mouseover)='mouseover_icons("fa-plane")' (mouseleave)='mouseleave_icons("fa-plane")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Air"></i>
+                                            </button>
+
+                                            <!-- SERVICE TYPE PACKAGE --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center package" (click)="select_services('package', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 10}">
+                                                <i class="fa fa-th" aria-hidden="true" (mouseover)='mouseover_icons("fa-th")' (mouseleave)='mouseleave_icons("fa-th")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Packages"></i>
+                                            </button>
+
+                                            <!-- SERVICE TYPE INSURANCE --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center insurance" (click)="select_services('insurance', i)" [ngClass]="{'active': _edit_price.store_name_icons_type_service[i] == 11}">
+                                                <i class="fa fa-shield" aria-hidden="true" (mouseover)='mouseover_icons("fa-shield")' (mouseleave)='mouseleave_icons("fa-shield")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- CALL: ADD SERVICE TYPE -->
+                        <template [ngIf]="_edit_price.services_button_all_types[i] != true">
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 1">
+                                <servicetype-subcomponent [i]='i' [service_type_type]='"hotels"' [title]="'HOTEL'"></servicetype-subcomponent>   
+                            </template> 
+
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 2">
+                               <servicetype-subcomponent [i]='i' [service_type_type]='"attractions"' [title]="'ATTRACTION'"></servicetype-subcomponent>  
+                            </template> 
+
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 3">
+                               <servicetype-subcomponent [i]='i' [service_type_type]='"transfers"' [title]="'TRANSFER'"></servicetype-subcomponent> 
+                            </template> 
+
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 7">
+                               <servicetype-subcomponent [i]='i' [service_type_type]='"cars"' [title]="'CAR'"></servicetype-subcomponent> 
+                            </template> 
+
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 8">
+                               <servicetype-subcomponent [i]='i' [service_type_type]='"cruises"' [title]="'CRUISE'"></servicetype-subcomponent> 
+                            </template> 
+
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 9">
+                                <servicetype-subcomponent [i]='i' [service_type_type]='"flights"' [title]="'FLIGHT'"></servicetype-subcomponent> 
+                            </template> 
+
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 10">
+                               <servicetype-subcomponent [i]='i' [service_type_type]='"packages"' [title]="'PACKAGE'"></servicetype-subcomponent> 
+                            </template> 
+
+                            <template [ngIf]="_edit_price.store_name_icons_type_service[i] == 11">
+                               <servicetype-subcomponent [i]='i' [service_type_type]='"insurances"' [title]="'INSURANCE'"></servicetype-subcomponent> 
+                            </template> 
+                        </template> 
+        
+                    </div>
+
+                    <!-- PRICE RANGE BOX -->
+                    <div class="edit-pricerules-box price-range-box">
+                        <div class="row">
+                            <div class="col-xs-10 form-group">
+                                <label for="price-range" class="title5">Price Range</label>
+                                <div class="d-flex align-items-center">
+                                    <p class="small-italic">From</p>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{_edit_price.currency_default_symbol[i]}}
+                                            </button>
+                                        </div>
+                                        <div class="single-input">
+                                            <!-- Sí hay un monto -->                                           
+                                            <input type="text" name="prince-range-start" class="form-control new-price-range-start" value="{{_edit_price.amount_start[i]}}" id="new-price-range-start{{i}}" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': _edit_price.validation_price_range_start[i] == false}" (keyup)="_edit_price.keyup_field_amount_and_price_range('range_start', i)" [(ngModel)]="_edit_price.amount_start_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                            
+                                            <!-- Sí NO hay un monto 
+                                            <template [ngIf]="_edit_price.amount_start[i] == '0.00'">
+                                                <input type="text" name="prince-range-start" id="new-price-range-start{{i}}" class="form-control new-price-range-start" value="Any" [(ngModel)]="_edit_price.amount_start_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                            </template> -->
+                                            <!-- Specific error Section Price Range Amount Start -->
+                                            <template [ngIf]="_edit_price.only_error[i] == true || _edit_price.amount_start_edit[i] == ''"> 
+                                                <span class="with-errors-text">{{_edit_price.message_amount_start}}</span>
+                                            </template>
+                                        </div>
+                                    </div><!-- /input-group -->
+                                    <p class="small-italic">To</p>
+                                    <div class="single-input">
+                                        <!-- Sí hay un monto -->                                       
+                                        <input type="text" name="prince-range-start" class="form-control new-price-range-end" value="{{_edit_price.amount_end[i]}}" id="new-price-range-end{{i}}" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': _edit_price.validation_price_range_end[i] == false}" (keyup)="_edit_price.keyup_field_amount_and_price_range('range_end', i)" [(ngModel)]="_edit_price.amount_end_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                    
+                                        <!-- Sí NO hay un monto 
+                                        <template [ngIf]="_edit_price.amount_end[i] == '0.00'">
+                                            <input type="text" name="prince-range-start" id="new-price-range-end{{i}}" class="form-control new-price-range-end" value="Any" [(ngModel)]="_edit_price.amount_end_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                        </template>-->
+
+                                        <!-- Specific error Section Price Range Amount End -->
+                                        <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                            <template [ngIf]="_edit_price.amount_end_edit[i] == ''">
+                                                <span class="with-errors-text">{{_edit_price.message_amount_end}}</span>
+                                            </template>
+                                        </template>
+                                    </div>
+                                    <div class="notification">
+                                        <p class="small-italic">The system will take into account this price range to analyze whether the rule applies</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TO WHICH APPLIES BOXES -->
+                    <div class="edit-pricerules-box to-which-applies-box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label for="agency-applies" class="title5">Agency to which this rules applies</label>
+                            </div>
+
+                            <!-- EJEMPLO DE REMOVE -->                            
+                                <div class="col-xs-12">
+                                    <div class="row d-flex align-items-start">
+                                        <div class="col-xs-8">
+                                            <div class="btn-group types-buttons" role="group">
+                                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_agencies_button('all', i)" [ngClass]="{'active': _edit_price.agencies[i] == 'all'}">All Agencies
+                                                </button>
+                                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_agencies_button('add', i)" [ngClass]="{'active': _edit_price.agencies[i] == 'add'}">
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>Add Agencies
+                                                </button>
+                                                <button type="button" class="btn btn-default active d-flex justify-content-center align-items-center" (click)="select_agencies_button('remove', i)" [ngClass]="{'active': _edit_price.agencies[i] == 'remove'}">
+                                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>Indicate an Exception
+                                                </button>
+                                            </div>
+
+                                            <template [ngIf]="_edit_price.agencies[i] != 'all'">
+                                                <!-- RULE APPLY -->
+                                                <template [ngIf]="_edit_price.agencies_array_apply[i]?.length > 0">
+                                                    <template [ngIf]="_edit_price.apply_not_apply_agencies[i] == 'apply'">
+                                                        <div class="notification">
+                                                            <p class="small-italic">The rule will only apply to Agencies added in this list.</p>
+                                                        </div>
+                                                        <div *ngFor="let age of _edit_price.agencies_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                            <p>{{age.name}}</p>
+                                                            <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                                        </div>
+                                                </template>
+                                            </template>
+
+                                            <!-- RULE NOT APPLY -->
+                                            <template [ngIf]="_edit_price.agencies_array_not_apply[i]?.length > 0">
+                                            <template [ngIf]="_edit_price.apply_not_apply_agencies[i] == 'not_apply'">
+                                                <div class="notification">
+                                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                                </div>
+                                                <div *ngFor="let age of _edit_price.agencies_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                    <p>{{age.name}}</p>
+                                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('agencies', i, z)"></i>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </div>
+
+                                <template [ngIf]="_edit_price.agencies[i] != 'all'">
+                                    <div class="col-xs-4 search-services-to-apply">
+                                        <autocomplete-subcomponent [get_error_from_parent]='_edit_price.error_autocomplete_to_send'  [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"agencies"'></autocomplete-subcomponent>
+                                    </div>
+                                </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="edit-pricerules-box to-which-applies-box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label for="internal-provider-applies" class="title5">Internal Provider to which this rules applies</label>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="row d-flex align-items-start">
+                                    <div class="col-xs-8">
+                                        <div class="btn-group types-buttons" role="group">
+                                            <button type="button" class="btn btn-default active d-flex justify-content-center align-items-center" (click)="select_int_prov_button('all', i)" [ngClass]="{'active': _edit_price.internal_providers[i] == 'all'}">All Int. Providers
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_int_prov_button('add', i)" [ngClass]="{'active': _edit_price.internal_providers[i] == 'add'}">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>Add Int. Providers
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_int_prov_button('remove', i)" [ngClass]="{'active': _edit_price.internal_providers[i] == 'remove'}">
+                                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>Indicate an Exception
+                                            </button>
+                                        </div>
+
+                                        <template [ngIf]="_edit_price.internal_providers[i] != 'all'">
+                                            <!-- RULE APPLY -->
+                                            <template [ngIf]="_edit_price.int_prov_array_apply[i]?.length > 0">
+                                                <template [ngIf]="_edit_price.apply_not_apply_int_prov[i] == 'apply'">
+                                                    <div class="notification">
+                                                        <p class="small-italic">The rule will only apply to Internal Providers added in this list.</p> <!--The rule will apply to all Internal Providers except those indicated on this list. -->
+                                                    </div>
+                                                    <div *ngFor="let age of _edit_price.int_prov_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                        <p>{{age.name}}</p>
+                                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('int_provider', i, z)"></i>
+                                                    </div>
+                                            </template>
+                                        </template>
+
+                                        <!-- RULE NOT APPLY -->
+                                        <template [ngIf]="_edit_price.int_prov_array_not_apply[i]?.length > 0">
+                                            <template [ngIf]="_edit_price.apply_not_apply_int_prov[i] == 'not_apply'">
+                                                <div class="notification">
+                                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                                </div>
+                                                <div *ngFor="let age of _edit_price.int_prov_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                    <p>{{age.name}}</p>
+                                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('int_provider', i, z)"></i>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </div>
+
+                                    <template [ngIf]="_edit_price.internal_providers[i] != 'all'">
+                                        <div class="col-xs-4 search-services-to-apply">    
+                                            <autocomplete-subcomponent [get_error_from_parent]='_edit_price.error_autocomplete_to_send' #length_of_filteredList [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"int_provider"'></autocomplete-subcomponent>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="edit-pricerules-box to-which-applies-box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label for="external-provider-applies" class="title5">External Provider to which this rules applies</label>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="row d-flex align-items-start">
+                                    <div class="col-xs-8">
+                                        <div class="btn-group types-buttons" role="group">
+                                            <button type="button" class="btn btn-default active d-flex justify-content-center align-items-center" (click)="select_ext_prov_button('all', i)" [ngClass]="{'active': _edit_price.external_providers[i] == 'all'}">All Ext. Providers
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_ext_prov_button('add', i)" [ngClass]="{'active': _edit_price.external_providers[i] == 'add'}">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Ext. Providers
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_ext_prov_button('remove', i)" [ngClass]="{'active': _edit_price.external_providers[i] == 'remove'}">
+                                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>Indicate an Exception
+                                            </button>
+                                        </div>
+                                        <template [ngIf]="_edit_price.external_providers[i] != 'all'">
+                                            <!-- RULE APPLY -->
+                                            <template [ngIf]="_edit_price.ext_prov_array_apply[i]?.length > 0">
+                                                <template [ngIf]="_edit_price.apply_not_apply_ext_prov[i] == 'apply'">
+                                                    <div class="notification">
+                                                        <p class="small-italic">The rule will only apply to External Providers added in this list.</p>
+                                                    </div>
+                                                    <div *ngFor="let age of _edit_price.ext_prov_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                        <p>{{age.name}}</p>
+                                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('ext_provider', i, z)"></i>
+                                                    </div>
+                                            </template>
+                                        </template>
+
+                                        <!-- RULE NOT APPLY -->
+                                        <template [ngIf]="_edit_price.ext_prov_array_not_apply[i]?.length > 0">
+                                            <template [ngIf]="_edit_price.apply_not_apply_ext_prov[i] == 'not_apply'">
+                                                <div class="notification">
+                                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                                </div>
+                                                <div *ngFor="let age of _edit_price.ext_prov_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                    <p>{{age.name}}</p>
+                                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('ext_provider', i, z)"></i>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </div>
+                                    
+                                    <template [ngIf]="_edit_price.external_providers[i] != 'all'">
+                                        <div class="col-xs-4 search-services-to-apply">
+                                            <autocomplete-subcomponent [get_error_from_parent]='_edit_price.error_autocomplete_to_send' #length_of_filteredList [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"ext_provider"'></autocomplete-subcomponent>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="edit-pricerules-box to-which-applies-box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label for="destinations-applies" class="title5">Destinations to which this rules applies</label>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="row d-flex align-items-start">
+                                    <div class="col-xs-8">
+                                        <div class="btn-group types-buttons" role="group">
+                                            <button type="button" class="btn btn-default active d-flex justify-content-center align-items-center" (click)="select_destination_button('all', i)" [ngClass]="{'active': _edit_price.destinations[i] == 'all'}">All Destinations
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_destination_button('add', i)" [ngClass]="{'active': _edit_price.destinations[i] == 'add'}">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Destinations
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_destination_button('remove', i)" [ngClass]="{'active': _edit_price.destinations[i] == 'remove'}">
+                                               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>Indicate an Exception
+                                            </button>
+                                        </div>
+
+                                        <template [ngIf]="_edit_price.destinations[i] != 'all'">
+                                            <!-- RULE APPLY -->
+                                            <template [ngIf]="_edit_price.destination_array_apply[i]?.length > 0">
+                                                <template [ngIf]="_edit_price.apply_not_apply_destination[i] == 'apply'">
+                                                    <div class="notification">
+                                                        <p class="small-italic">The rule will only apply to Destinations added in this list.</p>
+                                                    </div>    
+                                                    <div *ngFor="let age of _edit_price.destination_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                        <p>{{age.name}}</p>
+                                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('destination', i, z)"></i>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            
+                                            <!-- RULE NOT APPLY -->
+                                            <template [ngIf]="_edit_price.destination_array_not_apply[i]?.length > 0">
+                                                <template [ngIf]="_edit_price.apply_not_apply_destination[i] == 'not_apply'">
+                                                    <div class="notification">
+                                                        <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                                    </div>
+                                                    <div *ngFor="let age of _edit_price.destination_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                                        <p>{{age.name}}</p>
+                                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="remove_item('destination', i, z)"></i>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </div>
+
+                                    <template [ngIf]="_edit_price.destinations[i] != 'all'">
+                                        <div class="col-xs-4 search-services-to-apply">
+                                            <autocomplete-subcomponent [get_error_from_parent]='_edit_price.error_autocomplete_to_send' #length_of_filteredList [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"destination"'></autocomplete-subcomponent>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DATE WHEN RULE APPLIES -->
+                    <div class="edit-pricerules-box when-applies-box">
+                        <div class="row">
+                            <div class="col-xs-6 form-group">
+                                <label for="when-applies" class="title5">When will this rule apply?</label>
+                                <div class="d-flex align-items-center">
+                                    <div class="single-input">
+                                        <input type="text" name="days-from" class="form-control" id="days-from{{i}}" value="{{_edit_price.days_before_service_starts_from[i]}}" [(ngModel)]="_edit_price.days_before_service_starts_from_edit[i]">
+                                    </div>
+                                    <p class="small-italic">To</p>
+                                    <div class="single-input">
+                                        <input type="text" name="days-to" class="form-control days-to" id="days-to{{i}}" value="{{_edit_price.days_before_service_starts_to[i]}}" [(ngModel)]="_edit_price.days_before_service_starts_to_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                    </div>
+                                    <p class="small-italic">Days before service starts.</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 form-group">
+                                <label for="when-applies" class="title5">When will the service take place?</label>
+                                <div class="d-flex align-items-center datepicker-wrapper">
+                                    <p class="d-flex justify-content-center align-items-center">Service Dates</p>
+                                    <div class="datepicker datepicker-service d-flex align-items-center">
+                                        <div class="single-input">
+                                            <input type="text" name="service-start" value="{{_edit_price.service_date_start[i]}}" id="service-start{{i}}" class="form-control text-center service-start" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true" [(ngModel)]="_edit_price.service_date_start[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()" (click)="line_picker()">
+                                            <!-- Specifics error Section Service Dates Start -->
+                                            <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                                <template [ngIf]="_edit_price.service_date_start[i] == ''">
+                                                    <span class="with-errors-text">{{_edit_price.message_service_date_start}}</span>
+                                                </template>
+                                            </template>
+                                        </div>
+
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+
+                                        <div class="single-input">
+                                            <input type="text" name="service-end" value="{{_edit_price.service_date_end[i]}}" id="service-end{{i}}" class="form-control text-center service-end" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true" [(ngModel)]="_edit_price.service_date_end[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()" (click)="line_picker()">
+                                            <!-- Specifics error Section Service Dates End -->
+                                            <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                                <template [ngIf]="_edit_price.service_date_end[i] == ''">
+                                                    <span class="with-errors-text">{{_edit_price.message_service_date_end}}</span>
+                                                </template>
+
+                                                <template [ngIf]="_edit_price.field_error_price_rules == 'service_date_end'">
+                                                    <span class="with-errors-text">{{_edit_price.message_service_date_end}}</span>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Specific error Section Days Before To -->
+                            <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                <template [ngIf]="_edit_price.days_before_service_starts_to_edit[i] == 0 || _edit_price.days_before_service_starts_to[i] == 0">
+                                    <span class="with-errors-text">{{_edit_price.message_days_before_to}}</span>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- CALCULATION AND MARKUP TYPE BOX -->
+                    <div class="edit-pricerules-box calculation-box">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="row">
+                                    <div class="col-xs-12 form-group">
+                                        <label for="calculation-mode" class="title5">Calculation mode</label>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="btn-group calculation-group" role="group">
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_buttons_calculation(1, i)" [ngClass]="{'active': _edit_price.amount_type[i] == 1}">     
+                                                Fixed Amount
+                                            </button>
+                                             <!-- Moneda --> 
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_buttons_calculation(2, i)" [ngClass]="{'active': _edit_price.amount_type[i] == 2}">   
+                                                Percentage
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 form-group">
+                                        <label for="amount" class="title5">Amount</label>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button *ngIf="_edit_price.amount_type[i] == 1" (click)="_edit_price.get_list_currency(i)" type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{_edit_price.amount_symbol[i]}} <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" id="dropdownMenuPriceRules{{i}}" aria-labelledby="dropdownCurrency">
+                                                    <li *ngFor="let cur of _edit_price.currency_symbols[i]; let z=index" (click)="select_currency(cur.name, cur.code, i)">
+                                                        <a>{{cur.name}}</a><!--*ngIf="cur.name != '$'" -->
+                                                    </li>
+                                                </ul>
+                                            </div>                                        
+                                                
+                                            <!-- Sí hay un monto -->
+                                            <template [ngIf]="_edit_price.amount[i] != '0.00'">
+                                                <div class="single-input">
+                                                    <template [ngIf]="_edit_price.amount_type[i] == 1">
+                                                        <!-- Moneda -->
+                                                        <input type="text" name="amount" class="form-control new-amount" value="{{_edit_price.amount[i]}}" id="new-amount{{i}}" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': _edit_price.validation_amount[i] == false}" (keyup)="_edit_price.keyup_field_amount_and_price_range('amount', i)" [(ngModel)]="_edit_price.amount_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                                        <!-- Specific error Dropdown Currency and field Percentage Amount -->
+                                                        <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                                            <template [ngIf]="_edit_price.amount_edit[i] == ''">
+                                                                <span class="with-errors-text">{{_edit_price.message_amount}}</span>
+                                                            </template>
+                                                        </template>
+                                                    </template>
+                                                    <template [ngIf]="_edit_price.amount_type[i] == 2">
+                                                        <!-- Porcentaje -->
+                                                        <input type="text" name="amount" class="form-control new-amount" value="{{_edit_price.amount[i]}}" id="new-amount{{i}}" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': _edit_price.validation_amount[i] == false}" (keyup)="_edit_price.keyup_field_amount_and_price_range('amount', i)" [(ngModel)]="_edit_price.amount_edit[i]" (focus)="focus_price_rules(i)" (blur)="blur_name()">
+                                                        <!-- Specific error Dropdown Currency and field Percentage Amount -->
+                                                        <template [ngIf]="_edit_price.only_error[i] == true"> 
+                                                            <template [ngIf]="_edit_price.amount_edit[i] == ''">
+                                                                <span class="with-errors-text">{{_edit_price.message_amount}}</span>
+                                                            </template>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                            
+                                            <!-- Sí NO hay un monto -->
+                                            <template [ngIf]="_edit_price.amount[i] == '0.00'">
+                                                <input type="text" name="prince-range-start" class="form-control" value="Any" [(ngModel)]="_edit_price.amount_edit[i]">
+                                            </template>
+
+                                            <!-- OPTION PERCENTAGE -->
+                                            <div class="input-group-btn">
+                                                <button *ngIf="_edit_price.amount_type[i] == 2" type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center" id="amount-symbol{{i}}" aria-expanded="false">%
+                                                </button>
+                                            </div>
+                                        </div><!-- /input-group -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <div class="row">
+                                    <div class="col-xs-12 form-group">
+                                        <label for="markup-type" class="title5">Rule type</label>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="btn-group markup-group" role="group">
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_buttons_rule_type(0, i)" [ngClass]="{'active': _edit_price.rule_type[i] == 0}">
+                                                Safe Price
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_buttons_rule_type(1, i)" [ngClass]="{'active': _edit_price.rule_type[i] == 1}">
+                                                Markup
+                                            </button>
+                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="select_buttons_rule_type(2, i)" [ngClass]="{'active': _edit_price.rule_type[i] == 2}">
+                                                Commission
+                                            </button>
+                                        </div>
+                                    </div>
+                                <div class="col-xs-12 notification">
+                                        <p class="small-italic">The Mark-up pricing is the method of adding a certain percentage of a markup to the cost of the product to determinate the selling price.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CANCEL AND SAVE -->
+                    <div class="row">
+                        <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                            <button type="button" class="btn-grey-transparent-md" (click)="cancel_edit_price_rules(i)">Cancel</button>
+                            <div class="dropdown">
+                                <button class="btn-red-md dropdown-toggle d-flex align-items-center justify-content-between" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Save Changes <span class="caret"></span></button>
+                                <ul class="dropdown-menu" aria-labelledby="save-dropdown">
+                                    <li (click)="save_form_price_rules(false, i)"><a>Save</a></li>
+                                    <li (click)="save_form_price_rules(true, i)"><a>Save & send Update</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Success Message after Save from Back-End (Price Rules Exist) -->
+                        <div class="col-xs-12">
+                            <template [ngIf]="_edit_price.updated_form_price_rules[i] == true"><br><br>
+                                <div class="success-alert center d-flex align-items-center" id="success-alert-price-rules{{i}}">
+                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                </div><br><br>
+                            </template>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </template>  
+                         
+                     
+                       

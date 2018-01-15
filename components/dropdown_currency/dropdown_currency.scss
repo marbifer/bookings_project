@@ -1,0 +1,71 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../scss/generals/ams-variables";
+@import "../../../scss/generals/ams-typography";
+@import "../../../scss/generals/ams-generals";
+@import "../../../scss/generals/ams-icons";
+@import "../../../scss/generals/ams-positions";
+@import "../../../scss/generals/ams-headings";
+@import "../../../scss/generals/ams-tables";
+@import "../../../scss/generals/ams-datepicker";
+@import "../../../scss/generals/ams-buttons";
+@import "../../../scss/generals/ams-forms";
+@import "../../../scss/generals/ams-alerts";
+
+button{
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    border-color: $disabled;
+    color: #474747;
+    font-size: 14px;
+    padding: 0 10px;
+    .caret{
+        margin-left: 10px;
+    }
+}
+
+/*SI ES UN DROPDOWN UBICADO DEL LADO DERECHO*/
+.dropdown-rightside{
+    border-radius: .25rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/*SI ES UN DROPDOWN UBICADO DEL LADO IZQUIERDO*/
+.dropdown-leftside{
+    border-radius: .25rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.dropdown-menu{
+    li{
+        &:hover{
+            background-color: #E7403F;
+            a{
+                color: #fff;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.disabled-col{
+            cursor: not-allowed;
+            label{
+                color: $disabled;
+                cursor: not-allowed;
+            }
+            button{
+                color: $disabled;
+                background-color: #fff;
+                border-color: $disabled !important;
+                cursor: not-allowed;
+            }
+            input{
+                border: 1px solid $disabled;
+                cursor: not-allowed;
+            }
+        }

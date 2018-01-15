@@ -1,0 +1,251 @@
+@import "../../../../node_modules/ng2-datetime/src/vendor/bootstrap-datepicker/bootstrap-datepicker3.min";
+@import "../../../../node_modules/ng2-datetime/src/vendor/bootstrap-timepicker/bootstrap-timepicker.min";
+@import "../../../scss/variables";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../scss/generals/ams-variables";
+@import "../../../scss/generals/ams-typography";
+@import "../../../scss/generals/ams-generals";
+@import "../../../scss/generals/ams-icons";
+@import "../../../scss/generals/ams-positions";
+@import "../../../scss/generals/ams-headings";
+@import "../../../scss/generals/ams-simple-listing";
+@import "../../../scss/generals/ams-resultsbar";
+@import "../../../scss/generals/ams-tables";
+@import "../../../scss/generals/ams-buttons";
+@import "../../../scss/generals/ams-forms";
+@import "../../../scss/generals/ams-alerts";
+
+/* Force stripe table => weird values, keep watch of this */
+.short-table{
+    .color-prov{
+        &:nth-child(4),
+        &:nth-child(8),
+        &:nth-child(12),
+        &:nth-child(16),
+        &:nth-child(20){
+            background-color: #fff !important;
+        }
+    }
+}
+
+/////////////////////////////////////////////
+/// Styles Search for External providers ///
+.simple-listing{
+    .results-bar-wrapper{
+        .trash {
+            text-align: right;
+            font-size: 27px;
+            color: $grey;
+            margin-right: -10px;
+            i{
+                display: inline-block;
+                cursor: pointer;
+                &:last-child{
+                    margin-right: 10px;
+                }
+                &:hover{
+                    color: $btn-red;
+                }
+            }
+            .filtrable-btn{
+                margin-right: 16px;
+                margin-left: 16px;
+                /*margin-right: 55px;*/
+            }
+            .text-enabled{
+                margin-right: 10px;
+            }
+        }
+        .btn-blue-lg{
+            width: 150px;
+        }
+    }
+    .table{
+        td{
+            padding: 0.62rem 0.75rem;
+            white-space: normal;
+            &:first-child{
+                width: 2%;
+            }
+        }
+        .name-prov{
+            width: 152px;
+        }
+        .is-filtrable-th{
+            width: 15%;
+        }
+        .is-filtrable-td{
+            padding: 0px 0.75rem !important;
+        }
+        .yes-prov{
+            color: $btn-red;
+            font-weight: bold;
+            text-align: center;
+        }
+        .no-prov{
+            color: $grey;
+            text-align: center;
+        }
+        .color-prov{
+            border-bottom: 1px solid #ddd;
+            &:hover{
+                background-color: #eee;
+            }
+        }
+        .edit-row-expandable{
+            background: #ffffff !important;
+            display: none;
+            .divider-line{
+                color: #dcdcdc;
+                margin-top: 60px;
+            }
+            label{
+                line-height: 19px;
+            }
+            .asteric{
+                color: $btn-red;
+                font-size: 14px;
+            }
+            .yes-no-choice{
+                border-top: 1px solid $disabled;
+                border-bottom: 1px solid $disabled;
+                white-space: normal;
+                padding-top: 25px;
+                padding-bottom: 25px;
+                margin-top: 40px;
+                h1{
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+                .custom-control{
+                    .choice{
+                        font-size: 14px;
+                        font-weight: bold;
+                        font-style: italic;
+                        display: flex;
+                    }
+                    .custom-control-description{
+                        font-size: 12px;
+                        color: $grey;
+                    }
+                }
+            }
+            .grey-heading{
+                height: 42px;
+                margin-top: 30px;
+                .title4{
+                    margin-bottom: 0px;
+                }
+            }
+            .info-alert {
+                white-space: normal;
+                margin: 20px 0;
+            }
+            .opcional{
+                font-style: italic;
+                font-weight: normal;
+                font-size: 14px;
+            }
+            .form-group{
+                margin-bottom: 30px;
+            }
+            .first-form-group{
+                margin-top: 30px;
+            }
+            .save-or-cancel{
+                padding: 20px 0;
+                margin-top: 40px;
+                margin-bottom: 30px;
+            }
+        }
+        .no-line{
+            border-bottom: 1px solid transparent;
+            border-top: 1px solid transparent;
+        }
+    }
+}
+
+.second-yes-no-choice{
+    @extend .yes-no-choice;
+    margin-top: 0px !important;
+    border-top: none !important;
+}
+
+.color-edit{
+    color: $btn-red;
+}
+
+/* ===================================== Media Queries ====================================== */
+
+
+@media only screen and (max-width: 1279px) {
+    div#icon-minus {
+        position: relative;
+        left: -20px;
+        top: 11px;
+        .minus-icon{
+            cursor: pointer;
+            font-size: 19px;
+            color: #eb5155;
+        }
+    }
+    div#icon-check {
+        position: relative;
+        left: -20px;
+        top: 11px;
+        .check-icon{
+            cursor: pointer;
+            font-size: 19px;
+            color: #eb5155;
+        }
+    }
+    div#icon-empty {
+        position: relative;
+        left: -20px;
+        top: 11px;
+        .empty-icon{
+            cursor: pointer;
+            font-size: 22px;
+            color: #ddd;
+        }
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 767px) {
+    div#icon-minus {
+        position: relative;
+        left: -20px;
+        top: 11px;
+        .minus-icon{
+            cursor: pointer;
+            font-size: 19px;
+            color: #eb5155;
+        }
+    }
+    div#icon-check {
+        position: relative;
+        left: -20px;
+        top: 11px;
+        .check-icon{
+            cursor: pointer;
+            font-size: 19px;
+            color: #eb5155;
+        }
+    }
+    div#icon-empty {
+        position: relative;
+        left: -20px;
+        top: 11px;
+        .empty-icon{
+            cursor: pointer;
+            font-size: 22px;
+            color: #ddd;
+        }
+    }
+}

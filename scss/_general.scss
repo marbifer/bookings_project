@@ -1,0 +1,328 @@
+/**
+* if set to device-width ie10 built-in scrollbar overflows content. Fix it as of here
+* http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that-might-be-bootstrap
+*/
+
+@-ms-viewport {
+    width: auto;
+}
+
+html,
+body {
+    height: 100%;
+    overflow-y: overlay;
+    overflow-x: hidden;
+}
+
+body {
+    font-weight: $font-weight-base;
+    overflow-x: hidden;
+    background-color: #202d3a;
+    /*position: relative;*/
+}
+
+th {
+    font-weight: $font-weight-semi-bold;
+}
+
+.modal-dialog {
+    margin: 0px auto;
+    height: 100%;
+    width: 100%;
+}
+
+.modal-content {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.modal-open .modal {
+    max-width: 100% !important;
+}
+
+
+/*************************************************
+                DATEPICKER STYLES
+                Vader was here (▀̿Ĺ̯▀̿ ̿)
+**************************************************/
+
+.datepicker-dropdown {
+    border-radius: 0 !important;
+    padding: 0 17px;
+    text-transform: uppercase;
+    max-width: 247px;
+    .datepicker-switch {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        color: #474747;
+        letter-spacing: 2.5px;
+        font-weight: bold;
+        &:hover {
+            background-color: #a0ebed !important;
+        }
+    }
+    .next {
+        color: #DCDCDC;
+        font-size: 20px;
+        &:hover {
+            background-color: #a0ebed !important;
+            color: #474747;
+        }
+    }
+    .prev {
+        @extend .next;
+    }
+    .datepicker-days {
+        width: 100%;
+        .disabled.day {
+            color: #bdb9b9;
+            &:hover{
+                background: none !important;
+            }
+        }
+        table {
+            width: 100%;
+            thead {
+                #new-row {
+                    #no-space {
+                        height: 10px;
+                        hr {
+                            margin-top: 0px;
+                            margin-bottom: 0px;
+                        }
+                    }
+                }
+                .dow {
+                    font-size: 10px;
+                }
+            }
+            tbody {
+                td {
+                    font-size: 10px;
+                    color: #474747;
+                    border-radius: 0px;
+                    width: 32px;
+                    height: 32px;
+                    &:hover {
+                        background-color: #a0ebed !important;
+                    }
+                }
+                .active {
+                    background-color: #a0ebed !important;
+                    color: #474747 !important;
+                    font-weight: bold;
+                }
+            }
+            tfoot tr th:hover {
+                background-color: #a0ebed !important;
+            }
+        }
+    }
+    .datepicker-months {
+        @extend .datepicker-days;
+        table {
+            tbody {
+                td {
+                    &:hover {
+                        background-color: #fff !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/*************************************************
+                LOGIN VALIDATION
+**************************************************/
+
+.form-login {
+    position: relative;
+    font-family: 'Open Sans', sans-serif;
+    width: 300px;
+    margin: 20px auto;
+    .login-inputs {
+        position: relative;
+        .icon-login {
+            background: #EEEEEE;
+            border: 1px solid #979797;
+            width: 64.8px !important;
+            height: 42px !important;
+            i {
+                font-size: 25px;
+                color: #9F9F9F;
+            }
+        }
+        input {
+            font-size: 12px;
+            background-color: #fff;
+            height: 42px;
+            width: 100%;
+            border-color: #979797;
+            border-left: none;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            &:focus {
+                border-color: #979797;
+                box-shadow: none;
+            }
+        }
+        &:first-child {
+            input {
+                border-bottom-right-radius: 0px;
+                border-bottom: 0px,
+            }
+            .icon-login {
+                border-bottom: 0px;
+            }
+            .parsley-errors-list {
+                bottom: 120%;
+                left: 0;
+                &:after {
+                    top: 100%;
+                    border-top-color: #de1a1f;
+                }
+            }
+        }
+        &:not(:first-child) {
+            input {
+                border-top-right-radius: 0px;
+            }
+            .parsley-errors-list {
+                top: 120%;
+                left: 0;
+                /*li{
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }*/
+                &:after {
+                    bottom: 100%;
+                    border-bottom-color: #de1a1f;
+                }
+            }
+        }
+        .parsley-errors-list {
+            position: absolute;
+            background-color: #DE1a1f;
+            max-height: 80px;
+            padding: 20px;
+            border-radius: 3px;
+            white-space: nowrap;
+            min-width: 100%;
+            margin-bottom: 0px;
+            /*height: 80px;*/
+            &::after {
+                left: 25%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+                border-color: transparent;
+                border-width: 7px;
+            }
+            i {
+                font-size: 35px;
+                margin-right: 14px;
+                color: #fff;
+            }
+            li {
+                color: #fff;
+                margin-bottom: 0px;
+                list-style: none;
+            }
+        }
+    }
+}
+
+
+/*************************************************
+               LOGIN ALERT ON LOGOUT
+**************************************************/
+
+.messenger-fixed {
+    right: 50% !important;
+    transform: translateY(-50%) !important;
+    .messenger-message-slot {
+        width: 700px;
+        margin: 0 auto !important;
+        position: relative;
+        .alert {
+            margin-bottom: 0px !important;
+            border: none;
+        }
+        button {
+            -webkit-appearance: none;
+            border: none;
+            background-color: transparent;
+            font-size: 18px;
+            position: absolute;
+            right: 5px;
+            top: 8px;
+            color: #fff;
+        }
+        i {
+            font-size: 24px;
+            vertical-align: top;
+            color: #fff !important;
+        }
+        span {
+            font-weight: normal;
+            font-size: 14px;
+            color: #fff !important;
+        }
+    }
+}
+
+
+/********************************************
+                PRINT VERSION
+*********************************************/
+
+@media print {
+    body {
+        zoom: 70%;
+        /*-moz-transform: scale(0.9);
+        -moz-transform-origin: 0 0;
+        -o-transform: scale(0.9);
+        -o-transform-origin: 0 0;*/
+        /*width: 100%;
+        height: 100%;*/
+        overflow: hidden !important;
+        margin-left: 0px;
+        position: relative;
+    }
+    html {
+        width: 100%;
+        min-height: 100% !important;
+        overflow: initial !important;
+    }
+    .sidebar {
+        display: none !important;
+        width: 0px !important;
+    }
+    .navbar-dashboard {
+        display: none;
+    }
+    .content {
+        padding: 0px !important;
+    }
+    .content-wrap {
+        margin-left: 0px !important;
+        width: 100%;
+    }
+    .pace .pace-progress {
+        display: none;
+    }
+}
+
+@page {
+    size: letter;
+}

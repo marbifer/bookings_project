@@ -1,0 +1,220 @@
+<!-- Close modal Agency(click in body) -->
+<div class="close-modal-agency" (click)="remove_modal_agency()"></div>
+
+<!-- Agency Modal --> 
+<div class="bd-agency">
+  <div class="" class="agencyModal" role="dialog" aria-labelledby="titleAgency">
+    <div class="" id="width-modal-agency">
+      <div class="modal-content">
+        <div class="modal-header" id="header-agency">
+          <button (click)="remove_modal_agency()" id="close-allmodal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span id="cross-agency" aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="titleAgency">Edit Agency Details</h4>
+        </div>
+      <div class="modal-body" id="modal-body">
+
+        <form class="form-inline">
+
+          <!-- Message generic error for Agency and Locator from Backend -->
+          <template [ngIf]="general_error1 != ''">
+            <div class="row">
+            <div class="alert alert-info alert-dismissible fade in generic-error" role="alert">
+              <i id='icon-generic-error' class='fa fa-times-circle' aria-hidden='true'></i>
+                {{general_error1}}
+            </div>
+           </div>
+          </template>
+
+          <!-- Message generic error for Operator from Backend -->
+          <template [ngIf]="general_error_op != ''">
+            <div class="row">
+            <div class="alert alert-info alert-dismissible fade in generic-error-op" role="alert">
+              <i id='icon-generic-error-op' class='fa fa-times-circle' aria-hidden='true'></i>
+                {{general_error_op}}
+            </div>
+           </div>
+          </template>
+
+          <!-- Message generic error for Operator from Backend -->
+          <template [ngIf]="general_error_loc != ''">
+            <div class="row">
+            <div class="alert alert-info alert-dismissible fade in generic-error-loc" role="alert">
+              <i id='icon-generic-error-loc' class='fa fa-times-circle' aria-hidden='true'></i>
+                {{general_error_loc}}
+            </div>
+           </div>
+          </template>
+
+          <!-- Message generic error for Request Save All from Backend -->
+          <template [ngIf]="general_error_save != ''">
+            <div class="row">
+            <div class="alert alert-info alert-dismissible fade in generic-error-save" role="alert">
+              <i id='icon-generic-error-save' class='fa fa-times-circle' aria-hidden='true'></i>
+                {{general_error_save}}
+            </div>
+           </div>
+          </template>
+
+          <div class="form-group">
+            <p id="agency-label" class="form-control-static">Agency</p>
+          </div>
+          <div class="form-group">      
+            <input id="agency-name" type="text" autocomplete="off" class="form-control" [(ngModel)]="agencyname" (click)="hide_message_operator()" (keyup)=filter_agency_name()> 
+              <!-- Message tooltip error for Agency from Backend -->    
+              <div class='tooltip tool-container-agency'>
+                <div id='arrow-tool-agency' class='tooltip-arrow'></div>
+                <div class='tooltip-head'><i id='icon-tool-agency' class='fa fa-times-circle' aria-hidden='true'></i></div>
+                <div id='tool-error-agency' class='tooltip-inner'>{{message_agencies2}}</div>
+              </div>        
+          </div>
+
+          <!-- Autocomplete field Agency -->
+          <div class="list-agencies" *ngIf="filteredListAgency.length > 0">
+              <ul class="margin-agencies" *ngFor="let item of filteredListAgency; let i=index">
+                  <li class="text-items{{i}}" (click)="select(item, list_of_codes_agency[i])" (mouseover)='mouseover_color_text(".text-items" + i)' (mouseleave)='mouseleave_color_text(".text-items" + i)'>
+                      <a>{{item}}</a>
+                  </li>
+              </ul>
+              <div class="autocomplete"><p>Continue typing to see more results...</p></div>
+            </div>
+        </form>
+
+        <!-- Message error for field Agency empty from Front-End -->
+        <div class='tooltip tool-container-empty-agencies'>
+          <div id='arrow-tool-agencies' class='tooltip-arrow'></div>
+          <div class='tooltip-head'><i id='icon-tool-agencies' class='fa fa-times-circle' aria-hidden='true'></i></div>
+          <div id='tool-error-empty-agencies' class='tooltip-inner'><strong>Oops!</strong> Looks like you forgot to type something. This field is required.</div>
+        </div>
+
+        <form class="form-inline">
+          <div class="form-group">
+            <p id="operator-label" class="form-control-static">Operator</p>
+          </div>
+          <div class="form-group">
+            <input type="text" autocomplete="off" class="form-control" id="operator-name" [(ngModel)]="operatorName" (keyup)=filter_operator()>
+              <!-- Message Info for field Operator from Backend -->
+              <div class='tooltip tool-container-operator'>
+                <div id='arrow-tool-operator' class='tooltip-arrow'></div>
+                <div class='tooltip-head'><i id='icon-tool-operator' class='fa fa-times-circle' aria-hidden='true'></i></div>
+                <div id='tool-error-operator' class='tooltip-inner'>{{message_operator3}}</div>
+              </div> 
+
+              <!-- Message Info for field Operator (Version Tooltip) -->
+              <div class='tooltip tool-container-info'>
+                <div id='arrow-tool-info' class='tooltip-arrow'></div>
+                <div class='tooltip-head'><i id='icon-tool-info' class="fa fa-info-circle" aria-hidden="true"></i></div>
+                <div id='tool-info' class='tooltip-inner'><strong>Note:</strong> If you do not need to change operator, you can leave the field empty.</div>
+              </div>
+          </div>
+          <!-- Autocomplete field Operator -->
+          <div class="list-operators" *ngIf="filteredListOperator.length > 0">
+              <ul class="margin-operators" *ngFor="let item of list_of_operators_first; let i=index">
+                  <li class="text-items-op{{i}}" (click)="select_operator(item, list_of_codes[i], list_of_operators_last[i])" (mouseover)='mouseover_color_text(".text-items-op" + i)' (mouseleave)='mouseleave_color_text(".text-items-op" + i)'>
+                      <a>{{list_of_operators_first[i]}} {{list_of_operators_last[i]}}</a>
+                  </li>
+              </ul>
+              <div class="autocomplete"><p>Continue typing to see more results...</p></div>
+            </div>      
+        </form>
+        <br>
+        
+        <!-- Autocomplete field Locator -->
+        </div>
+        <div class="modal-footer" id="footer-agency">
+          <form class="form-inline">
+            <div class="row">
+              <div class="col-md-2"></div>
+              <!--<div class="col-md-0">
+                <input type="radio" id="enabled_locator" name="locator" value="" (click)="enabled_locator()">
+              </div>-->
+              <div class="col-md-0 form-col-radio">
+                  <div class="radios">
+                      <label class="custom-control custom-radio">
+                          <input type="radio" name="locator" id="enabled_locator" class="custom-control-input" (click)="enabled_locator()">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Use an Existing Locator</span>
+                      </label>
+                  </div>
+              </div>
+              <!--<div class="col-md-4"><p for="Locator" class="only"><em>Use an Existing Locator</em></p></div>-->
+              <div class="col-md-4">
+                <input type="text" autocomplete="off" class="form-control" id="exist-locator2" [(ngModel)]="_properties.record_locator_saved" [disabled]="disabled_loc" (keyup)=filter_locator()>
+                  
+                  <!-- Message error fiel Locator from Backend -->
+                  <div class='tooltip tool-container-locator'>
+                    <div id='arrow-tool-locator' class='tooltip-arrow'></div>
+                    <div class='tooltip-head'><i id='icon-tool-locator' class='fa fa-times-circle' aria-hidden='true'></i></div>
+                    <div id='tool-error-locator' class='tooltip-inner'>{{message_locator4}}</div>
+                  </div>
+              </div>
+
+              <!-- Message Info for Locator generated (Version Tooltip) -->
+              <div class='tooltip tool-container-info-loc'>
+                <div id='arrow-tool-info-loc' class='tooltip-arrow'></div>
+                <div class='tooltip-head'><i id='icon-tool-info-loc' class="fa fa-info-circle" aria-hidden="true"></i></div>
+                <div id='tool-info-loc' class='tooltip-inner'><strong>Info:</strong> A New Locator will be generated after your save.</div>
+              </div>
+            </div>
+
+            <!-- Message error for Save All from Backend -->
+            <div class='tooltip tool-container-save'>
+              <div id='arrow-tool-save' class='tooltip-arrow'></div>
+              <div class='tooltip-head'><i id='icon-tool-save' class='fa fa-times-circle' aria-hidden='true'></i></div>
+              <div id='tool-error-save' class='tooltip-inner'>{{message_save}}</div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2"></div>
+              <!--<div class="col-md-0 input-loc">
+                <input id="disabled_locator" type="radio" name="locator" value="" (click)="disabled_locator($event)">
+              </div>-->
+              <div class="col-md-0 form-col-radio">
+                  <div class="radios">
+                      <label class="custom-control custom-radio">
+                          <input type="radio" name="locator" id="disabled_locator" value="" class="custom-control-input" (click)="disabled_locator($event)">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Generate a New Locator</span>
+                      </label>
+                  </div>
+              </div>
+              <!--<div class="col-md-5 input-loc"><p for="Locator" class="only-loc"><em>Generate a New Locator</em></p></div>-->
+              <div class="col-md-4"></div>
+            </div>
+            <div class="line-agencies"><hr></div>
+
+            <!-- Inline Editing: Buttons Save and Cancel for Agency Details -->
+            <div class="row" id="buttons-agencies">
+              <div class="col-md-6"></div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-default white" (click)="remove_modal_agency()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                <div class="btn-group"> 
+                  <button type="button" class="btn btn-danger dropdown-toggle red" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Save <span class="caret"></span>
+                  </button> 
+                    <ul class="dropdown-menu"> 
+                      <li class="item-save" (click)="save_all_data(false, $event)" (mouseover)='mouseover_color_text(".item-save")' (mouseleave)='mouseleave_color_text(".item-save")'><a>Save</a></li> 
+                      <li class="item-save-send" (click)="save_all_data(true, $event)" (mouseover)='mouseover_color_text(".item-save-send")' (mouseleave)='mouseleave_color_text(".item-save-send")'><a>Save & send Update</a></li> 
+                    </ul> 
+                  </div>
+              </div>
+            </div>
+        
+            <!-- Autocomplete field Locator -->
+            <div class="list-locators" *ngIf="filteredListLoc.length > 0">
+              <ul class="margin-locators" *ngFor="let item of filteredListLoc; let i=index">
+                  <li class="text-items-loc{{i}}" (click)="select_locator(item)" (mouseover)='mouseover_color_text(".text-items-loc" + i)' (mouseleave)='mouseleave_color_text(".text-items-loc" + i)'>
+                    <a>{{item}}</a>
+                  </li>
+              </ul>
+            </div>       
+          </form>
+            <!-- Loading gif Modal Agencies -->
+            <div class="load-agency">
+              <div class="loading-modal-agency"><img src="./assets/images/preloader.gif"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

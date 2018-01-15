@@ -1,0 +1,53 @@
+<h1 class="page-title"></h1>
+
+<!-- RESPONSIVE CONTAINER -->
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container file-container">
+        <div class="blue-heading d-flex align-items-center">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h2 class="title2"><span>{{ templateTitle }}</span></h2>
+                </div>
+                <button type="button" class="btn-red-xs btn-close" id="close-translation" (click)="_back()" >Close</button>
+                <!--<div class="col-xs-2 d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn-red-xs" id="close-translation">Close</button>
+                </div>-->
+            </div>
+        </div>
+        <div class="translation-detail">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table default-table">
+                        <tr>
+                            <th>Template</th>
+                            <th class="language-th" *ngFor="let lang of _editTranslations.languages; let i=index">
+                                {{lang.name}}
+                            </th>
+                        </tr>
+                        <tr *ngFor="let trans of _editTranslations.list_translations; let in=index" >
+                            <td class="normal-whitespace">{{trans.name}}</td>
+                            <td  *ngFor="let lan of _editTranslations.languages; let i=index">
+                                <textarea id="lang{{lan.code}}{{in}}" type="text" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                         <div class="col-xs-12">
+                                <template [ngIf]="_editTranslations.updated_form == true"><br>
+                                    <div class="success-alert center d-flex align-items-center" id="success-alert-translation-detail">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                        <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                    </div><br><br>
+                                </template>
+                         </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                    <button (click)="cancelTranslation()" type="button" class="btn-grey-transparent-md">Cancel</button>
+                    <button (click)="postTranslation()" type="button" class="btn-red-md dropdown-toggle">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

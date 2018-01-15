@@ -1,0 +1,67 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../../scss/generals/ams-variables";
+@import "../../../../scss/generals/ams-typography";
+@import "../../../../scss/generals/ams-generals";
+@import "../../../../scss/generals/ams-icons";
+@import "../../../../scss/generals/ams-positions";
+@import "../../../../scss/generals/ams-headings";
+@import "../../../../scss/generals/ams-buttons";
+@import "../../../../scss/generals/ams-forms";
+@import "../../../../scss/generals/ams-tables";
+@import "../../../../scss/generals/ams-alerts";
+
+.blue-heading{
+    .title2{
+        text-transform: lowercase;
+    }
+}
+
+.translation-detail{
+    padding: 40px 0;
+    background-color: #fff;
+    .default-table{
+        margin-top: 0px;
+        tr{
+            &:first-child{
+                th{
+                    border-top: none;
+                }
+            }
+        }
+        th{
+            font-size: 12px;
+            &:first-child{
+                padding-left: 55px;
+            }
+            &:last-child{
+                padding-right: 55px;
+            }
+        }
+        td{
+            font-size: 12px;
+        }
+        .language-th{
+            width: 19%;
+        }
+        textarea{
+            height: 40px;
+            width: 200px;
+            border-radius: 0px;
+        }
+    }
+    .save-or-cancel{
+        margin-top: 20px;
+        margin-bottom: 40px;
+        button{
+            &:last-child{
+                margin-left: 10px;
+                margin-right: 55px;
+                &:focus{
+                    border: none !important;
+                }
+            }
+        }
+    }
+}

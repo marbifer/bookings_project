@@ -1,0 +1,835 @@
+@import "../../../../scss/variables";
+@import "../../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../../node_modules/bootstrap/scss/mixins";
+
+/**************************************************/
+/**   MY STYLES MODAL EDIT AGENCY (FILE DETAIL)  **/
+/**************************************************/
+$SuccessColor: #24B160;
+$SuccessText: #FFFFFF;
+$errorColor1: #DE1A1F;
+$errorColor2: #FFFFFF;
+$warningColorBorder: #FDBE27;
+$warningColorText: #474747;
+$infoColorBg: #00A3CC;
+$infoColorText: #ffffff;
+
+.load-agency {
+    display: none;
+	margin: -123px auto;
+    text-align: center;
+	left: 0px;
+	top: 103px;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+    position: static;
+}
+.loading-modal-agency {
+    position: relative;
+    z-index: 9999;
+    top: 7em;
+    text-align: center;
+    margin: 0 auto;
+    left: -1em;
+    img {
+        margin-bottom: 122px;
+    }
+}
+
+/* Styles for Agency field errors */
+#arrow-tool-agency {
+  border-bottom-color: $errorColor1 !important;
+  position: static;
+  margin: 2px 0 -100px 0;
+  margin-left: 30px;
+  width: 1%;
+  border-width: 0 8px 8px !important;
+}
+
+#tool-error-agency{
+    background: $errorColor1 !important;
+    font-size: 14px;
+    text-align: left;
+    padding: 25px 20px 25px 65px;
+    position: static;
+    margin-top: 100px;
+    min-width: 340px;
+}
+
+#icon-tool-agency {
+  color: #ffffff;
+  position: absolute;
+  top: 34px;
+  left: 20px;
+  font-size: 35px;
+}
+
+.tool-container-agency{
+  display: none;
+  transform: translateX(119px) translateY(-20px) translateZ(0px) !important;
+  left: 0px !important;
+  opacity: 1 !important;
+  position: absolute !important;
+}
+
+/* Styles for Operator field errors */
+#arrow-tool-operator {
+  border-bottom-color: $errorColor1 !important;
+  position: static;
+  margin: 2px 0 -100px 0;
+  margin-left: 30px;
+  width: 1%;
+  border-width: 0 8px 8px !important;
+}
+
+#tool-error-operator{
+    background: $errorColor1 !important;
+    font-size: 14px;
+    text-align: left;
+    padding: 25px 20px 25px 65px;
+    position: static;
+    margin-top: 100px;
+    min-width: 340px;
+}
+
+#icon-tool-operator {
+  color: #ffffff;
+  position: absolute;
+  top: 35px;
+  left: 20px;
+  font-size: 35px;
+}
+
+.tool-container-operator{
+  display: none;
+  transform: translateX(120px) translateY(1px) translateZ(0px) !important;
+  left: 0px !important;
+  opacity: 1 !important;
+  position: absolute !important;
+}
+
+/* Styles for Locator field error */
+#arrow-tool-locator {
+  border-top-color: $errorColor1 !important;
+  position: relative;
+  margin: 2px 0 -223px 198px;
+  width: 1%;
+  border-width: 10px 10px 0 !important;
+  top: -3px;
+  left: -175px;
+}
+
+#tool-error-locator{
+    height: 105px;
+    background: $errorColor1 !important;
+    font-size: 14px;
+    text-align: left;
+    padding: 21px 20px 25px 65px;
+    position: static;
+    margin-top: 107px;
+    min-width: 340px;
+}
+
+#icon-tool-locator {
+  color: #ffffff;
+  position: absolute;
+  top: -81px;
+  left: 20px;
+  font-size: 35px;
+}
+
+.tool-container-locator{
+  display: none;
+  position: absolute !important;
+  transform: translateX(-12px) translateY(-55px) translateZ(0px) !important;
+  left: 0px !important;
+  opacity: 1 !important;
+} /* Close Styles for Locator field error */
+
+/* Styles messages to Save All */
+#arrow-tool-save {
+  border-top-color: $errorColor1 !important;
+  position: static;
+  margin: 2px 0 -202px 198px;
+  width: 1%;
+  border-width: 10px 10px 0 !important;
+}
+
+#tool-error-save{
+    background: $errorColor1 !important;
+    font-size: 14px;
+    text-align: left;
+    padding: 25px 20px 25px 65px;
+    position: static;
+    margin-top: 100px;
+    max-width: 340px;
+}
+
+#icon-tool-save {
+  color: #ffffff;
+  position: absolute;
+  top: -68px;
+  left: 20px;
+  font-size: 35px;
+}
+
+.tool-container-save{
+  display: none;
+  position: fixed !important;
+  transform: translateX(118px) translateY(-55px) translateZ(0px) !important;
+  left: 0px !important;
+  opacity: 1 !important;
+} /* Close Styles messages to Save All */
+
+.bd-agency{
+    #width-modal-agency {
+        width: 514px;
+        position: absolute;
+        left: calc(50% - 18rem);
+    }
+    .line-agencies {
+        width: 514px;
+        margin-left: -62px;
+        margin-top: 56px;
+        /*border: 1px solid #DCDCDC;*/
+    }
+    h4#titleAgency {
+        text-align: center;
+        font-size: 20px;
+        color: #FFFFFF;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-family: "Montserrat", sans-serif;
+    }
+    #header-agency {
+        background: #2C3E50;
+        border-radius: none;
+    }
+    span#cross-agency {
+        color: #ffffff;
+    }
+    div#cross4.close {
+        opacity: 1 !important;
+    }
+    .modal-content {
+        margin-top: 12em;
+        background: #fff;
+        overflow: visible;
+    }
+    #operator-name, #agency-name {
+        height: 40px;
+        min-width: 340px;
+        padding-top: 1em;
+    }
+    input#operator-name {
+        margin-left: -13px;
+    }
+    #agency-name {
+        margin-bottom: 1.5em;
+    }
+    #modal-body {
+        background: #ffffff;
+        position: relative;
+        padding: 30px 0 0 62px;
+    }
+    #footer-agency {
+        background: #ffffff;
+        border-radius: 5px;
+        height: 215px;
+    }
+    #agency-label, #operator-label, #exist-locator1{
+        margin-right: 1.5em;
+        font-weight: 400;
+        font-family: "Open Sans", sans-serif;
+        margin-left: -14px;
+    }
+    #operator-label {
+        margin-left: -14px;
+    }
+    #agency-label {
+        padding-top: 0;
+        position: relative;
+        left: 12px;
+    }
+    input#enabled_locator {
+        margin-top: 25px;
+    }
+    #exist-locator2 {
+        padding-top: 1em;
+        width: 150px;
+        height: 40px;
+        /*margin: 11px 0 0 -24px;*/
+        margin-left: -7px;
+    }
+    .hide-loc {
+        color: transparent;
+    }
+    #exist-locator1 {
+        margin-top: 29px;
+    }
+    #new-locator{
+        font-size: 14px;
+        margin-top: 2.1em;
+        padding: 0.8em;
+    }
+    p.only, #bold-text {
+        font-weight: 400;
+        font-size: 14px;
+        margin-bottom: 7px;
+    }
+    p.only {
+        width: 161px;
+        margin-left: -6px;
+        margin-top: 20px;
+    }
+    .only-loc {
+        font-weight: 400;
+        font-size: 14px;
+        margin-top: -2px;
+        margin-left: -6px;
+    }
+    .input-loc {
+        margin: 15px 0 -35px 0;
+    }
+    .opacity-loc{
+        opacity: 0.3;
+    }
+
+    /* Styles tooltip Info Operator field */
+
+    .tool-container-info{
+        display: none;
+        transform: translateX(121px) translateY(68px) translateZ(0px) !important;
+        top: 63px !important;
+        left: 0px !important;
+        opacity: 1 !important;
+    }
+
+    div#arrow-tool-info {
+        border-bottom-color: $infoColorBg !important;
+        position: static;
+        margin: 2px 0 -100px 0;
+        margin-left: 30px;
+        width: 1%;
+        border-width: 0 8px 8px !important;
+    }
+
+    #icon-tool-info {
+        color: $infoColorText;
+        position: absolute;
+        top: 38px;
+        left: 20px;
+        font-size: 35px;
+    }
+
+    div#tool-info{
+     max-width: 340px;
+    }
+
+    div#tool-info{
+        background: $infoColorBg;
+        color: $infoColorText;
+        font-size: 14px;
+        text-align: left;
+        padding: 25px 20px 25px 65px;
+        position: static;
+        margin-top: 100px;
+    }
+
+    /* Styles tooltip Info Radio button "Generate A new Locaor"  */
+
+    .tool-container-info-loc{
+        display: none;
+        position: absolute !important;
+        transform: translateX(91px) translateY(28px) translateZ(0px) !important;
+        left: 0px !important;
+        opacity: 1 !important;
+    }
+
+    div#arrow-tool-info-loc {
+        border-top-color: $infoColorBg !important;
+        position: static;
+        /*margin: 26px 0 -223px 0;*/
+        margin: 0px 0 -223px 0;
+        /*margin-left: 28px;*/
+        margin-left: 32px;
+        width: 1%;
+        border-width: 10px 10px 0 !important;
+    }
+
+    #icon-tool-info-loc {
+        color: $infoColorText;
+        position: absolute;
+        /*top: -37px;*/
+        top: -58px;
+        left: 20px;
+        font-size: 35px;
+    }
+
+    div#tool-info-loc{
+        background: $infoColorBg;
+        color: $infoColorText;
+        font-size: 14px;
+        text-align: left;
+        padding: 25px 20px 25px 65px;
+        position: static;
+        /*margin-top: 122px;*/
+        margin-top: 124px;
+        max-width: 340px;
+    }
+
+    /* Styles Generic message field Agency */
+
+    div.generic-error {
+        background: $errorColor1;
+        color: $infoColorText;
+        margin: 0.1em 0 1.5em -1em;
+        font-size: 14px;
+        text-align: left;
+        padding: 25px 20px 25px 65px;
+        position: static;
+        width: 440px;
+    }
+
+    #icon-generic-error {
+        color: $infoColorText;
+        position: absolute;
+        left: 55px;
+        font-size: 35px;
+    }
+
+    /* Styles Generic message field Operator */
+
+    div.generic-error-op {
+        background: $errorColor1;
+        color: $infoColorText;
+        margin: 0.1em 0 1.5em -1em;
+        font-size: 14px;
+        text-align: left;
+        padding: 25px 20px 25px 65px;
+        position: static;
+        width: 440px;
+    }
+
+    #icon-generic-error-op {
+        color: $infoColorText;
+        position: absolute;
+        left: 55px;
+        font-size: 35px;
+    }
+
+/* Styles Generic message field Locator */
+
+    div.generic-error-loc {
+        background: $errorColor1;
+        color: $infoColorText;
+        margin: 0.1em 0 1.5em -1em;
+        font-size: 14px;
+        text-align: left;
+        padding: 25px 20px 25px 65px;
+        position: static;
+        width: 440px;
+    }
+
+    #icon-generic-error-loc {
+        color: $infoColorText;
+        position: absolute;
+        left: 55px;
+        font-size: 35px;
+    }
+
+/* Styles Generic message to Save All */
+
+    div.generic-error-save {
+        background: $errorColor1;
+        color: $infoColorText;
+        margin: 0.1em 0 1.5em -1em;
+        font-size: 14px;
+        text-align: left;
+        padding: 25px 20px 25px 65px;
+        position: static;
+        width: 440px;
+    }
+
+    #icon-generic-error-save {
+        color: $infoColorText;
+        position: absolute;
+        left: 55px;
+        font-size: 35px;
+    }
+    .modal-footer {
+        padding: 6px 20px 47px 62px;
+        text-align: left;
+        border-top: none;
+    }
+    input#agency-name, input#operator-name, input#exist-locator2 {
+        text-transform: capitalize;
+        font-weight: 400;
+        font-family: "Open Sans", sans-serif;
+        outline: none;
+        padding-bottom: 0.8em;
+    }
+    input#agency-name:focus, input#operator-name:focus,
+    input#exist-locator2:focus {
+        border: 3px solid #b0d8ff;
+    }
+
+    /* Styles Button Save Dropdown */
+    #buttons-agencies {
+        margin: 27px 0 0 16px;
+        .red {
+            background: #E7403F;
+            font-size: 14px;
+            width: 75px;
+        }
+        .dropdown-toggle {
+            border-color: #e7403f;
+            margin-left: 8px;
+            font-weight: 700;
+        }
+        .caret {
+            color: #ffffff;
+            margin: 0px 0 0 5px;
+            width: 9px;
+        }
+        .dropdown-menu {
+            position: absolute;
+            z-index: 1000;
+            float: left;
+            font-size: 14px;
+            border-radius: 4px;
+        }      
+        ul.dropdown-menu {
+            margin-left: 8px !important;
+            width: 173.11px;
+            li:hover {
+                background: #e7403f;
+                color: #ffffff;
+                padding: 0;
+            }
+        }
+        .dropdown-menu > li > a {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: 400;
+            line-height: 1.42857143;
+            color: #333;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .color-text{
+            color: #ffffff !important;
+            font-weight: bold !important;
+        }
+    }
+    
+
+/*--------- Styles Autocomplete Agency Field -----------*/
+
+.list-agencies {
+    border: 1px solid #d8d8d8;
+    border-radius: 0 0 4px 4px;
+    padding: 1em 7px 0 7px;
+    width: 340px;
+    margin: -0.9em 0 0.9em 4.1em;
+    position: absolute;
+    z-index: 1;
+    background: #fff;
+    overflow: hidden;
+    /*height: 128%;*/
+    ul.margin-agencies {
+        margin-left: -2.6em;
+        li {
+            list-style:none;
+            padding: 0.4em 1em;
+            margin: -14px 0 0 -11px;
+            width: 374px;
+            a {
+                color: #000000;
+                text-decoration: none;
+            }
+        }
+        li:hover {
+            background: #E7403F;
+            cursor: pointer;               
+        }
+    }
+    div.autocomplete { 
+        background: #fff;
+        border-top: 1px solid #dddddd;
+        margin-top: -14px;
+        padding: 9px 0 0 5px;
+        height: 40px;
+        p {
+            font-weight: 400;
+        }
+    }
+    .color-text{
+        color: #ffffff !important;
+        font-weight: bold;
+    }
+}
+
+/*--------- Styles Autocomplete Agency Field Error from Fomt-End -----------*/
+
+.border-pass, .border-loc{
+  border: 2px solid #b72522 !important;
+}
+
+div#arrow-tool-agencies {
+  border-bottom-color: $errorColor1 !important;
+  position: static;
+  margin: 2px 0 -100px 0;
+  margin-left: 30px;
+  width: 1%;
+  border-width: 0 8px 8px !important;
+}
+
+#icon-tool-agencies {
+  color: #ffffff;
+  position: absolute;
+  top: 34px;
+  left: 20px;
+  font-size: 30px;
+}
+
+.tool-container-empty-agencies{
+  display: none;
+  transform: translateX(120px) translateY(8px) translateZ(0px) !important;
+  top: 63px !important;
+  left: 0px !important;
+  opacity: 1 !important;
+}
+
+div#tool-error-empty-agencies{
+     max-width: 340px;
+}
+
+div#tool-error-empty-agencies{
+    background: $errorColor1;
+    font-size: 14px;
+    text-align: left;
+    padding: 25px 20px 25px 65px;
+    position: static;
+    margin-top: 100px;
+}
+
+/*--------- Styles Autocomplete Operator Field -----------*/
+
+.list-operators {
+    border: 1px solid #d8d8d8;
+    border-radius: 0 0 4px 4px;
+    padding: 1em 7px 0 7px;
+    width: 340px;
+    margin: 0.4em 0 0.9em 4.1em;
+    position: absolute;
+    z-index: 1;
+    background: #fff;
+    overflow: hidden;
+    /*height: 128%;*/
+    ul.margin-operators{
+        margin-left: -2.6em;
+        li {
+            list-style:none;
+            padding: 0.4em 1em;
+            margin: -14px 0 0 -11px;
+            width: 374px;
+            a {
+                color: #000000;
+                text-decoration: none;
+            }
+        }
+        li:hover {
+            background-color: #E7403F;
+            cursor: pointer;
+        }
+    }
+    div.autocomplete { 
+        background: #fff;
+        border-top: 1px solid #dddddd;
+        margin-top: -14px;
+        padding: 9px 0 0 5px;
+        height: 40px;
+        p {
+            font-weight: 400;
+        }
+    }
+    .color-text{
+        color: #ffffff !important;
+        font-weight: bold;
+    }
+}
+
+/*--------- Styles Autocomplete Locator Field -----------*/
+
+.list-locators {
+    border: 1px solid #d8d8d8;
+    padding: 1em 0 0 0;
+    width: 149px;
+    margin: -8.9em 0 -1.5em 17.5em;
+    position: absolute;
+    z-index: 1;
+    background: #fff;
+    overflow: hidden;
+    height: 30%;
+    ul.margin-locators{
+        margin-left: -2.1em;
+        li {
+            list-style:none;
+            padding: 0.4em 1em;
+            margin: -14px 0 0 -11px;
+            a {
+                color: #000000;
+                text-decoration: none;
+            }
+        }
+        li:hover {
+            background-color: #E7403F;
+            cursor: pointer;
+        }
+    }
+    .color-text{
+        color: #ffffff !important;
+        font-weight: bold;
+    }
+}
+
+/*------ Styles Icon-save/Icon-mail/Icon-cancel -------*/
+
+$rollover-pencil-bg: #5d5d5d;
+.rollover {
+    background: $rollover-pencil-bg;
+}
+$border-inline-editing: 3px solid #b0d8ff;
+.border-editing-table {
+  border-top: $border-inline-editing !important;
+  border-bottom: $border-inline-editing !important;
+}
+.border-editing-pencil {
+  border-right: $border-inline-editing !important;
+}
+.border-editing-icon {
+  border-left: $border-inline-editing !important;
+}
+$editing-text: #b0d8ff;
+span.editing {
+  background: $editing-text;
+}
+.editing {
+  background: $editing-text !important;
+  padding: 5px;
+}
+.editing-price{
+  background: $editing-text !important;
+  padding: 0px;
+}
+$border-input: 3px solid #b0d8ff;
+
+    #editing-agency {
+        display: block !important;
+    }
+    #inline-agency {
+        padding: 0;
+        top: 4.9em;
+        right: -1.5em;
+    }
+    .save-cancel-agency {
+        background: #dcdcdc;
+        border-radius: 2px;
+        border: 1px solid #bdbaba;
+        float: right;
+        padding: 2px 0 2px 5px;
+    }
+    .bg-icons4 {
+        cursor: pointer;
+        float: left;
+        border: 1px solid #bdbaba;
+        background: #f8f8f8;
+        padding: 0 4px;
+        border-radius: 4px;
+        margin-right: 3px;
+    }
+    .fa-check, .fa-times, .fa-envelope {
+        color: #9a9a9a;
+    }
+    input#agency {
+        border: $border-input;
+        text-transform: capitalize;
+        font-weight: 400;
+        font-size: 18px;
+        font-family: "Open Sans", sans-serif;
+    }
+}
+
+.custom-control {
+    position: relative;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    min-height: 1.5rem;
+    padding-left: 1.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    .custom-control-input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        &:checked~.custom-control-indicator {
+            background-color: #fff !important;
+            border: 1px solid #E73337;
+            &:before {
+                background-color: #E73337;
+            }
+        }
+    }
+    .custom-control-indicator {
+        border-radius: 50px;
+        position: absolute;
+        top: 3px;
+        left: 0;
+        display: block;
+        width: 16px;
+        height: 16px;
+        pointer-events: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid #9f9f9f;
+        background-color: #fff !important;
+        background-repeat: no-repeat;
+        background-position: center center;
+        -webkit-background-size: 50% 50%;
+        background-size: 50% 50%;
+        &::before {
+            display: block;
+            position: absolute;
+            content: '';
+            border-radius: 100%;
+            height: 8px;
+            width: 8px;
+            top: 3px;
+            left: 3px;
+            margin: auto;
+            transition: background 0.25s linear;
+            -webkit-transition: background 0.25s linear;
+        }
+    }
+    .custom-control-description {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: normal;
+        font-size: 14px;
+        font-style: italic;
+    }
+}
+
+.form-col-radio{
+    display: -ms-flexbox!important;
+    display: flex!important;
+    -ms-flex-align: center!important;
+    align-items: center!important;
+}

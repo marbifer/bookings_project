@@ -1,0 +1,23 @@
+<!-- Pagination Table Mappings Categories  -->
+<br>
+<template [ngIf]="_data_pagination.total_page != 0">
+    <nav aria-label="...">
+            <ul class="pager" id="pager-b">
+                <li id="prev-map" [ngClass]="{'disabled': blocker_prev}">
+                    <a href="#" (click)="prev_page_map($event)">Prev</a>
+                </li>
+                <li class="pointsPrev" (click)="pointsPrev()"><a>...</a></li>
+                
+                <li class="active" *ngFor="let page_b of _data_pagination.array_pages">
+                    <span class="cursor" [ngClass]="{ elected: page_b == _data_pagination.current_page }" (click)="select(page_b)" [attr.id]="page_b" >
+                    {{page_b}} <span class="sr-only">(current)</span>
+                    </span> 
+                </li>
+
+                <li class="pointsNext" (click)="pointsNext()"><a>...</a></li>
+                <li id="next-map" [ngClass]="{'disabled': blocker_next}">
+                    <a href="#" (click)="next_page_map($event)">Next</a>
+                </li>
+            </ul>
+        </nav>
+</template>

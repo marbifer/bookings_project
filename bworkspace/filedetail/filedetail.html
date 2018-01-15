@@ -1,0 +1,760 @@
+<h1 class="page-title"></h1>
+<div class="load"></div>
+<!-- RESPONSIVE CONTAINER -->
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container file-container">
+        <div class="blue-heading d-flex align-items-center">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h2 class="title2">
+                        File Detail - <span>{{_properties.file_detail_data.record_locator}}</span>
+                        <template [ngIf]="_properties.file_detail_passenger_name != ''">-</template>
+                        <span>{{_properties.file_detail_passenger_name}} {{_properties.file_detail_passenger_lastname}}</span>
+                    </h2>
+                </div>
+                <button *ngIf="it_come_from != 'right_click'" type="button" class="btn-red-xs btn-close" id="close-filedetail" (click)="close_file_detail()">Close</button>
+            </div>
+        </div>
+        <div class="cancel-file d-flex align-items-center">
+            <div class="row center">
+                <div class="col-xs-6">
+                    <button class="btn-cancel d-flex align-items-center justify-content-center" [disabled]="!_properties.disable_file" (click)="cancel_file_detail()">Cancel File</button>
+                </div>
+                <div class="col-xs-6 d-flex align-items-center justify-content-end">
+                    <i *ngIf="true" class="fa fa-list-alt" (mouseover)='action_icons_detail("fa-list-alt")' (mouseleave)='mouseleave_icons_detail("fa-list-alt")' (click)="addIfeServ(_properties.file_detail_data.record_locator,_properties.file_detail_passenger_name,_properties.file_detail_passenger_lastname)" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add IFE Service"></i>
+                    <i class="fa fa-cart-plus" (mouseover)='action_icons_detail("fa-cart-plus")' (mouseleave)='mouseleave_icons_detail("fa-cart-plus")' (click)="user_forged()" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add Service"></i>          
+                    <i class="fa fa-usd" (click)="go_addPayment()" (mouseover)='action_icons_detail("fa-usd")' (mouseleave)='mouseleave_icons_detail("fa-usd")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add Payment"></i>
+                    <i class="fa fa-envelope" (mouseover)='action_icons_detail("fa-envelope")' (mouseleave)='mouseleave_icons_detail("fa-envelope")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Send by E-mail"></i>
+                    <i class="fa fa-print" (click)="printPage()" (mouseover)='action_icons_detail("fa-print")' (mouseleave)='mouseleave_icons_detail("fa-print")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Print Res. Detail"></i>
+                    <i class="fa fa-download" (mouseover)='action_icons_detail("fa-download")' (mouseleave)='mouseleave_icons_detail("fa-download")' (click)="download_invoice()" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download Invoice"></i>
+                    <i  [style.color]="_properties.inactiveColor" class="fa fa-file-text" (mouseover)='action_icons_detail("fa-file-text-o")' (mouseleave)='mouseleave_icons_detail("fa-file-text-o")' (click)="download_voucher('')" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download Voucher"></i>
+                </div>
+            </div>
+        </div>
+        <progress *ngIf="ocultarProgress == false" value="{{progressBarVal}}" max="100">
+        </progress>
+        <div [ngClass]="{'file-detail' : true , 'marginFile' : ocultarProgress == false }" >
+            <div class="row">
+                <table class="table table-bordered main-table">
+                    <tr>
+                        <!-- RECORD LOCATOR -->
+                        <td id="record-locator-td" (mouseover)="edit_locator()" (mouseleave)="no_edit_locator()">
+                            <div class="td-holder d-flex align-items-center justify-content-center" (click)="editing_record()">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <i class="fa fa-file-text-o icon-td" aria-hidden="true"></i>
+                                        <div id="locator2" class="text-center">
+                                            <h3>Record Locator</h3>
+                                            <h1 id="edit-locator" class="editable-text">{{_properties.file_detail_data.record_locator}}</h1>
+                                            <input id="loc" class="input-editable" type="text" [(ngModel)]="_properties.file_detail_locator" (click)="clean_input_loc()" data-placement="bottom" data-toggle="tooltip" 
+                                            data-template="<div class='tooltip tool-container-loc container'>
+                                            <div id='arrow-tool-loc' class='tooltip-arrow'></div>
+                                            <div class='tooltip-head'><i id='icon-tool-loc' class='fa fa-times-circle' aria-hidden='true'></i></div>
+                                            <div id='tool-error-loc' class='tooltip-inner'></div>
+                                            </div>" attr.title=" {{_properties.message_loc}}" data-trigger="manual">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="locator3" class="edit-td pencil1">
+                                    <i id="pencil-loc" class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="save-cancel" id="editLocator">
+                                <div class="d-flex align-items-center">
+                                    <i id="check1" class="fa fa-check save" aria-hidden="true" (click)="save_locator(false)" (mouseover)='rollover_icons_save_cancel("check1")' (mouseleave)='mouseleave_icons_save_cancel("check1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save"></i>
+                                    <div id="check-mail1" class="save-notification d-flex align-items-center" (click)="save_locator(true)" (mouseover)='rollover_icons_save_cancel("check-mail1")' (mouseleave)='mouseleave_icons_save_cancel("check-mail1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save & Send notification">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <p>+</p>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </div>
+                                    <i id="cross1" class="fa fa-times save" aria-hidden="true" (click)="cancel_editing_record()" (mouseover)='rollover_icons_save_cancel("cross1")' (mouseleave)='mouseleave_icons_save_cancel("cross1")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- FILE DATES -->
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <i class="fa fa-calendar icon-td" aria-hidden="true"></i>
+                                    <div class="text-center">
+                                        <p>File Start Date</p>
+                                        <h2>{{_properties.file_detail_data.file_start_date}}</h2>
+                                        <p>File End Date</p>
+                                        <h2>{{_properties.file_detail_data.file_end_date}}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- PRICES -->
+                        <td colspan="3">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="costs-td d-flex align-items-center justify-content-between">
+                                        <i class="fa fa-usd icon-td" aria-hidden="true"></i>
+                                        <div class="text-right">
+                                            <h4>Provider Cost</h4>
+                                            <h4>Net Rate</h4>
+                                            <h4>Client Commission</h4>
+                                            <h4>Client Sale</h4>
+                                        </div>
+                                        <div class="text-left">
+                                            <h4>{{_properties.file_detail_data.provider_cost}}</h4>
+                                            <h4>{{_properties.file_detail_data.net_rate}}</h4>
+                                            <h4>{{_properties.file_detail_data.client_commission}}</h4>
+                                            <h4>{{_properties.file_detail_data.client_sale}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="edit-td pencil2">
+                                    <i id="pencil2" class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>-->
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <!-- RESERVATION STATUS -->
+                        <td rowspan="2">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <i class="fa fa-refresh icon-td" aria-hidden="true"></i>
+                                    <div class="text-center" id="reservation"
+                                        [ngClass]="{
+                                            'ext-status': _properties.status_confirmed_without_locator_external == 1, 
+                                            'vou-status': _properties.status_confirmed_with_voucher_released == 1,
+                                            'des-status': _properties.status_confirmed_payment_on_destination == 1,
+                                            'canc-status': _properties.status_canceled == 1,
+                                            'conf-status': _properties.status_confirmed == 1,
+                                            'requ-status': _properties.status_on_request == 1,
+                                            'pen-status': _properties.status_pending == 1
+                                        }">
+                                        <p>Reservation Status</p>
+                                        <template [ngIf]="_properties.hide_list_status == true">
+                                            <!--<h2 id="lala" [ngClass]="{'size-font': _properties.status_confirmed_without_locator_external == 1 }">-->
+                                                <template ngFor let-x [ngForOf]="_properties.file_reseravtion" let-i="index">
+                                                    <h2 id="lala" [ngClass]="{'size-font': _properties.status_confirmed_without_locator_external == 1 }">
+                                                        {{x.name_front}} ({{x.count}})
+                                                    </h2>
+                                                </template>
+                                            <!--</h2>-->
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- CREATED DATE -->
+                        <td rowspan="2">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="text-center">
+                                        <h2 class="icon-td">{{_properties.file_detail_data.bookings_count}}</h2>
+                                        <i class="fa fa-shopping-cart icon-td" aria-hidden="true"></i>
+                                    </div>
+                                    <div id="dates-filedetail" class="text-center">
+                                        <p>Creation Date</p>
+                                        <h2>{{_properties.file_detail_data.creation_date}}</h2>
+                                        <p>Last Update</p>
+                                        <h2>{{_properties.file_detail_data.last_updated}}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td colspan="2" class="text-center number-of-pax">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </td>
+                        <td rowspan="2" class="text-center">
+                            <i class="fa fa-moon-o" aria-hidden="true"></i>
+                            <p>Number of Nights</p>
+                            <h2>{{_properties.file_detail_data.number_of_nights}}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- ADULTS -->
+                        <td class="text-center number-of-pax">
+                            <h2>{{_properties.file_detail_data.number_of_adults}}</h2>
+                            <p>Adults</p>
+                        </td>
+
+                        <!-- CHILDS -->
+                        <td class="text-center number-of-pax">
+                            <h2>{{_properties.file_detail_data.number_of_children}}</h2>
+                            <p>Child</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <table class="table table-bordered details-table">
+                    <tr>
+                        <th>
+                            Passenger Details
+                        </th>
+                        <th class="agency-detail-th">
+                            Agency Details
+                        </th>
+                    </tr>
+                    <tr>
+                        <td id="edit-passenger-td" class="text-center" (mouseover)="edit_passenger()" (mouseleave)="no_edit_passenger()">
+                            <div (click)="editing_passenger()">
+                                <div class="passenger-data">
+                                    <p>Lead Passenger: </p>
+                                    <span class="passenger-name editable-text">{{_properties.file_detail_passenger_name}} {{_properties.file_detail_passenger_lastname}}</span>
+                                </div>
+                                <div class="edit-td pencil-pass">
+                                    <i id="pencil-pass" class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="editing-passenger" class="save-cancel">
+                                <div class="d-flex align-items-center">
+                                    <i id="check3" class="fa fa-check save" aria-hidden="true" (click)="save_passenger(false)" (mouseover)='rollover_icons_save_cancel("check3")' (mouseleave)='mouseleave_icons_save_cancel("check3")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save"></i>
+                                    <div id="check-mail3" class="save-notification d-flex align-items-center" (click)="save_passenger(true)" (mouseover)='rollover_icons_save_cancel("check-mail3")' (mouseleave)='mouseleave_icons_save_cancel("check-mail3")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save & Send notification">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <p>+</p>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </div>
+                                    <i id="cross3" class="fa fa-times save" aria-hidden="true" (click)='cancel_editing_passenger()' (mouseover)='rollover_icons_save_cancel("cross3")' (mouseleave)='mouseleave_icons_save_cancel("cross3")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                </div>
+                            </div>
+                            <div id="editPassenger" class="edit-passenger">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input autocomplete="off" type="text" class="form-control" id="first-name" id="pass"
+                                            [(ngModel)]="_properties.file_detail_passenger_name" (click)="clean_input_pass()" data-placement="bottom" data-toggle="tooltip" 
+                                            data-template="<div class='tooltip tool-container'>
+                                                              <div id='arrow-tool' class='tooltip-arrow'></div>
+                                                              <div class='tooltip-head'><i id='icon-tool' class='fa fa-times-circle' aria-hidden='true'></i></div>
+                                                              <div id='tool-error' class='tooltip-inner'></div>
+                                                            </div>" attr.title=" {{_properties.message}}" data-trigger="manual">
+                                        <!-- Message error for First Name empty from Front-End -->
+                                        <div class="error-empty-frontend">
+                                            <div class="danger-alert center d-flex align-items-center error-message-inline">
+                                                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                                <p><span>Oops! </span>Looks like you forgot to type something. This field is required.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" autocomplete="off" class="form-control" id="last-name" id="pass-lastname" [(ngModel)]="_properties.file_detail_passenger_lastname" (click)="clean_input_last()">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Message generic error for Locator from Backend -->
+                            <template [ngIf]="_properties.general_error_loc != ''">
+                                <div class="danger-alert center d-flex align-items-center error-message-inline">
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                    <p>{{_properties.general_error_loc}}</p>
+                                </div>
+                            </template>
+                        </td>
+                        <!-- open_modal_agency -->
+                        <td id="agency1" class="text-center agency-details-td" (click)="editing_agency()" data-toggle="modal" data-target="#agencyModal" (mouseover)="edit_agency()" (mouseleave)="no_edit_agency()">
+                            <h3>Agency</h3>
+                            <h1 id="edit-agency" class="editable-text">{{_properties.file_detail_data.agency}}</h1>
+                            <div id="agency2" class="edit-td pencil4" (click)="editing_agency()" data-toggle="modal" data-target="#agencyModal" (mouseover)="edit_agency()" (mouseleave)="no_edit_agency()">
+                                <i id="pencil-agen" class="fa fa-pencil" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <!--<td class="text-center agency-details-td">
+                            <h3>Account Manager</h3>
+                            <h1>{{_properties.file_detail_data.account_manager}}</h1>
+                        </td>-->
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Individual Bookings in this File -->
+            <div id="book" class="row filedetail-individual-bookings">
+                <div class="col-xs-12 grey-heading d-flex align-items-center justify-content-center">
+                    <h3 class="title3">Individual Bookings in this File</h3>
+                </div>
+                <table class="table short-table table-striped table-hover">
+                    <tr>
+                        <th id="service-type-th text-center">Service<br>Type</th>
+                        <th id="service-name-th">Service<br>Name</th>
+                        <th>Provider</th>
+                        <th>Operator</th>
+                        <th class="text-right booking-dates-th">Booking Dates:<br>Start & End</th>
+                        <th class="text-center nights-th"><i id="moon" class="fa fa-moon-o" aria-hidden="true"></i></th>
+                        <th id="status-file">Reservation<br>Status</th>
+                        <th>Auto <br>Cancel</th>
+                        <th class="text-right">Confirmation<br>Number</th>
+                        <th class="text-right">Creation<br>Date</th>
+                        <th class="text-right">Price</th>
+                        <th class="folder-width"></th>
+                    </tr>
+                    <tr *ngFor="let file of _properties.file_detail_book; let i=index" (mouseover)='mouseover_icon_folder(i)' (mouseleave)='mouseleave_icon_folder()'>
+                        <td class="middle icons-book">
+                            <i class="fa" [ngClass]="{ 
+                            'fa-bed': file.service_type== 'hotel',
+                            'fa-ticket': file.service_type== 'attraction',
+                            'fa-exchange': file.service_type== 'transfer',
+                            'fa-car': file.service_type== 'car',
+                            'fa-th': file.service_type== 'package',
+                            'fa-plane': file.service_type== 'flight'
+                            }" aria-hidden="true"></i>
+                        </td>
+                        <td class="normal-whitespace">{{file.service_name}}</td>
+                        <td>{{file.provider}}</td>
+                        <td class="normal-whitespace">{{file.agency}}</td>
+                        <td class="text-right" id="book-date-file">{{file.booking_start_date}}<br>{{file.booking_end_date}}</td>
+                        <td class="text-center">{{file.number_of_nights}}</td>
+                        <td class="normal-whitespace">
+                            <template [ngIf]="file.reservation_status == 'Voucher Released'">
+                             Voucher Released
+                            </template>
+                            <template [ngIf]="file.reservation_status == 'unspecified'"> 
+                            Unspecified            
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'Confirmed'"> 
+                            Confirmed
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'confirmed_without_locator_external'"> 
+                            Confirmed without locator external
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'Deleted'"> 
+                            Deleted            
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'On Request'"> 
+                            On Request
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'Cancelled'"> 
+                            Cancelled
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'Pending Voucher'"> 
+                            Pending Voucher          
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'cancelation_pending'"> 
+                            Cancelation Pending
+                            </template> 
+                            <template [ngIf]="file.reservation_status == 'confirmed_payment_on_destination'"> 
+                            Confirmed Payment on Destination         
+                            </template>  
+                        </td>   
+                        <td>
+                            <template [ngIf]="_properties.is_auto_cancel[i] == true" >
+                                {{file.auto_cancel_date}}
+                            </template>
+                            <template [ngIf]="_properties.is_auto_cancel[i] == false" >
+                                Disabled
+                            </template>
+                        </td>
+                        <td class="normal-whitespace text-right">{{file.confirmation_number}}</td>
+                        <td class="text-right">{{file.date_created}}</td>
+                        <td class="text-right">{{file.client_sale_price}}</td>
+                        <td class="text-center folder-td-wrapper" (mouseleave)="removeOpenedEllipsis(i)">
+                            <div class="d-flex justify-content-end align-items-center">
+                                <div>
+                                    <div class="folder-wrapper center">
+                                        <a id="bookingOpener{{i}}">
+                                            <i id="{{i}}icon-b" class="fa fa-folder-open-o" aria-hidden="true" (mousedown)="open_booking_detail(file.id, $event, i)"></i>
+                                        </a>
+                                    </div>
+                                    <div class="ellipsis-wrapper center" id="fixed-ellipsis-b">
+                                        <div class="ellipsis" id="{{i}}ellipsisIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</div>
+                                        <ul class="dropdown-menu" aria-labelledby="dorpdown">
+                                            <li (click)="download_voucher()" [ngClass]="{ 'dv_li' : _properties.inactiveColor != '' }">
+                                                    <a  [ngClass]="{ 'dv_a' : _properties.inactiveColor != '' }">Download voucher</a>
+                                            </li>
+                                            <li>
+                                                <a>Send by Email</a>
+                                            </li>
+                                            <li>
+                                                <template [ngIf]="_properties.is_auto_cancel[i] == false" >
+                                                    <a (click)="toggleAutocancel(file.id , true , i)" >Enable automatic cancellation</a>
+                                                </template>
+                                                <template [ngIf]="_properties.is_auto_cancel[i] == true" >
+                                                    <a (click)="toggleAutocancel(file.id , false , i )" >Disable automatic cancellation </a>
+                                                </template>
+                                            </li>
+                                            <li>
+                                                <a (click)="printPage()" >Print details</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <!--<td class="folder-td normal-whitespace"> 
+                            <a id="bookingOpener{{i}}">
+                                <span id="fixed-folder-b">
+                                    <i id="{{i}}icon-b" class="cursor folder folder-icon fa fa-folder-open-o" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <span class="ellipsis-icon-wrapper" id="fixed-ellipsis-b">
+                                <p id="{{i}}ellipsisIcon" class="ellipsis center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</p>
+                                <ul class="dropdown-menu" aria-labelledby="dorpdown">
+                                    <li>
+                                        <a (click)="(download_voucher)_booking(file.id)" >Download voucher</a>
+                                    </li>
+                                    <li>
+                                        <a>Send by Email</a>
+                                    </li>
+                                    <li>
+                                        <a>Print details</a>
+                                    </li>
+                                </ul>
+                            </span>
+                        </td>-->
+                    </tr>
+                </table>
+            </div>
+
+            <!-- PAYMENTS -->
+            <div id="payments-heading" class="row payments-heading align-items-center">
+                <div class="grey-heading d-flex align-items-center">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4 d-flex align-items-center justify-content-center">
+                        <h3 class="title3">Payments</h3>
+                    </div>
+                    <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                        <button [hidden]="addPaymentButtonHidden" (click)="emptyPaymentInputs()" type="button" id="new-amenity-button" class="btn-blue-md" data-toggle="collapse" data-target="#addPaymentTable" aria-expanded="false" aria-controls="addPaymentTable">
+                            Add payment
+                        </button>
+                    </div>
+                </div>
+                <div class="collapse add-payment-table" id="addPaymentTable">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="add-payment-title d-flex align-items-center justify-content-center">
+                                <h1 class="title4">Add New Payment</h1>
+                            </div>
+                        </div>
+                        <div class="row add-payment-section">
+                            <template [ngIf]="editpayments.payment_error == true">
+                                <div class="danger-alert center d-flex align-items-center" id="danger-alert-internal-amenity-new">
+                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                                </div>
+                            </template>
+                            <div class="col-xs-3">
+                                <div class="row">
+                                    <div class="col-xs-12 form-group">
+                                        <label class="title4" for="amount">Amount</label>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{editpayments.currency_name}}<span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" id="dropdownMenuUser" aria-labelledby="dropdownCurrency">
+                                                    <li (click)="selectCurrency(currList.currency_code , currList.currency_symbol )" *ngFor="let currList of editpayments.list_currencys">
+                                                        <a>{{currList.currency_symbol}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <input (keyup)="editpayments.keyup_field_amount('amount' , '' )"  (click)="focusAmount()" [(ngModel)]="editpayments.payment_amount" type="text" name="amount" id="amount"     [ngClass]="{'form-control' : true , 'border-errors' : editpayments.paymentsAmount_error != '' || editpayments.paymentsAmount_error_front == true }" >
+                                            <template [ngIf]="editpayments.paymentsAmount_error != ''">
+                                                <span class="with-errors-text">{{editpayments.paymentsAmount_error}}</span>
+                                            </template>
+                                            <template [ngIf]="editpayments.paymentsAmount_error_front == true">
+                                                <span id="validacionFrontAmount" class="with-errors-text">The value must be a number.</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 form-group">
+                                        <div class="btn-group-wrapper">
+                                            <div class="btn-group types-buttons" role="group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn btn-default title4 d-flex justify-content-center align-items-center">
+                                                    {{editpayments.payment_name}}
+                                                </button>
+                                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center">
+                                                    <span class="caret"></span>
+                                                </button>
+                                            </div>
+                                            <ul class="dropdown-menu" id="amountsCurrencies" aria-labelledby="amountsCurrencies">
+                                                <li (click)="selectPayment(currType.payment_type_code , currType.payment_type_name)" *ngFor="let currType of editpayments.list_types">
+                                                    <a>{{currType.payment_type_name}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="d-flex align-items-center datepicker-wrapper">
+                                            <p class="d-flex justify-content-center align-items-center">Date</p>
+                                            <div class="datepicker d-flex align-items-center">
+                                                <input (click)="paymentDateFocus()" id="paymentsDate" [(ngModel)]="editpayments.payment_date" type="text" name="payment-date" data-provide="datepicker" [ngClass]="{ 'form-control' : true , 'text-center' : true , 'border-errors' : editpayments.paymentsDate_error != '' }">
+                                                <template [ngIf]="editpayments.paymentsDate_error != ''">
+                                                    <span class="with-errors-text">{{editpayments.paymentsDate_error}}</span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-9 payment-description">
+                                <label for="description" class="title4">Description</label>
+                                <textarea id="paymentsDescription" [(ngModel)]="editpayments.payment_description" rows="5" class="form-control"></textarea>
+                            </div>
+                            <!-- <template [ngIf]="editpayments.payment_error == false"> -->
+                                <div id="successAlertHidden"><!-- Hacele el hide() a este div lucho -->
+                                    <div class="success-alert center d-flex align-items-center" id="success-alert-payments">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                        <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                    </div>
+                                </div>
+                            <!-- </template> -->
+                        </div>
+                    </div>
+                    <div id="addPayment" class="save-cancel">
+                        <div class="d-flex align-items-center">
+                            <i (click)="post_payment(false)" id="paymentCheck" class="fa fa-check save" aria-hidden="true" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save"></i>
+                            <div (click)="post_payment(true)" id="paymentMail" class="save-notification d-flex align-items-center" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save & Send notification">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                <p>+</p>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </div>
+                            <i (click)="closeNewPayment()" id="paymentCross" class="fa fa-times save" aria-hidden="true" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-9 payments-table">
+                    <table class="table short-table">
+                        <thead>
+                            <tr>
+                                <th class="payment-short-th">Date</th>
+                                <th class="payment-user-th">User</th>
+                                <th class="payment-short-th">Type</th>
+                                <th class="payment-short-th">Amount</th>
+                                <th class="payment-short-th">Exchange</th>
+                                <th class="payment-short-th">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let pay of editpayments.payments.list_payments">
+                            <tr>
+                                <td>{{pay.date}} </td>
+                                <td>
+                                    <div class="text-overflow-td payment-user">
+                                        {{pay.user_name}}
+                                    </div>
+                                </td>
+                                <td>{{pay.type}}</td>
+                                <td>
+                                    <div class="text-overflow-td payment-amount">
+                                        {{pay.amount}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-overflow-td payment-amount">
+                                        {{pay.exchange}}
+                                    </div>
+                                </td>
+                                <td>{{pay.status}}</td>
+                            </tr>
+                            <tr class="payment-desctiption-tr" *ngIf="pay.description != ''">
+                                <td class="payment-description" colspan="6">
+                                    {{pay.description}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-3 payments-info">
+                    <div class="row payments-days align-items-center">
+                        <div class="col-xs-12 text-center">
+                            <h1>{{editpayments.days_until_services_start}}</h1>
+                            <p>Days until services start</p>
+                        </div>
+                    </div>
+                    <div class="row amounts-wrapper align-items-center">
+                        <div class="col-xs-10 center">
+                            <div class="amount-due d-flex align-items-center justify-content-between">
+                                <div class="text-right">
+                                    <p>Amount Due</p>
+                                </div>
+                                <div class="text-left">
+                                    <h1>{{editpayments.amount_due}}</h1>
+                                </div>
+                            </div>
+                            <div class="total-amount d-flex align-items-center justify-content-between">
+                                <div class="text-right">
+                                    <p>Amount Paid</p>
+                                    <p>Total</p>
+                                </div>
+                                <div class="text-left">
+                                    <p>{{editpayments.amount_paid}}</p>
+                                    <p>{{editpayments.amount_total}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security log -->
+            <div class="row security-log">
+                <div class="col-xs-12 grey-heading d-flex align-items-center justify-content-center collapsed" data-toggle="collapse" data-target="#securityLogTable" aria-expanded="false" aria-controls="securityLogTable">
+                    <h3 class="title3">Activity Security Log</h3>
+                    <span class="caret"></span>
+                </div>
+                <div class="collapse" id="securityLogTable">
+                    <table class="table short-table table-striped table-hover">
+                        <tr>
+                            <th class="date-log">Date</th>
+                            <th>Time</th>
+                            <th>Operator</th>
+                            <th>IP</th>
+                            <th>Action</th>
+                        </tr>
+
+                        <tr *ngFor="let logs of _properties.file_detail_logs">
+                            <td class="date-log">{{logs.date}}</td>
+                            <td>{{logs.time}}</td>
+                            <td>{{logs.log_operator}}</td>
+                            <template [ngIf]="logs.ip != '::1'">
+                                <td>
+                                    <a href="https://geoiptool.com/en/?IP={{logs.ip}}" target="_blank">{{logs.ip}}</a>
+                                </td>
+                            </template>
+                            <template [ngIf]="logs.ip == '::1'">
+                                <td>
+                                </td>
+                            </template>
+                            <td>{{logs.action}}</td>
+                        </tr>
+                    </table>
+                    <template [ngIf]="_properties.list_logs_count == 0">
+                        <div class="info-alert center d-flex align-items-center">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <p><span>No records available </span>for activity security logs</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+
+            <!-- COMMUNICATION LOG -->
+            <div class="row communication-log align-items-center">
+                <div class="grey-heading d-flex align-items-center">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4 d-flex align-items-center justify-content-center">
+                        <h3 class="title3">COMMUNICATION LOG</h3>
+                    </div>
+                    <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                        <button type="button" class="btn-blue-md d-flex align-items-center justify-content-center">
+                            New Email <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <template [ngIf]="_properties.file_detail_communication_logs_count > '0'">
+                <table class="table short-table table-striped table-hover">
+                    <tr>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Recipient</th>
+                        <th>Type</th>
+                        <th class="text-center">Status</th>
+                        <th></th>
+                    </tr>
+                    <template ngFor let-com_logs [ngForOf]="_properties.file_detail_communication_logs" let-i="index">
+                        <tr (dblclick)="openCommunicationLog(i , com_logs.code )">                      
+                            <td>{{com_logs.date | date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                            <td>{{com_logs.subject}}</td>
+                            <td>{{com_logs.recipient}}</td>
+                            <td>{{com_logs.type_name}}</td>
+                            <td class="text-center">
+                                <!-- Dependiendo de el estatus, la clase de este div
+                                    - Delivered: 'delivered'
+                                    - Read: 'read'
+                                    - Sent: 'sent'
+                                    - Failure: 'failure'
+                                    - Pending: 'pending'
+                                -->
+                                <template [ngIf]="com_logs.status == 'delivered'">
+                                    <div class="delivered" data-toggle="tooltip" data-placement="bottom" title="Delivered">
+                                        <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                        <i class="fa fa-check checked-icon double-check" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <template [ngIf]="com_logs.status == 'sent'">
+                                    <div class="sent" data-toggle="tooltip" data-placement="bottom" title="Sent">
+                                        <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <template [ngIf]="com_logs.status == 'failed'">
+                                    <div class="failure" data-toggle="tooltip" data-placement="bottom" title="Failure">
+                                        <i class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <!-- Falta el 'Read' acá, lo agrego por las dudas! -->
+                                <template [ngIf]="com_logs.status == 'opened'"><!-- No se como es el valor, pongo esto de ejemplo -->
+                                    <div class="read" data-toggle="tooltip" data-placement="bottom" title="Read">
+                                        <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                        <i class="fa fa-check checked-icon double-check" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <!-- Este es el pending (relojito) -->
+                                <template [ngIf]="com_logs.status == 'pending'"><!-- No se como es el valor, pongo esto de ejemplo -->
+                                    <div class="pending" data-toggle="tooltip" data-placement="bottom" title="Pending">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                            </td>
+                            <td class="text-right">
+                                <i class="fa fa-share forward-icon" aria-hidden="true" (click)="open_compose_modal()" data-toggle="modal" data-target="#composeModal"></i>
+                            </td>
+                        </tr>
+                        <div id="{{i}}communicationLogDetail" class="communication-log-detail communication-log-detail-hidden">
+                            <td colspan="6">
+                                <div id="{{i}}divDetail" class="detail-container">
+                                    <template [ngIf]="iframe[i] == true">
+                                        <iframe id="{{i}}htmlDetail"></iframe>
+                                    </template>
+                                </div>
+                            </td>
+                        </div>
+                    </template>
+                    <!--<tr class="communication-log-detail">
+                        <td colspan="6">
+                            <div>
+                                <p>[12/05/117 15:43:11] Cintia Velardez: jajajajajja</p>
+                                <p>[12/05/117 15:43:17] Ana Luz Lopez: JAJAJAJA</p>
+                                <p>[12/05/117 15:46:20] Norbert Sparrow: jajajajaajajajajaajajajaja ke lo tiro....</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>12/05/17 15:46:20</td>
+                        <td>Esto es un subject de un Email</td>
+                        <td>fernand.cardo@travtion.com</td>
+                        <td>Chat</td>
+                        <td class="text-center">
+                            <div class="failure" data-toggle="tooltip" data-placement="bottom" title="Failure">
+                                <i class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <i class="fa fa-share forward-icon" aria-hidden="true"></i>
+                        </td>
+                    </tr
+                    <tr>
+                        <td>12/05/17 13:34:22</td>
+                        <td>Esto es un subject de un Email</td>
+                        <td>communicationlog@travtion.com</td>
+                        <td>Sms</td>
+                        <td class="text-center">
+                            <div class="sent" data-toggle="tooltip" data-placement="bottom" title="Sent">
+                                <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <i class="fa fa-share forward-icon" aria-hidden="true"></i>
+                        </td>
+                    </tr>>-->
+                </table>
+            </template>
+            
+            </div>
+            <footer>©2017 - Travtion Solutions LLC - <a href="#">http://www.travtion.com/</a></footer>
+        </div>
+    </div>
+</div>

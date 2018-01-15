@@ -1,0 +1,40 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../scss/generals/ams-variables";
+@import "../../../scss/generals/ams-typography";
+@import "../../../scss/generals/ams-generals";
+@import "../../../scss/generals/ams-icons";
+@import "../../../scss/generals/ams-positions";
+@import "../../../scss/generals/ams-headings";
+@import "../../../scss/generals/ams-tables";
+@import "../../../scss/generals/ams-datepicker";
+@import "../../../scss/generals/ams-buttons";
+@import "../../../scss/generals/ams-forms";
+@import "../../../scss/generals/ams-alerts";
+
+input{
+    height: 100%;
+    border-radius: 5px !important;
+}
+
+.right-sided{
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.left-sided{
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.margin-city{
+    li{
+        &:hover{
+            a{
+                color: #fff !important;
+                font-weight: bold;
+            }
+        }
+    }
+}

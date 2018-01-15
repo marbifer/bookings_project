@@ -1,0 +1,173 @@
+<!-- RESPONSIVE CONTAINER -->
+<div class="wrapper-bw" [ngClass]="{'container' : view_port_width_list_agen}">
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id="searchBox" type="text" autocomplete="off" [(ngModel)]="_currencies_service.search_currencies" />
+                        <div class="after" (click)="restore_search()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>Search for currencies</p>
+                    </div>
+                </div>
+                <div class="text-search">
+                    <p class="open-search">Search for currencies</p>
+                </div><br><br>
+            </div>
+        </div>
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-4 align-items-center">
+                    <!-- Checkbox icon-checked -->
+                    <template [ngIf]="justchange == true">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-check" (click)="unselect_all_currencies()">
+                                <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox with minus-icon -->
+                    <template [ngIf]="justchange == 'minus'">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-minus" (click)="select_all_currencies()">
+                                <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox icon-empty -->
+                    <template [ngIf]="_currencies_service._data_pagination.total_page != 0">
+                        <template [ngIf]="justchange == false">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div id="icon-empty" (click)="select_all_currencies()">
+                                    <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+                        <p class="select">Select All</p>
+                    </template>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <h1 class="title3">{{_currencies_service._data_pagination.total_page}} Results</h1>
+                </div>
+                <template [ngIf]="show_icon_cur == true">
+                    <div class="col-xs-4">
+                        <div class="trash">
+                            <i *ngIf="_currencies_service._data_pagination.total_page != 0" class="fa fa-university default-icon" aria-hidden="true" (click)="retrieve_currencies_all()"></i>
+                            <template [ngIf]="_currencies_service.toggle_status == true">
+                                <i *ngIf="_currencies_service._data_pagination.total_page != 0" class="fa fa-toggle-off default-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                            <template [ngIf]="_currencies_service.toggle_status == false">
+                                <i *ngIf="_currencies_service._data_pagination.total_page != 0" class="fa fa-toggle-on enabled-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div id="currencies" class="row">
+            <div class="load"></div>
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_currencies_service._data_pagination.total_page != 0">
+                        <tr>
+                            <th class="checkboxes"></th>
+                            <th class="nowrap-whitespace prov">Currency Code</th>
+                            <th class="nowrap-whitespace code">Symbol</th>
+                            <th class="nowrap-whitespace cat">Name</th>
+                            <th class="nowrap-whitespace rel">Last Update</th>
+                            <th class="nowrap-whitespace ">Currenct Rate</th>
+                            <th class="nowrap-whitespace text-center new-rate-th">New Rate</th>
+                            <th class="nowrap-whitespace text-center retrieve">Retrieve</th>
+                            <th class="nowrap-whitespace text-center status">Status</th>
+                        </tr>
+                    </template>
+                    <template ngFor let-currency [ngForOf]="_currencies_service.currencies" let-i="index">
+                        <!--<tr *ngFor="let currency of _currencies_service.currencies; let i=index">-->
+                        <tr>
+                            <td>
+                                <div class="checkbox abc-checkbox" (click)="show_icon_currencies()">
+                                    <input class="check-b check-table-cur" name="options" [checked]="selected_c.indexOf(i)== true" id="checkbox{{i}}" value="{{currency.id}}" type="checkbox" (change)="change_to_minus_currencies()">
+                                    <label class="label-selected-cur" attr.for="checkbox{{i}}"></label>
+                                </div>
+                            </td>
+                            <td class="nowrap-whitespace">{{currency.currency_code}}</td>
+                            <td class="nowrap-whitespace">{{currency.symbol}}</td>
+                            <td class="nowrap-whitespace">{{currency.name}}</td>
+                            <td class="nowrap-whitespace">
+                                <template [ngIf]="currency.is_required == false">
+                                    {{currency.datetime_last_update}}
+                                </template>
+                            </td>
+                            <td class="nowrap-whitespace">
+                                <template [ngIf]="currency.is_required == false">
+                                    1 USD = {{currency.last_rate}} {{currency.currency_code}}
+                                </template>
+                            </td>
+                            <td class="nowrap-whitespace new-rate-td">
+                                <template [ngIf]="currency.is_required == false">
+                                    <input pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': validation_rate[i] == false}" (keyup)="keyup_field_rate(i)" type="text" name="{{currency.id}}" id="newRate{{i}}" class="form-control center new-rate" [(ngModel)]="_currencies_service.new_rates[i]" value="{{currency.new_rate}}">
+                                </template>
+                            </td>
+                            <td class="text-center">
+                                <template [ngIf]="currency.is_required == false">
+                                    <i class="fa fa-university retrieve-icon" aria-hidden="true" (click)="retrieve_currency(currency.id)"></i>
+                                </template>
+                            </td>
+                            <!-- Status toogle -->
+                            <td class="text-center">
+                                <template [ngIf]="currency.is_required == false">
+                                    <template [ngIf]="currency.status == false">
+                                        <i class="fa fa-toggle-off untoggled-icon" aria-hidden="true" (click)="enabled_disabled_toogle(currency.id, true)"></i>
+                                    </template>
+                                    <template [ngIf]="currency.status == true">
+                                        <i class="fa fa-toggle-on toggled-icon" aria-hidden="true" (click)="enabled_disabled_toogle(currency.id, false)"></i>
+                                    </template>
+                                </template>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity" >
+            <template [ngIf]="_currencies_service._data_pagination.total_page == 0"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_currencies_service.search_currencies}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+            <!-- Error Message if there are not registers in the table from Front-End --> 
+            <template [ngIf]="_currencies_service._data_pagination.total_page == 0 && _currencies_service.search_currencies == undefined"> 
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“Currencies“</span> in the system yet. Create one from the button on the top right corner of this screen.</p>
+                </div>
+            </template>
+        </div>
+        <template [ngIf]="_currencies_service.new_rates != ''">
+            <div id="prueba" class="row">
+                <div class="col-xs-12 save-or-cancel d-flex justify-content-end">
+                    <button class="btn-grey-transparent-md" (click)="cancel_cur()">Cancel</button>
+                    <button class="btn-red-md" [disabled]="isInvalid()" (keyup)="keyup_field_rate(i)" [ngClass]="{'disabled-save': validation_rate_save == false}" (click)="save_currency_all()">Save</button>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <my-pagination *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)" ></my-pagination>  
+</div>
+</div>
+
+

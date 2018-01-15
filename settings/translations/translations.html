@@ -1,0 +1,84 @@
+<!-- RESPONSIVE CONTAINER -->
+<div class="wrapper-bw" [ngClass]="{'container' : view_port_width_list_agen}">
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id="searchBox" type="text" autocomplete="off" [(ngModel)]="_service.search_translations"/>
+                        <div class="after" (click)="restore_search()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>Search for translations</p>
+                    </div>
+                </div>
+                <div class="text-search">
+                    <p class="open-search">Search for translations</p>
+                </div><br><br>
+            </div>
+        </div>
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-12 text-center">
+                    <h1 class="title3">{{_service._data_pagination.total_page}} Results</h1>
+                </div>
+            </div>
+        </div>
+        <div id="currencies" class="row">
+            <div class="load"></div>
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_service._data_pagination.total_page != 0">
+                        <tr>
+                            <th class="nowrap-whitespace template-th">Template</th>
+                            <th class="translate-th"></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-t [ngForOf]="_service.translations" let-i="index">
+                        <!--<tr *ngFor="let t of _service.translations; let i=index">-->
+                        <tr>
+                            <td class="nowrap-whitespace template-td">{{t.name}}</td>
+                            <td class="translate-td">
+                                <button type="btn" class="btn-red-md" (click)="goToDetail(t.code , t.name )" >Translate</button>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity" >
+            <template [ngIf]="_service._data_pagination.total_page == 0"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_service.search_translations}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+        </div>
+        <template [ngIf]="_service.new_rates != ''">
+            <div id="prueba" class="row">
+                <div class="col-xs-12 save-or-cancel d-flex justify-content-end">
+                    <button class="btn-grey-transparent-md" (click)="cancel_cur()">Cancel</button>
+                    <button class="btn-red-md" [disabled]="isInvalid()" (keyup)="keyup_field_rate(i)" [ngClass]="{'disabled-save': validation_rate_save == false}" (click)="save_currency_all()">Save</button>
+                </div>
+            </div>
+        </template>
+    </div>
+
+
+    <my-pagination  *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination>
+
+    
+</div>
+</div>
+
+

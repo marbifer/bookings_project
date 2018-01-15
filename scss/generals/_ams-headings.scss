@@ -1,0 +1,42 @@
+.blue-heading{
+    background-color: $blue;
+    height: 48px;
+    width: 100%;
+    position: relative;
+    .row{
+        width: 100%;
+        margin: auto;
+    }
+    .title2{
+        color: #fff;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        span{
+            @extend .title2;
+            font-weight: normal;
+        }
+    }
+    .btn-close{
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.grey-heading{
+    background-color: #eee;
+    height: 60px;
+    width: 100%;
+    .row{
+        width: 100%;
+    }
+    .title3{
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+    .title4{
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+}

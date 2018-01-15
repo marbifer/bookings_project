@@ -1,0 +1,262 @@
+<!-- Search Mappings Categories -->
+<div id="wrapper-map" [ngClass]="{'container' : view_port_width_map}">
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing">
+        <div class="row">
+            <div class="col-xs-12" id="prueba">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id="searchBox" type="text" autocomplete="off" [(ngModel)]="_map_categories_service.search_map_categories"/>
+                        <div class="after" (click)="restore_searchBox()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>
+                        <!-- Listado Hotel Categories -->
+                            <template [ngIf]="_map_categories_service.mappings_type_request_data == 'hotel_categories'">
+                                Search By Hotel Category or Provider
+                            </template>
+                        
+                        <!-- Listado Attraction Ctegories -->                       
+                            <template [ngIf]="_map_categories_service.mappings_type_request_data == 'attraction_categories'">
+                                Search By Attraction Category or Provider
+                            </template>                   
+
+                        <!-- Listado Amenities -->                       
+                            <template [ngIf]="_map_categories_service.mappings_type_request_data == 'amenities'">
+                                Search By Amenity or Provider
+                            </template>
+                        
+                        <!-- Listado Chains -->                       
+                            <template [ngIf]="_map_categories_service.mappings_type_request_data == 'chains'">
+                                Search By Chain or Provider
+                            </template>
+
+                        <!-- Listado Mealplan -->                       
+                            <template [ngIf]="_map_categories_service.mappings_type_request_data == 'mealplans'">
+                                Search By Meal Plan or Provider
+                            </template>
+                        </p>
+                    </div>
+                </div>
+                <div class="text-search">
+                    <p class="open-search-map">
+                    <!-- Listado Hotel Categories -->
+                        <template [ngIf]="_map_categories_service.mappings_type_request_data == 'hotel_categories'">
+                            Search By Hotel Category or Provider
+                        </template>
+                
+                    <!-- Listado Attraction Ctegories -->                    
+                        <template [ngIf]="_map_categories_service.mappings_type_request_data == 'attraction_categories'">
+                            Search By Attraction Category or Provider
+                        </template>
+                    
+                    <!-- Listado Amenities -->               
+                        <template [ngIf]="_map_categories_service.mappings_type_request_data == 'amenities'">
+                            Search By Amenity or Provider
+                        </template>
+                    
+                    <!-- Listado Chains -->                   
+                        <template [ngIf]="_map_categories_service.mappings_type_request_data == 'chains'">
+                            Search By Chain or Provider
+                        </template>
+
+                    <!-- Listado Mealplan -->                       
+                        <template [ngIf]="_map_categories_service.mappings_type_request_data == 'mealplans'">
+                            Search By Meal Plan or Provider
+                        </template>
+                    </p>
+                </div><br><br>
+            </div>
+        </div>
+        
+        <!-- RESULTS BAR -->
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-4 align-items-center">
+                    <!-- Checkbox icon-checked -->
+                    <template [ngIf]="justchange == true">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-check" (click)="unselect_all_maps()">
+                                <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox with minus-icon -->
+                    <template [ngIf]="justchange == 'minus'">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-minus" (click)="select_all_maps()">
+                                <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox icon-empty -->
+                    <template [ngIf]="_map_categories_service._data_pagination.total_page != 0">
+                        <template [ngIf]="justchange == false">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div id="icon-empty" (click)="select_all_maps()">
+                                    <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+                        <p class="select">Select All</p>
+                    </template>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <h1 class="title3">{{_map_categories_service._data_pagination.total_page}} Results</h1>
+                </div>
+                <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                    <template [ngIf]="show_icon_map == true">
+                        <!--<div class="trash d-flex align-items-center">-->
+                            <i *ngIf="_map_categories_service._data_pagination.total_page != 0" class="fa fa-trash-o default-icon" aria-hidden="true" (click)="delete_all_mappings()"></i>
+                        <!--</div>-->
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!--  Table Mappings -->
+        <div class="row" id="mappings">
+        <div class="load"></div>
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_map_categories_service._data_pagination.total_page != 0">
+                        <tr>
+                            <th class="check-map"></th>
+                            <th class="prov">Provider</th>
+                            <th class="code">Code</th>
+                            <th class="categorie-th">
+                                <template [ngIf]="mappings_type == 'hotel_categories'">Hotel Category</template>
+                                <template [ngIf]="mappings_type == 'attraction_categories'">Attraction Category</template>
+                                <template [ngIf]="mappings_type == 'amenities'">Amenity</template>
+                                <template [ngIf]="mappings_type == 'chains'">Chain</template>
+                                <template [ngIf]="mappings_type == 'mealplans'">Meal Plan</template>
+                            </th>
+                            <th class="relationships-th">Relationships</th>
+                            <th></th>
+                        </tr>
+                    </template>
+                    
+                        <!--<tr id="height-tr" class="color-map" *ngFor="let map of _map_categories_service.mappings_categories; let i=index">-->
+                        <template ngFor let-map [ngForOf]="_map_categories_service.mappings_categories" let-i="index">
+                            <tr id="height-tr" class="color-map">
+                                <td>
+                                    <div class="checkbox abc-checkbox" (click)="show_icon_mappings()">
+                                        <input class="check-b check-table-maps" id="checkbox{{i}}" value="{{map.relationships_code}}" type="checkbox" (change)="change_to_minus_maps()">
+                                        <label class="label-selected-map" attr.for="checkbox{{i}}"></label>
+                                    </div>
+                                </td>
+                                <td>{{map.provider}}</td>
+                                <td>{{map.code}}</td>
+                                <td class="normal-whitespace">{{map.name}}</td>
+                                <td class="inline-editable normal-whitespace">
+                                    <span class="original" id="original-relationship{{i}}">{{map.relationships}}</span>
+                                    <!-- Input edit Relationships -->
+                                    <div class="row show-grid d-flex align-items-center"> 
+                                        <input id="relationShips-map{{i}}" type="text" autocomplete="off" class="form-control input-editable relationShips-map" [(ngModel)]="_edit_map.relation_name" value="{{map.relationships}}" (click)=filter_category_name_click(map.relationships,i) (keyup)=filter_category_name(map.relationships,i) data-placement="bottom" data-toggle="tooltip">
+                                        <div class="inline-wrapper" id="map-inline{{i}}">
+                                            <div id="editing-mappings{{i}}" class="save-cancel">
+                                                <div class="save-cancel-buttons d-flex align-items-center justify-content-center">
+                                                    <div id="inline-save-button{{i}}" class="sc-icons" (click)="save_relationships_map(_edit_map.relationShipsCode, map.provider_code, map.code, i)" (mouseover)='rollover_icons_save_cancel("#inline-save-button" + i)' aria-hidden="true" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save">
+                                                        <i class="fa fa-check inline-save-button" aria-hidden="true" [ngClass]="{'disabled-save-icon': _edit_map.general_error_map != ''}"></i>
+                                                    </div>
+                                                    <div id="inline-cancel-button{{i}}" class="sc-icons" (click)='cancel_edit_relationships(map.relationships)' (mouseover)='rollover_icons_save_cancel("#inline-cancel-button" + i)' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel">
+                                                        <i class="fa fa-times inline-cancel-button" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!-- Close map-inline -->
+                                    </div>
+                                    <!-- Autocomplete to Relationships --> 
+                                    <template [ngIf]="_edit_map.to_show_row == i">
+                                        <template [ngIf]="_edit_map.filteredListRelationships.length > 6"> <!-- Show Scroll --> 
+                                            <div class="list-autocomplete" *ngIf="_edit_map.filteredListRelationships.length > 0"> 
+                                                <ul class="margin-categories" id="margin-categories{{i}}" *ngFor="let item of _edit_map.filteredListRelationships; let i=index"> 
+                                                    <li class="text-items-map{{i}}" (click)="select(item, _edit_map.list_of_codes_relationships[i])" (mouseover)='mouseover_color_text(".text-items-map" + i)' (mouseleave)='mouseleave_color_text(".text-items-map" + i)'>
+                                                        <a>{{item}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </template>
+
+                                        <template [ngIf]="_edit_map.filteredListRelationships.length < 6"> <!-- Hide Scroll --> 
+                                            <div class="list-autocomplete2" *ngIf="_edit_map.filteredListRelationships.length > 0"> 
+                                                <ul class="margin-categories" id="margin-categories{{i}}" *ngFor="let item of _edit_map.filteredListRelationships; let i=index">
+                                                    <li class="text-items-map{{i}}" (click)="select(item, _edit_map.list_of_codes_relationships[i])" (mouseover)='mouseover_color_text(".text-items-map" + i)' (mouseleave)='mouseleave_color_text(".text-items-map" + i)'>
+                                                        <a>{{item}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </template>
+
+                                    <!-- Message generic error for field Relationships from Backend - Option REQUEST SAVE -->
+                                    <template [ngIf]="_edit_map.error_map == i">
+                                        <div class="danger-alert center d-flex align-items-center error-message-inline" id="error-message-inline{{i}}" *ngIf="_edit_map.general_error_map_save != ''">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                            <p>{{_edit_map.general_error_map_save}}</p>
+                                        </div>
+                                    </template>
+
+                                    <!-- Message generic error for field Relationships from Backend - Option REQUEST LIST AUTOCOMPLETE -->
+                                    <template [ngIf]="_edit_map.to_show_row == i">
+                                        <div class="danger-alert center d-flex align-items-center error-message-inline" id="error-message-inline{{i}}" *ngIf="_edit_map.general_error_map != ''">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                            <p>{{_edit_map.general_error_map}}</p>
+                                        </div>
+                                    </template> 
+                                </td>
+                                
+                                <td class="edit-row" (mouseover)='mouseover_icon_edit(i)' (mouseleave)='mouseleave_icon_edit()'>
+                                    <!-- Icon Pencil -->
+                                    <template [ngIf]="map.relationships != ''">
+                                        <span class="pencil-map" id="pencil-map{{i}}" (click)="edit_relationships( 'original-relationship' + i, 'pencil-map' + i, 'relationShips-map' + i, 'map-inline' + i, 'margin-categories' + i, map.relationships, i)">
+                                            <i id="{{i}}icon-edit" class="cursor fa fa-pencil" aria-hidden="true"></i>
+                                        </span>
+                                    </template>
+                                    <!-- Icon Plus --> 
+                                    <template [ngIf]="map.relationships == ''">
+                                        <span class="pencil-map" id="pencil-map{{i}}" (click)="edit_relationships( 'original-relationship' + i, 'pencil-map' + i, 'relationShips-map' + i, 'map-inline' + i, 'margin-categories' + i, map.relationships, i)">
+                                            <i id="{{i}}icon-edit" class="cursor fa fa-plus" aria-hidden="true"></i>
+                                        </span>
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
+                    
+                </table>
+            </div>
+        </div>
+
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity">
+            <!-- Error Message if there are not registers in the table from Front-End -->
+            <template [ngIf]="_map_categories_service._data_pagination.total_page == 0 && _map_categories_service.search_map_categories == '' "> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“{{path_name}}“</span> in the system yet.</p>
+                </div>
+            </template>
+            <!-- Error Message if there are not registers in the table from Front-End -->
+            <template [ngIf]="_map_categories_service._data_pagination.total_page == 0 && _map_categories_service.search_map_categories != ''"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_map_categories_service.search_map_categories}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+        </div>
+
+    <!--{{Pagination insertada con componente hijo Mappings}}--> 
+    <my-pagination *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination>
+    <!--{{Close pagination insertada con componente hijo}}--> 
+
+    </div> <!-- Close container for Table Mappings and pagination -->
+</div> <!-- Close container wrapper-map -->
+</div>

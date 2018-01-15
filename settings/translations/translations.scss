@@ -1,0 +1,40 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../scss/generals/ams-variables";
+@import "../../../scss/generals/ams-typography";
+@import "../../../scss/generals/ams-generals";
+@import "../../../scss/generals/ams-icons";
+@import "../../../scss/generals/ams-positions";
+@import "../../../scss/generals/ams-headings";
+@import "../../../scss/generals/ams-simple-listing";
+@import "../../../scss/generals/ams-resultsbar";
+@import "../../../scss/generals/ams-tables";
+@import "../../../scss/generals/ams-buttons";
+@import "../../../scss/generals/ams-forms";
+@import "../../../scss/generals/ams-alerts";
+
+
+.simple-listing{
+    .table{
+        td{
+            padding: 0.62rem 0.75rem;
+        }
+        .template-th{
+            padding-left: 30px;
+        }
+        .template-td{
+            @extend .template-th;
+        }
+        .translate-th{
+            width: 7%;
+        }
+        .translate-td{
+            padding: 0px 0.75rem !important;
+            button{
+                font-weight: normal;
+                padding: 2px 10px 3px;
+            }
+        }
+    }
+}

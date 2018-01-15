@@ -1,0 +1,175 @@
+/*-----------------------------*/
+/*           TABLES            */
+/*-----------------------------*/
+.default-table{
+    margin-top: 40px;
+    tr{
+        background-color: #fff;
+        &:first-child{
+            height: 56.1px;
+            i{
+                font-size: 24px;
+            }
+        }
+        &:not(:first-child){
+            height: 76px;
+        }
+        &:nth-of-type(even){
+            background-color: $lightgrey;
+        }
+        &:last-child{
+            border-bottom: 1px solid #ddd;
+        }
+    }
+    th{
+        vertical-align: bottom;
+        font-weight: bold;
+    }
+    td{
+        @extend th;
+        vertical-align: middle;
+        font-weight: normal;
+        white-space: nowrap;
+    }
+    .abc-checkbox{
+        margin-bottom: 0px;
+        max-height: 18px;
+        margin-top: 0px !important;
+    }
+}
+
+.short-table{
+    tr{
+        background-color: #fff;
+        &:first-child{
+            height: 56px;
+            i{
+                font-size: 24px;
+            }
+        }
+        &:not(:first-child){
+            height: 45px;
+        }
+        &:nth-of-type(even){
+            background-color: $lightgrey !important;
+        }
+        &:last-child{
+            border-bottom: 1px solid #ddd;
+            td{
+                /*.collapse.in{
+                    border-top: 1px solid #ddd;
+                }*/
+            }
+        }
+    }
+    tbody{
+        tr:first-child{
+            height: 45px;
+        }
+    }
+    th{
+        vertical-align: bottom;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    td{
+        @extend th;
+        vertical-align: middle;
+        font-weight: normal;
+        white-space: nowrap;
+    }
+    .location{
+        max-width: 100px;
+        width: 100px;
+    }
+    .edit-icon{
+        font-size: 20px !important;
+        cursor: pointer;
+    }
+    .delete-icon{
+        font-size: 27px !important;
+        cursor: pointer;
+    }
+    .collapsable{
+        background-color: #fff;
+        height: 0px !important;
+        border-top: 1px solid #ddd;
+        td{
+            border-top: none;
+            padding: 0px;
+            .edit-tr-container{
+                padding-top: 20px;
+            }
+            /*.collapsing,
+            .collapse.in{
+                border-top: 1px solid #ddd;
+            }*/
+        }
+    }
+}
+
+.with-details{
+    tr{
+        &:nth-child(4),
+        &:nth-child(8),
+        &:nth-child(12),
+        &:nth-child(16),
+        &:nth-child(20){
+            background-color: #fff !important;
+        }
+    }
+}
+
+.folder-td-wrapper{
+    .folder-wrapper{
+        i{
+            color: #eee;
+            cursor: pointer;
+            font-size: 20px;
+            &:hover{
+                color: #e7403f !important;
+            }
+        }
+    }
+    .ellipsis-wrapper{
+        position: relative;
+        .ellipsis{
+            width: 20px;
+            height: 20px;
+            line-height: 8px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 15px;
+            color: #eee;
+            border: 1.5px solid #eee;
+            cursor: pointer;
+            &:hover{
+                color: #e7403f;
+                border: 1.5px solid #e7403f;
+            }
+        }
+        .dropdown-menu{
+            left: auto;
+            right: 0;
+            margin-top: 3px;
+            .divider{
+                margin: 0;
+            }
+            li:hover{
+                background-color: $btn-red;
+                a{
+                    color: #fff !important ;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
+
+.inline-table-detail{
+    display: table-row;
+}
+
+.inline-table-detail-hidden{
+    display: none;
+}

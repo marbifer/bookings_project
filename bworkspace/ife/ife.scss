@@ -1,0 +1,942 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+
+@import "../../../scss/generals/ams-variables";
+@import "../../../scss/generals/ams-typography";
+@import "../../../scss/generals/ams-generals";
+@import "../../../scss/generals/ams-icons";
+@import "../../../scss/generals/ams-positions";
+@import "../../../scss/generals/ams-headings";
+@import "../../../scss/generals/ams-tables";
+@import "../../../scss/generals/ams-datepicker";
+@import "../../../scss/generals/ams-buttons";
+@import "../../../scss/generals/ams-forms";
+@import "../../../scss/generals/ams-alerts";
+
+.ife-container {
+    background-color: #fff;
+    width: 980px;
+    .new-ife-title {
+        height: 100%;
+        width: 155px;
+        background-color: #2c3e50;
+    }
+    .blue-heading {
+        background-color: #384f66;
+        .title3 {
+            font-size: 20px;
+            margin-bottom: 0px;
+            color: #fff;
+            text-transform: uppercase;
+            margin-left: 20px;
+        }
+    }
+    .hide {
+        display: none !important;
+    }
+    .hide-input {
+        display: none;
+    }
+}
+
+
+/*****************************************
+       WIZARD BUTTONS AND BAR STYLES
+******************************************/
+
+.ife-inner-container {
+    padding: 20px 20px 80px 20px;
+    min-height: 640px;
+    position: relative;
+    .wizard-bar {
+        .wizard-buttons {
+            button {
+                width: 229px;
+                height: 45px;
+                font-size: 18px;
+                color: #474747;
+                background-color: #eee;
+                font-weight: 400;
+            }
+            .active {
+                background-color: $danger;
+                color: #fff;
+                font-weight: bold;
+            }
+            .inactive {
+                background-color: #fff;
+                color: $danger;
+                border: 1px solid $danger;
+            }
+        }
+        .wizard-progress-bar {
+            width: 100%;
+            height: 10px;
+            border-radius: 50px;
+            background-color: $disabled;
+            margin: 20px 0 40px;
+            transition: all .3s linear;
+            .progress {
+                height: 100%;
+                border-radius: 50px;
+                background-color: $danger;
+                transition: all .3s linear;
+            }
+        }
+    }
+}
+
+
+/* Clases para la barra de progreso */
+
+.progress-step1 {
+    width: 25%;
+    transition: all .3s linear;
+}
+
+.progress-step2 {
+    width: 50%;
+    transition: all .3s linear;
+}
+
+.progress-step3 {
+    width: 75%;
+    transition: all .3s linear;
+}
+
+.progress-step4 {
+    width: 100%;
+    transition: all .3s linear;
+}
+
+
+/*****************************************
+        GENERAL IFE CONTENT STYLES
+******************************************/
+
+.ife-content {
+    padding: 0 20px;
+    .alert {
+        margin-top: 0px !important;
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    input {
+        height: 40px;
+    }
+    .btn-group {
+        button {
+            background-color: #fff;
+            border-color: $disabled;
+            color: #474747;
+            z-index: 0;
+            &:hover {
+                border-color: $disabled;
+                z-index: auto;
+            }
+        }
+        .active {
+            background-color: #D4181D !important;
+            color: #fff;
+            box-shadow: none;
+        }
+    }
+    .prev-next-step {
+        /*margin-top: 40px;*/
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 100%;
+        .btn-red-md {
+            background-color: #E7403F;
+        }
+        button {
+            width: 109px;
+            height: 34px;
+            &:last-child {
+                margin-left: 10px;
+                &:focus {
+                    border: none;
+                }
+            }
+        }
+        p {
+            margin-left: 10px;
+            margin-bottom: 0px;
+        }
+    }
+    .save-cancel {
+        display: block;
+        background: #dcdcdc;
+        border-radius: 2px;
+        border: 1px solid #bdbaba;
+        position: absolute;
+        top: 92%;
+        right: 2px;
+        padding: 3px 5px;
+        -webkit-box-shadow: -2px 4px 7px 0px rgba(186, 182, 186, 0.78);
+        -moz-box-shadow: -2px 6px 11px 0px rgba(186, 182, 186, 0.78);
+        box-shadow: -2px 2px -1px 0px rgba(186, 182, 186, 0.78);
+        z-index: 9999;
+        p {
+            margin-bottom: 0px;
+        }
+        i {
+            font-size: 20px !important;
+            color: #9a9a9a !important;
+            border: 1px solid #bdbaba;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            line-height: 24px;
+            height: 24px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 99999;
+        }
+        .save {
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+        }
+        .cancel {
+            @extend .save;
+            margin-left: 5px;
+        }
+        .save-notification {
+            width: 53px;
+            height: 24px;
+            border: 1px solid #bdbaba;
+            border-radius: 4px;
+            background: #f8f8f8;
+            margin: 0 2px;
+            i {
+                line-height: 10px;
+                height: 10px;
+                width: 24px;
+                border: none;
+                border-radius: 0px;
+                z-index: 0;
+            }
+        }
+    }
+    .add-item {
+        button {
+            width: 100%;
+            height: 42px;
+            font-family: $montserrat;
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: $disabled;
+            letter-spacing: 2.5px;
+            background-color: #fff;
+            border: 1.7px dotted $disabled;
+            border-radius: 7px;
+            cursor: pointer;
+            i {
+                font-size: 20px;
+            }
+        }
+    }
+    .panel-group {
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+        .panel-heading {
+            background-color: #eee;
+            border-radius: 3px;
+            padding: 0 20px;
+            margin-bottom: 10px;
+            position: relative;
+            cursor: pointer;
+            height: 42px;
+            h4 {
+                margin-bottom: 0px;
+                .panel-link {
+                    color: #D4181D;
+                    font-weight: bold;
+                    font-size: 14px;
+                    margin-right: 10px;
+                    &:hover,
+                    &:focus {
+                        color: #D4181D;
+                        text-decoration: none;
+                    }
+                    &::before {
+                        display: inline-block;
+                        content: "";
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 0;
+                        height: 0;
+                        border-top: 5px solid #474747;
+                        border-left: 5px solid rgba(0, 0, 0, 0);
+                        border-right: 5px solid rgba(0, 0, 0, 0);
+                        transition: all .3s linear;
+                    }
+                    &::after {
+                        display: none;
+                        transition: all .3s linear;
+                    }
+                }
+                /*
+                Esto tuve que eliminarlo en la implementación de Lucho en los accordions de Internal data,
+                pero para el maquetado estático tiene que estar para que los carets se muevan cuando se abre y
+                se cierra el accordion. Fer, si después de tu implementación esto funciona para los carets, buenisimo,
+                no lo eliminamos y listo! Sino, queda el que está más abajo!
+                */
+                .collapsed {
+                    &::before {
+                        display: none;
+                        transition: all .3s linear;
+                    }
+                    &::after {
+                        display: inline-block;
+                        content: "";
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 0;
+                        height: 0;
+                        border-bottom: 5px solid #474747;
+                        border-left: 5px solid rgba(0, 0, 0, 0);
+                        border-right: 5px solid rgba(0, 0, 0, 0);
+                        transition: all .3s linear;
+                    }
+                }
+            }
+            /*
+            Esto es lo que quedó después de la implementación de Lucho en los accordions de Internal Data,
+            para que los carets se muevan de acuerdo al estado del accordion.
+            */
+            .collapsed {
+                h4 {
+                    .panel-link {
+                        &::before {
+                            display: none;
+                            transition: all .3s linear;
+                        }
+                        &::after {
+                            display: inline-block;
+                            content: "";
+                            position: absolute;
+                            right: 10px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: 0;
+                            height: 0;
+                            border-bottom: 5px solid #474747;
+                            border-left: 5px solid rgba(0, 0, 0, 0);
+                            border-right: 5px solid rgba(0, 0, 0, 0);
+                            transition: all .3s linear;
+                        }
+                    }
+                }
+            }
+        }
+        .panel-body {
+            margin-bottom: 10px;
+            background-color: $lightgrey;
+            border: 1px solid $disabled;
+            /*padding: 25px 40px;*/
+            padding: 0 20px;
+            position: relative;
+            .form-group {
+                &:first-child {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+    .service-description {
+        textarea {
+            height: 120px;
+            border: 1px solid $disabled;
+            resize: none;
+        }
+    }
+}
+
+.optional {
+    font-size: 12px;
+    font-style: italic;
+    font-family: $open-sans;
+    letter-spacing: normal;
+    text-transform: capitalize;
+    font-weight: 400;
+}
+
+
+/*****************************************
+            1. SERVICE STEP
+******************************************/
+
+
+/*.ife-content{*/
+
+.service-step {
+    .btn-group {
+        width: 476px;
+        height: 40px;
+        button {
+            height: 100%;
+            &:hover {
+                border-color: $disabled;
+                z-index: auto;
+            }
+            &:nth-child(1) {
+                width: 102px;
+            }
+            &:nth-child(2) {
+                width: 73px;
+            }
+            &:nth-child(3) {
+                width: 113px;
+            }
+            &:nth-child(4) {
+                width: 57px;
+            }
+            &:nth-child(5) {
+                width: 125px;
+            }
+        }
+    }
+    .service-name-date-picture {
+        margin-top: -20px;
+        margin-bottom: 20px;
+    }
+    .service-name {
+        margin-bottom: 20px;
+        input {
+            width: 655px;
+        }
+    }
+    .service-date {
+        .datepicker-wrapper {
+            /*width: 293px;*/
+            width: 302px;
+            height: 34px;
+            p {
+                width: 97px;
+                height: 100%;
+                background-color: #eee;
+                border: 1px solid $disabled;
+            }
+            .datepicker {
+                /*width: 196px;*/
+                width: 206px;
+                height: 100%;
+                border: 1px solid $disabled;
+                border-radius: 0px;
+                margin-left: -1px;
+            }
+        }
+    }
+    .service-picture {
+        /*max-width: 200px;*/
+        max-width: 233px;
+        .drop-files-wrapper {
+            border: 1px solid $disabled;
+            border-radius: 5px;
+            width: 173px;
+            height: 173px;
+            cursor: pointer;
+            .drop-files {
+                border: 1px dashed $grey;
+                background-color: $lightgrey;
+                border-radius: 1px;
+                width: 155px;
+                height: 155px;
+                i {
+                    font-size: 30px;
+                    color: #757575;
+                    margin-bottom: 5px;
+                }
+                p {
+                    font-size: 14px;
+                    color: #757575;
+                    margin-bottom: 0px;
+                }
+            }
+        }
+    }
+    .city-form-group {
+        all-autocompletes {
+            height: 40px;
+        }
+    }
+}
+
+.hotel-type {
+    // display: none;
+}
+
+.transfer-type {
+    // display: none;
+}
+
+.car-type {
+    // display: none;
+}
+
+.insurance-type {
+    // display: none;
+}
+
+.dragOver {
+    border: 1px solid $grey !important;
+    background-color: white !important;
+}
+
+.fileStep1 {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    width: 173px;
+    height: 173px;
+}
+
+
+/*****************************************
+            2. PASSENGER STEP
+******************************************/
+
+.passenger-step {
+    //display: none;
+    .btn-group {
+        width: 474px;
+        height: 40px;
+        button {
+            height: 100%;
+            &:nth-child(1) {
+                width: 76px;
+            }
+            &:nth-child(2) {
+                width: 93px;
+            }
+            &:nth-child(3) {
+                width: 117px;
+            }
+            &:nth-child(4) {
+                width: 98px;
+            }
+        }
+    }
+    .pax-info-container {
+        margin-top: 40px;
+        .panel-heading {
+            h4 {
+                .passenger-data {
+                    p {
+                        font-size: 14px;
+                        font-family: $open-sans;
+                        margin-bottom: 0px;
+                    }
+                    div:not(:first-child) {
+                        margin-left: 7px;
+                    }
+                }
+            }
+        }
+        .panel-body {
+            height: 193px;
+            .form-group {
+                textarea {
+                    height: 120px;
+                }
+            }
+            .disabled-save-icon{ //Gonza acomodo esto aquí, es el icono inhabilitado que pidió Fernando, si debe estar en otro lado por fis después lo arreglas. Gracias :);
+                color: #e0dddd !important;
+                cursor: initial !important;
+                border: none;
+            }
+        }
+        .pax-id-type {
+            .btn-group-wrapper {
+                position: relative;
+                .dropdown-menu {
+                    li {
+                        &:hover {
+                            background-color: #E7403F;
+                            a {
+                                color: #fff;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                    .apart {
+                        border-top: 1px solid $disabled;
+                    }
+                }
+            }
+            .btn-group {
+                width: 130px;
+                button {
+                    background-color: #fff;
+                    border-color: $disabled;
+                    height: 40px;
+                    color: #474747;
+                    &:hover {
+                        border-color: $disabled;
+                        z-index: 0;
+                    }
+                    &:nth-child(1) {
+                        width: 102px;
+                        span {
+                            text-transform: uppercase;
+                            font-size: 12px;
+                            font-family: $montserrat;
+                            font-weight: bold;
+                            letter-spacing: 2.5px;
+                        }
+                    }
+                    &:nth-child(2) {
+                        padding: 0;
+                        width: 28px;
+                    }
+                }
+            }
+        }
+        .pax-age {
+            max-width: 120px;
+            input {
+                width: 53px;
+            }
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { //Gonza, esto es para inhabilitar unas fechas del campo age, porque ahí me piden mandar sí o sí un entero, tu después cambialo si lo acomodé mal. Gracias :);
+              -webkit-appearance: none; 
+              margin: 0; 
+            }
+        }
+        .pax-birthday {
+            display: block;
+            input {
+                width: 129px;
+            }
+        }
+    }
+    .show-status {
+        display: block !important;
+    }
+    .hide {
+        display: block;
+    }
+}
+
+
+/*****************************************
+              3. PRICES STEP
+******************************************/
+
+.prices-step {
+    //display: none;
+    .prices-container {
+        background-color: $lightgrey;
+        padding: 40px 18px;
+        /*height: 355px;*/
+        min-height: 284px;
+        .add-item {
+            button {
+                background-color: transparent;
+                width: 152px;
+            }
+        }
+    }
+    .price-input-container {
+        position: relative;
+        &:not(:last-child) {
+            /*margin-bottom: 20px;*/
+            margin-bottom: 10px;
+        }
+        p {
+            text-transform: uppercase;
+            margin-bottom: 0px;
+            font-size: 12px;
+        }
+        i {
+            font-size: 18px;
+            color: $grey;
+            cursor: pointer;
+        }
+        .edit-price {
+            margin-right: 10px;
+        }
+        .add-price {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .tax-text{
+            width: 70px;
+            position: relative;
+            p{
+                max-width: 70px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                /*&:hover{
+                    content: attr(data-text);
+                    overflow: visible;
+                    text-overflow: inherit;
+                    white-space: normal;
+                    background: #fff;
+                    position: absolute;
+                    left: 0;
+                    top: -10px;
+                    width: auto;
+                    max-width: 300px;
+                    min-width: 150px;
+                    border: 1px solid $lightgrey;
+                    padding: 0 10px;
+                    box-shadow: 0 2px 4px 0 rgba(0,0,0,.28);
+                    display: block;
+                    z-index: 1;
+                }*/
+                &:hover{
+                    overflow: visible;
+                    background-color: $lightgrey;
+                    z-index: 3;
+                    max-width: 300px;
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    transform: translateY(-50%);
+                    white-space: normal;
+                }
+            }
+        }
+    }
+    .input-group {
+        width: 152px;
+        height: 40px;
+        .input-group-btn {
+            width: 60px;
+            height: 40px;
+            button {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        input {
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            &::placeholder {
+                font-size: 12px;
+                font-style: italic;
+                font-family: $open-sans;
+                letter-spacing: normal;
+                text-transform: capitalize;
+                font-weight: 400;
+            }
+        }
+    }
+    .client-sale-input {
+        margin-top: 20px;
+    }
+    .provider-container {
+        all-autocompletes {
+            width: 100%;
+        }
+        .input-group {
+            width: 514px;
+            height: 40px;
+            position: static;
+            .input-group-btn {
+                width: 107px;
+                height: 40px;
+            }
+            input {
+                border-top-right-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+        }
+    }
+    .remarks-container {
+        textarea {
+            height: 264px;
+        }
+    }
+}
+
+.newPrice {
+    display: none;
+    position: relative;
+    input {
+        width: 100px;
+        height: 30px;
+    }
+}
+
+.wtout-margin-left {
+    margin-left: 0px !important;
+}
+
+
+/*****************************************
+            4. POLICIES STEP
+******************************************/
+
+.policies-step {
+    // display: none;
+    /* ALERTS */
+    /*.alert-add-policy{
+        display: none;
+    }*/
+    /* POLICIES CONTAINER */
+    .policies-container {
+        .panel-body {
+            height: 270px;
+        }
+        .disabled-save-icon{ //Gonza acomodo esto aquí, no me tomaba la clase afuera, es el icono inhabilitado que pidió Fernando, si debe estar en otro lado por fis después lo arreglas. Gracias :);
+            color: #e0dddd !important;
+            cursor: initial !important;
+            border: none;
+        }
+        .btn-group {
+            width: 284px;
+            height: 32px;
+            button {
+                height: 100%;
+                &:nth-child(1) {
+                    width: 99px;
+                }
+                &:nth-child(2) {
+                    width: 107px;
+                }
+                &:nth-child(3) {
+                    width: 80px;
+                }
+            }
+        }
+        .within-date-range {
+            /*max-width: 320px;*/
+            .datepicker-wrapper {
+                width: 249px;
+                height: 34px;
+                p {
+                    height: 100%;
+                    padding: 0 10px;
+                    background-color: #eee;
+                    border: 1px solid $grey;
+                }
+                .datepicker {
+                    border: 1px solid $grey;
+                    border-radius: 0;
+                    border-left: none;
+                    z-index: 0;
+                    &>div {
+                        display: block;
+                    }
+                }
+                .datepicker-text {
+                    position: relative;
+                    span {
+                        position: absolute;
+                        top: 13%;
+                        left: 50%;
+                        transform: translate(-50%);
+                        font-weight: normal;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        border-radius: 3px;
+                        font-size: 12px;
+                        width: 60px;
+                        height: 23px;
+                        z-index: -1;
+                    }
+                    .datepicker-active {
+                        background-color: #eee;
+                    }
+                    .datepicker-inactive {
+                        color: $disabled;
+                        cursor: not-allowed;
+                    }
+                    input {
+                        background-color: transparent;
+                        z-index: 2;
+                    }
+                }
+            }
+        }
+        .it-will-cost {
+            .input-group {
+                width: 153px;
+                height: 34px;
+                .input-group-btn {
+                    button {
+                        width: 61px;
+                        height: 100%;
+                        font-size: 12px;
+                        border-color: #B7BBc0;
+                    }
+                }
+                input {
+                    height: 100%;
+                }
+            }
+        }
+        .disabled-col {
+            cursor: not-allowed;
+            label {
+                color: $disabled;
+                cursor: not-allowed;
+            }
+            button {
+                color: $disabled;
+                background-color: #fff;
+                border-color: $disabled !important;
+                cursor: not-allowed;
+            }
+            input {
+                border: 1px solid $disabled;
+                cursor: not-allowed;
+            }
+        }
+    }
+    .prev-next-step {
+        .checkbox {
+            margin-bottom: 0px;
+            margin-right: 10px;
+            label {
+                font-weight: normal;
+                margin-left: 0px;
+                &::before {
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+                &::after {
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+        }
+        .btn-red-md {
+            width: 134px;
+        }
+    }
+}
+
+
+/*****************************************
+        5. FINAL STEP => FEEDBACK
+******************************************/
+
+.final-step {
+    //display: none;
+    .prev-next-step {
+        /*margin-top: 350px;*/
+        .btn-grey-transparent-md {
+            width: 160px;
+        }
+        .btn-red-md {
+            width: 60px;
+        }
+    }
+}

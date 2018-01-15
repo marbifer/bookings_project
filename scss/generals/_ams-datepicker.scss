@@ -1,0 +1,26 @@
+.datepicker-wrapper{
+    p{
+        font-size: 13px;
+        padding: 3px;
+        background-color: $disabled;
+        margin-bottom: 0px;
+    }
+    .datepicker{
+        height: 34px;
+        background-color: #fff;
+        input{
+            height: 100%;
+            border: none;
+            font-size: 13px;
+            padding: 6px 8px;
+            min-width: 93px;
+            &:focus{
+                box-shadow: none !important;
+            }
+        }
+        i{
+            font-size: 18px;
+            vertical-align: middle;
+        }
+    }
+}

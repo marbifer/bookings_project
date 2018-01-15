@@ -1,0 +1,423 @@
+<div class="load"></div>
+<!-- Search Mappings amenities -->
+<div id="wrapper-ame" [ngClass]="{'container' : view_port_width_ame}">
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id='searchBox' type="text" autocomplete="off" [(ngModel)]="_internal2_service.search_all_internal_data" />
+                        <div class="after" (click)="restore_searchBox()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>
+                            <!-- Listado Amenities -->
+                            <template [ngIf]="internal_type == 'amenities'">
+                                Search by Amenity
+                            </template>
+                            
+                            <!-- Listado Accessibilities -->                     
+                            <template [ngIf]="internal_type == 'accessibilities'">
+                                Search by Accessibility
+                            </template>
+
+                            <!-- Listado Attraction Categories -->
+                            <template [ngIf]="internal_type == 'attraction_categories'">
+                                Search by Attraction Category
+                            </template>
+                            
+                            <!-- Listado Chains -->                       
+                            <template [ngIf]="internal_type == 'chains'">
+                                Search by Chain
+                            </template>                   
+
+                            <!-- Listado Classifications -->                       
+                            <template [ngIf]="internal_type == 'classifications'">
+                                Search by Classification
+                            </template>
+                            
+                            <!-- Listado Hotel Categories -->                       
+                            <template [ngIf]="internal_type == 'hotel_categories'">
+                                Search by Hotel Category
+                            </template>                 
+                        </p>
+                    </div>
+                </div>
+                <div class="text-search">                    
+                    <p class="open-search">
+                            <!-- Listado Amenities -->
+                            <template [ngIf]="internal_type == 'amenities'">
+                                Search by Amenity
+                            </template>
+                            
+                            <!-- Listado Accessibilities -->                       
+                            <template [ngIf]="internal_type == 'accessibilities'">
+                                Search by Accessibility
+                            </template>
+
+                            <!-- Listado Attraction Categories -->
+                            <template [ngIf]="internal_type == 'attraction_categories'">
+                                Search by Attraction Category
+                            </template>
+                                
+                            <!-- Listado Chains -->                       
+                            <template [ngIf]="internal_type == 'chains'">
+                                Search by Chain
+                            </template>                   
+
+                            <!-- Listado Classifications -->                       
+                            <template [ngIf]="internal_type == 'classifications'">
+                                Search by Classification
+                            </template>
+                                
+                            <!-- Listado Hotel Categories -->                       
+                            <template [ngIf]="internal_type == 'hotel_categories'">
+                                Search by Hotel Category
+                            </template>               
+                        </p>
+                </div><br><br>
+            </div>
+        </div>
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-4 align-items-center">
+                    <!-- Checkbox icon-checked -->
+                    <template [ngIf]="justchange == true">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-check" (click)="unselect_all()">
+                                <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox with minus-icon -->
+                    <template [ngIf]="justchange == 'minus'">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-minus" (click)="select_all()">
+                                <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox icon-empty -->
+                    <template [ngIf]="_internal2_service.total_page != 0">
+                        <template [ngIf]="justchange == false">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div id="icon-empty" (click)="select_all()">
+                                    <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+                        <p class="select">Select All</p>
+                    </template>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <h1 class="title3">{{_internal2_service.total_page}} Results</h1>
+                </div>            
+                    <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                        <button [hidden]="hideNewButton" (click)="hide_new_button()" type="button" id="new-amenity-button" class="" data-toggle="collapse" data-target="#newAmenity"
+                            [ngClass]="{'btn-amenities': internal_type == 'amenities',
+                                        'btn-chains': internal_type == 'chains',
+                                        'btn-categories': internal_type == 'hotel_categories',
+                                        'btn-accessibilities': internal_type == 'accessibilities',
+                                        'btn-attractions': internal_type == 'attraction_categories',
+                                        'btn-classifications': internal_type == 'classifications'}">
+                            <template [ngIf]="internal_type == 'amenities'">New Amenity</template>
+                            <template [ngIf]="internal_type == 'accessibilities'">New Accessibility</template>
+                            <template [ngIf]="internal_type == 'attraction_categories'">New Attraction Category</template>
+                            <template [ngIf]="internal_type == 'chains'">New Chain</template> 
+                            <template [ngIf]="internal_type == 'classifications'">New Classification</template>
+                            <template [ngIf]="internal_type == 'hotel_categories'">New Hotel Category</template>                       
+                        </button>
+                        <template [ngIf]="show_icon == true">
+                            <div class="trash d-flex align-items-center">
+                                <template [ngIf]="_internal2_service.is_filtrable_status == true">
+                                    <div class="btn-group filtrable-btn" *ngIf="internal_type == 'accessibilities' || internal_type == 'amenities'">
+                                        <template [ngIf]="_internal2_service.total_page != 0">
+                                            <button type="button" class="btn btn-default yes-filtrable" id="yes-is-filtrable" (click)="change_state_is_filtrable_all(true)">Yes</button>
+                                            <button type="button" class="btn btn-default" id="no-is-filtrable" (click)="change_state_is_filtrable_all(false)">No</button>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template [ngIf]="_internal2_service.is_filtrable_status == false">
+                                    <div class="btn-group filtrable-btn" *ngIf="internal_type == 'accessibilities' || internal_type == 'amenities'"> 
+                                        <template [ngIf]="_internal2_service.total_page != 0">
+                                            <button type="button" class="btn btn-default " id="yes-is-filtrable" (click)="change_state_is_filtrable_all(true)">Yes</button>
+                                            <button type="button" class="btn btn-default no-filtrable" id="no-is-filtrable" (click)="change_state_is_filtrable_all(false)">No</button>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template [ngIf]="_internal2_service.toggle_status == true">
+                                    <i *ngIf="_internal2_service.total_page != 0" class="fa fa-toggle-off default-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                                </template>
+                                <template [ngIf]="_internal2_service.toggle_status == false">
+                                    <i *ngIf="_internal2_service.total_page != 0" class="fa fa-toggle-on default-icon enabled-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                                </template>
+                                <i *ngIf="_internal2_service.total_page != 0" class="fa fa-trash-o default-icon" aria-hidden="true" (click)="delete_all_mappings('','multiple')"></i>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Table NEW ALL INTERNAL DATA -->
+        <div id="newAmenity" class="collapse collapsed new-amenity">
+            <div class="row">
+                    <div class="col-xs-9 center">
+                         <template [ngIf]="_edit_internal_data.save_amenity_error == true">
+                            <div class="danger-alert center d-flex align-items-center" id="danger-alert-internal-amenity-new">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                            </div><br>
+                         </template>
+                    </div>
+                <div class="col-xs-9 center">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default" *ngFor="let lang of _edit_internal_data.languages" >
+                            <div class="panel-heading d-flex align-items-center collapsed" role="tab" id="cancelnew{{lang.name}}"  data-toggle="collapse" data-parent="#accordion" [attr.href]="'#newamenity'+lang.name" aria-expanded="true" aria-controls="amenityEnglish">
+                                <h4 class="panel-title title4">
+                                    <a class="panel-link" role="button" data-toggle="collapse" data-parent="#accordion"  [attr.href]="'#newamenity'+lang.name" aria-expanded="true" [attr.aria-controls]="'newamenity'+lang.name">
+                                        {{lang.name}}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="newamenity{{lang.name}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 form-group">
+                                            <label [attr.for]="lang.name" class="title5">
+                                                <template [ngIf]="internal_type == 'amenities'">Amenity</template>
+                                                <template [ngIf]="internal_type == 'accessibilities'">Accessibility</template>
+                                                <template [ngIf]="internal_type == 'attraction_categories'">Attraction Category</template>
+                                                <template [ngIf]="internal_type == 'chains'">Chains</template>
+                                                <template [ngIf]="internal_type == 'classifications'">Classification</template>
+                                                <template [ngIf]="internal_type == 'hotel_categories'">Hotel Category</template>
+                                            </label>
+                                            <input type="text" name="{{lang.name}}" id="{{lang.name}}" class="form-control  {{lang.name}}">
+                                            <div class="error{{lang.name}}" >
+                                                <span class="with-errors-text">{{_edit_internal_data.general_error_new}}</span>
+                                            </div>
+                                        </div>
+                                        <template  [ngIf]="internal_type != 'attraction_categories' &&  internal_type != 'hotel_categories' &&  internal_type != 'chains'">
+                                            <div class="col-xs-12 form-group">
+                                                <label for="description" class="title5">Description</label>
+                                                <textarea rows="7" name="description" id="description{{lang.name}}" class="form-control"></textarea>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                            <button type="button" class="btn-grey-transparent-md" (click)="cancel_new_amenity()">Cancel</button>
+                            <div class="dropdown">
+                                <button (click)="save_amenity()" class="btn-red-md " type="button" id="save-dropdown" >Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                         <div class="col-xs-12">
+                                <template [ngIf]="_edit_internal_data.save_amenity == true"><br>
+                                    <div class="success-alert center d-flex align-items-center" id="success-alert-internal-amenity-new">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                        <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                    </div><br><br>
+                                </template>
+                         </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Table Mappings amenities -->
+        <div class="row" id="amenities">
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_internal2_service.total_page != 0">
+                        <tr>
+                            <th class="checkboxes"></th>
+                            <th class="nowrap-whitespace amenity-name-th">
+                                <template [ngIf]="internal_type == 'amenities'">Amenity</template>
+                                <template [ngIf]="internal_type == 'accessibilities'">Accessibility</template>
+                                <template [ngIf]="internal_type == 'attraction_categories'">Attraction Category</template>
+                                <template [ngIf]="internal_type == 'chains'">Chains</template>
+                                <template [ngIf]="internal_type == 'classifications'">Classification</template>
+                                <template [ngIf]="internal_type == 'hotel_categories'">Hotel Category</template>  
+                            </th>
+                            <template [ngIf]="internal_type == 'amenities' || internal_type == 'accessibilities'">
+                                <th class="nowrap-whitespace text-center is-filtrable-th">Is filtrable</th>
+                            </template>
+                            <th class="nowrap-whitespace text-center status-th">Status</th>
+                            <th class="status-th"></th>                           
+                            <th class="status-th"></th>
+                            
+                        </tr>
+                    </template>
+                    <template [ngIf]="true" *ngFor="let ame of _internal2_service.amenities; let i=index; trackBy: trackByAmenities">
+
+                    <tr>
+                        <td>
+                            <div class="checkbox abc-checkbox" (click)="show_icon_delete()">
+                                <input class="check-b check-table-ame-internal" id="checkbox{{i}}" value="{{ame.code}}" type="checkbox" (change)="change_to_minus_maps()">
+                                <label class="label-selected-ame" attr.for="checkbox{{i}}"></label>
+                            </div>
+                        </td>
+                        <td>{{ame.name}}</td>
+                        <template [ngIf]="internal_type == 'amenities' || internal_type == 'accessibilities'">
+                            <td class="text-center is-filtrable-td">
+                                <template [ngIf]="ame.is_filtrable == true">
+                                    <div class="btn-group filtrable-btn">
+                                        <button type="button" class="btn btn-default yes-filtrable" id="yes-is-filtrable" (click)="change_state_is_filtrable(true, ame.code, false)">Yes</button>
+                                        <button type="button" class="btn btn-default" id="no-is-filtrable" (click)="change_state_is_filtrable(false, ame.code, false)">No</button>
+                                    </div>
+                                </template>
+                                <template [ngIf]="ame.is_filtrable == false">
+                                    <div class="btn-group filtrable-btn">
+                                        <button type="button" class="btn btn-default" id="yes-is-filtrable" (click)="change_state_is_filtrable(true, ame.code, false)" >Yes</button>
+                                        <button type="button" class="btn btn-default no-filtrable" id="no-is-filtrable" (click)="change_state_is_filtrable(false, ame.code, false)">No</button>
+                                    </div>
+                                </template>
+                            </td>
+                        </template>
+                        <td class="short-td text-center">
+                        <!-- Status toogle -->
+                            <template [ngIf]="ame.status == false">
+                                <i class="fa fa-toggle-off toggle-icon disabled" aria-hidden="true" (click)="enabled_disabled_toogle(true, ame.code)"></i>
+                            </template>
+                            <template [ngIf]="ame.status == true">
+                                <i class="fa fa-toggle-on toggle-icon enabled" aria-hidden="true" (click)="enabled_disabled_toogle(false, ame.code)"></i>
+                            </template>
+                        </td>
+                        <!-- Icon Pencil --> 
+                        <td class="edit-row"><!-- class="icon-edit-ame" (mouseover)='mouseover_icon_edit(i)' (mouseleave)='mouseleave_icon_edit()'>
+                            <template>
+                                <span class="pencil-ame" id="pencil-ame{{i}}" >-->
+                                <i [hidden]="_internal2_service.showTd[i] == true" id="{{i}}icon-edit" class="cursor fa fa-pencil" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#editAmenity'+i" (click)="loadAmenity(ame.code , i )" ></i>
+                                <!--</span>
+                            </template>-->
+                        </td>                       
+                        <td class="delete-row">
+                            <i class="fa fa-trash-o default-icon" aria-hidden="true" (click)="delete_all_mappings(ame.code,'single')"></i>
+                        </td>
+                        
+                    </tr>
+                    <!-- EDIT AMENITY -->
+                    <tr class="collapsable" *ngIf="_internal2_service.showTd[i] == true">
+                        <td colspan="5" >
+                            <div id="editAmenity{{i}}" class="collapse new-amenity">
+                                <div class="row edit-tr-container">
+                                    <div class="col-xs-9 center">
+                                        <div  class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="col-xs-12">
+                                                <template [ngIf]="_edit_internal_data.updated_form_error[i] == true">
+                                                    <div class="danger-alert center d-flex align-items-center" id="danger-alert-internal-amenity-edit">
+                                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                                        <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                                                    </div><br>
+                                                </template>
+                                            </div>
+                                            <div *ngFor="let lang of _edit_internal_data.languages ; let langId=index; "  class="panel panel-default">
+                                                        <div class="panel-heading d-flex align-items-center collapsed" role="tab" id="cancel{{lang.name}}{{i}}"  data-toggle="collapse" data-parent="#accordion" [attr.href]="'#amenity'+lang.name+i"  aria-expanded="false" aria-controls="amenityEnglish">
+                                                            <h4 class="panel-title title4">
+                                                                <a class="panel-link" role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#amenity'+lang.name" aria-expanded="true" [attr.aria-controls]="'amenity'+lang.name">
+                                                                    {{lang.name}}
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="amenity{{lang.name}}{{i}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="panel-body">
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 form-group">
+                                                                        <label [attr.for]="lang.name" class="title5">
+                                                                            <template [ngIf]="internal_type == 'amenities'">Amenity</template>
+                                                                            <template [ngIf]="internal_type == 'accessibilities'">Accessibility</template> 
+                                                                            <template [ngIf]="internal_type == 'attraction_categories'">Attraction Category</template>
+                                                                            <template [ngIf]="internal_type == 'chains'">Chains</template>
+                                                                            <template [ngIf]="internal_type == 'classifications'">Classification</template>
+                                                                            <template [ngIf]="internal_type == 'hotel_categories'">Hotel Category</template>  
+                                                                        </label>
+                                                                        <input  type="text" name="{{lang.name}}" id="{{lang.code}}{{i}}" class="form-control amenity-name">
+                                                                        <div>
+                                                                            <span class="with-errors-text" id="error{{lang.code}}{{i}}" >{{_edit_internal_data.edit_errors[i]}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <template  [ngIf]="internal_type != 'attraction_categories' &&  internal_type != 'hotel_categories' &&  internal_type != 'chains'">
+                                                                        <div class="col-xs-12 form-group">
+                                                                            <label [attr.for]="'description'+lang.name" class="title5">Description</label>
+                                                                            <textarea rows="7" name="description{{lang.name}}" id="description{{lang.code}}{{i}}" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </template>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                    
+                                        <div class="row">
+                                            <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                                                <button type="button" class="btn-grey-transparent-md" (click)="cancel_editAmenity( ame.code , i )" >Cancel</button>
+                                                <div >
+                                                    <button  (click)="edit_amenity(i , ame.code )" class="btn-red-md dropdown-toggle" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Save Changes </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                             <div class="col-xs-12">
+                                                    <template [ngIf]="_edit_internal_data.updated_form == true"><br>
+                                                        <div class="success-alert center d-flex align-items-center" id="success-alert-internal-amenity-edit">
+                                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                                            <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                                        </div><br><br>
+                                                    </template>
+                                             </div>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity">
+            <template [ngIf]="_internal2_service.total_page == 0 && _internal2_service.search_all_internal_data != ''"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_internal2_service.search_all_internal_data}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+            <!-- Error Message if there are not registers in the table from Front-End -->
+            <template [ngIf]="_internal2_service.total_page == 0 && _internal2_service.search_all_internal_data == ''"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no 
+                        <span>
+                            <template [ngIf]="internal_type == 'amenities'">Amenities</template>
+                            <template [ngIf]="internal_type == 'accessibilities'">Accessibilities</template>
+                            <template [ngIf]="internal_type == 'attraction_categories'">Attraction Categories</template>
+                            <template [ngIf]="internal_type == 'chains'">Chains</template>
+                            <template [ngIf]="internal_type == 'classifications'">Classifications</template>
+                            <template [ngIf]="internal_type == 'hotel_categories'">Hotel Categories</template>
+                        </span> in the system yet. Create one from the button on the top right corner of this screen.
+                    </p>
+                </div>
+            </template>
+        </div>
+        <!--{{Pagination insertada con componente hijo Mappings Amenities}}--> 
+        <my-pagination #pagination *ngIf="showPagination" (change_current_page)="current_page_change($event)"></my-pagination>
+        <!--{{Close pagination insertada con componente hijo}}--> 
+    </div>
+</div>
+</div>

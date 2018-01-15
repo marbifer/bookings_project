@@ -1,0 +1,1051 @@
+<h1 class="page-title"></h1>
+
+<!-- RESPONSIVE CONTAINER -->
+<div class="wrapper-bw" [ngClass]="{'container' : view_port_width_list_users}" (click)="remove_autocomplete()">
+    <div class="overflow-x">
+        <!-- BOX CONTAINER CONTAINER -->
+        <div class="container ams-container">
+            <!-- SEARCH FORM CONTAINER -->
+            <div class="searchform-wrapper">
+                <div class="searchform-container center">
+                    <div class="row">
+                        <div class="col-xs-12 center">
+                            <h5 class="title5">Search for Users</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 center search-input form-control d-flex align-items-center" (click)="open_modal_filters_users()" data-toggle="modal" data-target="#filtersModalUsers">
+                            <!-- PILLS -->
+                            <!-- NAME/SURNAME -->
+                             <div class="filters-wrapper">
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_name_array; let i=index" id="filter_name">
+                                <span (click)="edit_pill('name', $event, i)">
+                                    <span>{{_filter_service.response_filters[0].filter_type_name}}:</span>
+                                    <p>{{info}}</p>
+                                </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_name_array', i)">x</button>
+                                </div>
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_surname_array; let i=index" id="filter_surname">
+                                <span (click)="edit_pill('name', $event, i)">
+                                    <span>{{_filter_service.response_filters[7].filter_type_name}}:</span>
+                                    <p>{{info}}</p>
+                                </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_surname_array', i)">x</button>
+                                </div>
+                                <!-- E-MAIL -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_email_array; let i=index" id="filter_email">
+                                    <span (click)="edit_pill('email', $event, i)">
+                                        <span>{{_filter_service.response_filters[1].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_email_array', i)">x</button>
+                                </div>
+                                <!-- PHONE NUMBER -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_phone_number_array; let i=index" id="filter_phone">
+                                    <span (click)="edit_pill('phone', $event, i)">
+                                        <span>{{_filter_service.response_filters[2].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_phone_number_array', i)">x</button>
+                                </div>
+                                <!-- AGENCY  -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_agency_array; let i=index" id="filter_agency">
+                                    <span (click)="edit_pill('agency', $event, i)">
+                                        <span>{{_filter_service.response_filters[3].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_agency_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION ADDRESS -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_address_array; let i=index" id="filter_address">
+                                <span (click)="edit_pill('location', $event, i)">
+                                    <span>Address:</span>
+                                    <p>{{info}}</p>
+                                </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_address_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION CITY -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_city_array; let i=index" id="filter_location">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>City:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_city_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION STATE -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_state_array; let i=index" id="filter_state">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>State:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_state_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION COUNTRY -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_country_array; let i=index" id="filter_country">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>Country:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_country_array', i)">x</button>
+                                </div>
+                                <!-- LOCATION ZIP -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_zip_array; let i=index" id="filter_zip">
+                                    <span (click)="edit_pill('location', $event, i)">
+                                        <span>Zip:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_zip_array', i)">x</button>
+                                </div>
+                                <!-- BOOKINGS -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_has_bookings_array; let i=index" id="filter_bookings">
+                                    <span (click)="edit_pill('bookings', $event, i)">
+                                        <span>{{_filter_service.response_filters[5].filter_type_name}}:</span>
+                                        <template [ngIf]="info == true">
+                                          <p>Has bookings</p>
+                                        </template>
+                                    </span>
+
+                                    <span (click)="edit_pill('bookings', $event, i)">
+                                        <template [ngIf]="info == false">
+                                          <p>Has never booked</p>
+                                        </template>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_has_bookings_array', i)">x</button>
+                                </div>
+                                <!-- STATUS -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_status_array; let i=index" id="filter_status">
+                                    <span (click)="edit_pill('status', $event, i)">
+                                        <span>{{_filter_service.response_filters[6].filter_type_name}}:</span>
+                                        <template [ngIf]="info == 1">
+                                          <p>Active</p>
+                                        </template>
+                                    </span>
+                                    <span (click)="edit_pill('status', $event, i)">
+                                        <template [ngIf]="info == 3">
+                                          <p>Suspended</p>
+                                        </template>
+                                    </span>
+                                     <span (click)="edit_pill('status', $event, i)">
+                                        <template [ngIf]="info == 2">
+                                          <p>Inactive</p>
+                                        </template>
+                                    </span>
+                                    <!-- <template ngFor let-status [ngForOf]="_filter_service.response_filters[6].sub_item_filter_list" let-i="index">
+                                    <p *ngIf="info == status.filter_type_code">{{status.filter_type_name}}</p>
+                                </template>-->
+                                    <button id="closePending" class="close-filter" (click)="remove_filter_array($event, 'filter_status_array', i)">x</button>
+                                </div>
+                            </div>
+                            
+                            <div class="icon-search">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS BAR AND SELLECT ALL -->
+            <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+                <div class="row align-items-center">
+                    <div class="col-xs-4 align-items-center">
+
+                        <!-- Checkbox icon-checked -->
+                        <template [ngIf]="justchange == true">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div class="icon-check" id="icon-check" (click)="unselect_all()">
+                                    <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Checkbox with minus-icon -->
+                        <template [ngIf]="justchange == 'minus'">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div class="icon-minus" id="icon-minus" (click)="select_all()">
+                                    <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Checkbox icon-empty -->
+                        <template [ngIf]="_service._data_pagination.total_page != 0">
+                            <template [ngIf]="justchange == false">
+                                <div class="checkbox abc-checkbox check-results">
+                                    <div id="icon-empty" (click)="select_all()">
+                                        <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </template>
+                        <p class="text-sm select">Select all</p>
+                        </template>
+                        <div  class="pending"  data-toggle="tooltip" title="Show pending users" (click)="filterPendings()" >
+                            <i *ngIf="_service.total_page != 0" class="fa fa-clock-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <h1 class="title3">{{_service._data_pagination.total_page}} results</h1>
+                    </div>
+
+                    <!-- Icon: enable-disabled -->
+                    <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                        <button type="button" id="new-user-button" class="btn-blue-lg" data-toggle="collapse" data-target="#newUser" (click)="get_data_users_new()">New User</button>
+                        <i *ngIf="_service.total_page != 0" class="fa fa-file-excel-o default-icon export-excel" aria-hidden="true" (click)="export_to_excel()"></i>
+                        <template [ngIf]="show_icons_users == true">
+                            <template [ngIf]="_service.general_toggle_status == 1">
+                                <div *ngIf="_service.total_page != 0" class="radio-wrapper disabled-toggle-icon d-flex align-items-center" (click)="enabled_disabled_all()">
+                                    <span for="isDisabled"></span>
+                                </div>
+                            </template>
+                            <template [ngIf]="_service.general_toggle_status == 2">
+                                <div *ngIf="_service.total_page != 0" class="radio-wrapper suspended-toggle-icon d-flex align-items-center" (click)="enabled_disabled_all()">
+                                    <span for="isDisabled"></span>
+                                </div>
+                            </template>
+                            <template [ngIf]="_service.general_toggle_status == 3">
+                                <div *ngIf="_service.total_page != 0" class="radio-wrapper enabled-toggle-icon d-flex align-items-center" (click)="enabled_disabled_all()">
+                                    <span for="isDisabled"></span>
+                                </div>
+                            </template>
+                                <i *ngIf="_service.total_page != 0" class="fa fa-trash-o default-icon delete-users" aria-hidden="true" (click)="deleteUsersAll()"></i>
+                        </template>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- FORM ADD NEW USER -->
+            <div id="newUser" class="collapse new-user">
+                <div class="row">
+                    <div id="scrollToError" class="col-xs-9 center">
+                        <!-- Error specific Message if the field First name, Last name, email, Password, Agency, Agency Name, Agency E-mail and Tax Number is empty from Back-End (Form New User) -->
+                        <template [ngIf]="_edit_users.only_error_new == true">
+                            <div class="danger-alert center d-flex align-items-center" id="danger-alert-user">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                            </div><br>
+                        </template>
+
+                        <!-- General Error Message from Back-End (Form New User) -->
+                        <template [ngIf]="_edit_users.general_error_agencies_save != ''"> 
+                            <div class="danger-alert center d-flex align-items-center" id="danger-alert-user">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <p>{{_edit_users.general_error_agencies_save}}</p>
+                            </div><br>
+                        </template>
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="first-name-new">First Name</label> 
+                                <input type="text" name="first-name-new" id="first-name-new" class="form-control first-name-new" [(ngModel)]="_edit_users.first_name_new_user" (focus)="focus_new_user()" (blur)="blur_name()">
+                                <template [ngIf]="_edit_users.first_name_new_user == ''">
+                                    <span class="with-errors-text">{{_edit_users.message_name_new_user}}</span>
+                                </template>
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="middle-name-user">Middle Name <span>(optional)</span></label>
+                               <input type="text" name="middle-name-new" id="middle-name-new" class="form-control middle-name-new" [(ngModel)]="_edit_users.middle_name_new_user">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="last-name-new">Last Name</label>
+                                <input type="text" name="last-name-new" id="last-name-new" class="form-control last-name-new" [(ngModel)]="_edit_users.last_name_new_user" (focus)="focus_users(i)" (blur)="blur_name()">
+                                <template [ngIf]="_edit_users.last_name_new_user == ''">
+                                    <span class="with-errors-text">{{_edit_users.message_last_name_new_user}}</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 form-group">
+                                <label for="office-phone">Office Phone</label>
+                                <input type="text" name="office-phone" id="office-phone-new" class="form-control office-phone-new" [(ngModel)]="_edit_users.office_phone_new_user">
+                            </div>
+                            <div class="col-xs-6 form-group">
+                                <label for="mobile-phone">Phone Number</label>
+                                <input type="text" name="mobile-phone" id="mobile-phone-new" class="form-control mobile-phone-new" [(ngModel)]="_edit_users.mobile_phone_new_user">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 form-group">
+                                <label for="adress">Address</label>
+                                <input type="text" name="address-new" id="address-new" class="form-control address-new" [(ngModel)]="_edit_users.address_user_new_user">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 form-group">
+                                <label for="city">City</label>                              
+                                <input type="text" name="city-new" id="city-user-new" class="form-control" autocomplete="off" [(ngModel)]="_edit_users.relation_name_new_users" (click)="filter_city_name_click(_edit_users.relation_name_new_users, 'new-user', '', $event)" (blur)="blur_new_city()" >   
+                                <!--Message Error for field City from Front-End-->
+                                <template [ngIf]="_edit_users.state_validate_city_new_user == false && _edit_users.field_error_city == 'invalidNewUser'">
+                                    <span id="tool-error-city" class="with-errors-text">No matches.</span>
+                                </template>                                    
+                                <!--Message Error for field City from Backend-->                                
+                                <template [ngIf]="_edit_users.field_error_city == 'city'">
+                                    <span id="tool-error-city" class="with-errors-text">{{_edit_users.message_city_new_user}}</span>
+                                </template>                                 
+                                
+                                <!-- Autocomplete to Field City -->
+                                <!-- Show Scroll -->
+                                <template [ngIf]="_edit_users.length_of_filteredListNewUser > 6">
+                                    <div class="list-city" *ngIf="_edit_users.length_of_filteredListNewUser > 0">
+                                        <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _edit_users.filteredListCityNewUser; let x=index">
+                                            <li class="text-items-city{{x}}" (click)="select_city_user(i, item, _edit_users.list_of_codes_city[x], 'new-user')" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                                <a>{{item}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
+
+                                <!-- Hide Scroll -->                                            
+                                <template [ngIf]="_edit_users.length_of_filteredListNewUser <= 6">
+                                    <div class="list-city2 autocomplete-list2" *ngIf="_edit_users.length_of_filteredListNewUser > 0">
+                                        <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _edit_users.filteredListCityNewUser; let x=index">
+                                            <li class="text-items-city{{x}}" (click)="select_city_user(i, item, _edit_users.list_of_codes_city[x],'new-user')" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                                <a>{{item}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
+
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="zip">Zip</label>
+                                <input type="text" name="zip-new" id="zip-new" class="form-control zip-new" [(ngModel)]="_edit_users.zip_new_user">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 form-group">
+                                <label for="email">E-mail</label>
+                                <input type="text" name="email-new" id="email-new-user" class="form-control email-new-user" [(ngModel)]="_edit_users.email_new_user" (focus)="focus_new_user()" (blur)="blur_name()" [ngClass]="{'border-errors': _edit_users.validation_email_filter_new_users == false}" (keyup)="keyup_field_email_agency('new-user', '')">
+                                <!-- MESSAGE E-MAIL FORM NEW USER FROM BACK -->                              
+                                <template [ngIf]="_edit_users.email_new_user == ''">
+                                    <span class="with-errors-text">{{_edit_users.message_email_new_user}}</span>
+                                </template>
+                                    
+                                <template [ngIf]="_edit_users.error_email_new_user == 'email'">
+                                    <span class="with-errors-text">{{_edit_users.message_email_new_user}}</span>
+                                </template>
+                                
+                                <!-- MESSAGE VALIDATION E-MAIL FORM NEW USER FROM FRONT -->
+                                <template [ngIf]="_edit_users.validation_email_filter_new_users == false">
+                                    <span class="with-errors-text">This value should be a valid email.</span>
+                                </template>                               
+                            </div>
+                            <div class="col-xs-6 form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password-new" id="password-new" class="form-control password-new" [(ngModel)]="_edit_users.password_new_user"  (focus)="focus_new_user()" (blur)="blur_name()">
+                                <template [ngIf]="_edit_users.password_new_user == ''">
+                                    <span class="with-errors-text">{{_edit_users.message_pass_new_user}}</span>
+                                </template>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- SIMIL RADIO BUTTONS -->
+                        <div class="row d-flex align-items-end btn-groups-wrapper">
+                            <div class="col-xs-3">
+                                <h5 class="title5">Is admin?</h5>
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <!-- Button Is admin? (YES) -->
+                                    <template [ngIf]="_edit_users.is_admin_new_user == true">
+                                        <button type="button" class="btn btn-default active" id="yes-admin" (click)="change_state_is_admin_new_user(true)">Yes</button>
+                                        <button type="button" class="btn btn-default" id="no-admin" (click)="change_state_is_admin_new_user(false)">No</button>
+                                    </template>
+                                    <!-- Button Is admin? (NO) -->
+                                    <template [ngIf]="_edit_users.is_admin_new_user == false">
+                                        <button type="button" class="btn btn-default" id="yes-admin" (click)="change_state_is_admin_new_user(true)">Yes</button>
+                                        <button type="button" class="btn btn-default active" id="no-admin" (click)="change_state_is_admin_new_user(false)">No</button>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <h5 class="title5">Type of prices to show</h5>
+                                <div class="btn-group" role="group" aria-label="...">                                       
+                                    <!-- Button Type of prices to show (COMISSIONABLE) -->
+                                    <template [ngIf]="_edit_users.is_comissionable_new_user == true">
+                                        <button type="button" class="btn btn-default active" id="commissionable" (click)="change_state_is_comissionable_new_user(true)">Commissionable</button>
+                                        <button type="button" class="btn btn-default" id="net" (click)="change_state_is_comissionable_new_user(false)">Net</button>
+                                    </template>
+                                    <!-- Button Type of prices to show (NET) -->
+                                    <template [ngIf]="_edit_users.is_comissionable_new_user == false">
+                                        <button type="button" class="btn btn-default" id="commissionable" (click)="change_state_is_comissionable_new_user(true)">Commissionable</button>
+                                        <button type="button" class="btn btn-default active" id="net" (click)="change_state_is_comissionable_new_user(false)">Net</button>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <h5 class="title5">How does this user <br>access the platform?</h5>                              
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <!-- Button How does this user... ( OPTION FRONT) -->
+                                    <template [ngIf]="_edit_users.user_access_new_user == 1">
+                                        <button type="button" class="btn btn-default active" id="front" (click)="change_state_user_access_new_user(1)">Front</button>
+                                        <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access_new_user(2)">WebService</button>
+                                        <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access_new_user(3)">WhiteLabel</button>
+                                    </template>
+
+                                    <!-- Button How does this user... ( OPTION WEBSERVICE) -->
+                                    <template [ngIf]="_edit_users.user_access_new_user == 2">
+                                        <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access_new_user(1)">Front</button>
+                                        <button type="button" class="btn btn-default active" id="web-service" (click)="change_state_user_access_new_user(2)">WebService</button>
+                                        <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access_new_user(3)">WhiteLabel</button>
+                                    </template>
+
+                                    <!-- Button How does this user... ( OPTION WHITELABEL) -->
+                                    <template [ngIf]="_edit_users.user_access_new_user == 3">
+                                        <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access_new_user(1)">Front</button>
+                                        <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access_new_user(2)">WebService</button>
+                                        <button type="button" class="btn btn-default active" id="white-label" (click)="change_state_user_access_new_user(3)">WhiteLabel</button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row d-flex align-items-middle btn-groups-wrapper d-flex align-items-center">
+                            <div class="col-xs-6">
+                                <div class="checkbox abc-checkbox check-table d-flex align-items-center">
+                                    <div class="icon-check exception-icon-check" id="icon-check">
+                                        <input class="check-never" name="options" id="checkbox" type="checkbox" [attr.checked]="_edit_users.never_disable_new_user == true ? true : null" (click)="change_checkbox_new()">
+                                        <label class="label-selected" attr.for="checkbox" for="checkbox"></label>
+                                    </div>
+                                    <h5 class="title5 title-never">Never disable this user</h5>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 form-group">
+                                <label for="language">Language</label>
+
+                                <!-- Dropdown field Language New User -->
+                                <div class="dropdown status-only">
+                                    <button class="edit-lenguage-users language-users dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">                                       
+                                        <input type="text" name="language-new-user" id="language-new-user{{i}}" class="form-control language" autocomplete="off" [ngModel]="_edit_users.language_new_user" value="{{_edit_users.language_new_user_default}}" (click)="editing_language()">
+                                        <span class="caret" id="caret-language"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" id="dropdownMenuUser" aria-labelledby="dropdownMenu1">
+                                       
+                                        <li class="text-items-language{{i}}" *ngFor="let lan of _edit_users.language_name; let i=index" (click)="_edit_users.select_language_new_user(lan.name, lan.code)" (mouseover)='mouseover_color_text(".text-items-language" + i)' (mouseleave)='mouseleave_color_text(".text-items-language" + i)'>
+                                            <a>{{lan.name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <template [ngIf]="_edit_users.hide_create_new_agency_new_user == true">
+                            <div class="row agency-users-container d-flex align-items-center">
+                                <div class="d-flex align-items-end">
+                                    <div class="col-xs-8 form-group">
+                                        <label for="agency">Agency</label>
+                                        <div class="dropdown edit-agency-users agency-users">
+                                            <input type="text" name="agency-user-new" id="agency-user-new" class="form-control agency" autocomplete="off" [(ngModel)]="_edit_users.relation_name_new_user_agency" value="{{_edit_users.agency_name_data_form[i]}}" (click)="filter_agency_name_click(_edit_users.relation_name_new_user_agency, 'new-user', '', $event)" (keyup)="filter_agency_name(_edit_users.relation_name_new_user_agency, 'new-user', '', $event)">
+                                            <span class="caret"></span>
+
+                                                <!-- Autocomplete to Field Agency -->
+                                                <!-- Show Scroll -->
+                                                <template [ngIf]="_edit_users.length_of_filteredListAgencyNewUser > 6">
+                                                    <div class="list-city autocomplete-list2" style="overflow-y: auto; height: 153px;" *ngIf="_edit_users.length_of_filteredListAgencyNewUser > 0">
+                                                        <ul class="margin-agency" id="margin-agency{{z}}" *ngFor="let item of _edit_users.filteredListAgencyNewUser; let z=index">
+                                                            <li class="text-items-agency{{z}}" (click)="select_agency_user(i, item, _edit_users.list_of_codes_agency[z],'new-user')" (mouseover)='mouseover_color_text(".text-items-agency" + z)' (mouseleave)='mouseleave_color_text(".text-items-agency" + z)'>
+                                                                <a>{{item}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </template>
+
+                                                <!-- Hide Scroll -->
+                                                <template [ngIf]="_edit_users.length_of_filteredListAgencyNewUser <= 6">
+                                                    <div class="list-city2 autocomplete-list2" *ngIf="_edit_users.length_of_filteredListAgencyNewUser > 0">
+                                                        <ul class="margin-agency" id="margin-agency{{z}}" *ngFor="let item of _edit_users.filteredListAgencyNewUser; let z=index">
+                                                            <li class="text-items-agency{{z}}" (click)="select_agency_user(i, item, _edit_users.list_of_codes_agency[z],'new-user')" (mouseover)='mouseover_color_text(".text-items-agency" + z)' (mouseleave)='mouseleave_color_text(".text-items-agency" + z)'>
+                                                                <a>{{item}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                            </template>
+                                        </div>
+                                        <!-- Message Error for field City from Front-End -->
+                                        <template [ngIf]="_edit_users.state_validate_agency_new_user == false && _edit_users.field_error_agency == 'invalidNewUser'">
+                                            <span id="tool-error-agency" class="with-errors-text">No matches.</span>
+                                        </template> 
+
+                                        <template [ngIf]="_edit_users.general_error_agency_new_user != ''">
+                                            <span id="tool-error-agency" class="with-errors-text">{{_edit_users.general_error_agency_new_user}}</span>
+                                        </template>
+                                            
+                                        <template [ngIf]="_edit_users.field_agency_user == 'agency'">
+                                            <span id="tool-error-agency-auto" class="with-errors-text">{{_edit_users.message_agency_new_user}}</span>
+                                        </template>
+                                    </div>
+                                    <div class="col-xs-1 text-center">
+                                        <h5>OR</h5>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <button class="btn-blue-lg" (click)="show_form_create_new_agency('', 'new-user')">Create New Agency</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div id="create-agency-users-new" class="row create-agency-users-container">
+                            <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                <div class="col-xs-6 col-xs-offset-3 text-center">
+                                    <h3 class="title4">Create new agency</h3>
+                                </div>
+                                <a (click)="hide_form_create_new_agency('', 'new-user')">X</a>
+                            </div>
+                            <div class="col-xs-12 create-agency-inputs">
+                                <div class="row">
+                                    <div class="col-xs-9 center form-group">
+                                        <label for="agency-name">Agency Name</label>
+                                        <input type="text" class="form-control new-agency-name-new-user" name="agency-name" id="new-agency-name-new-user" [(ngModel)]="_edit_users.agency_name_new_agency_new_user" (focus)="focus_new_user()" (blur)="blur_name()">
+                                        <template [ngIf]="_edit_users.only_error_new == true">
+                                            <template [ngIf]="_edit_users.agency_name_new_agency_new_user == '' || _edit_users.agency_name_new_agency_new_user == undefined">
+                                                <span class="with-errors-text">{{_edit_users.message_new_agency_new_user}}</span>
+                                            </template>
+                                        </template>
+                                    </div>
+                                    <div class="col-xs-9 center form-group">
+                                        <label for="agency-email">Agency E-mail</label>
+                                        <input type="email" class="form-control agency-email-new-user" name="agency-email" id="agency-email-new-user" [(ngModel)]="_edit_users.agency_email_new_user" (focus)="focus_new_user()" (blur)="blur_name()" [ngClass]="{'border-errors': _edit_users.validation_email_filter_agency == false}" (keyup)="keyup_field_email_agency('agency-new', i)">
+                                        <!-- MESSAGE VALIDATION E-MAIL FORM  NEW USER FROM BACK -->
+                                        <template [ngIf]="_edit_users.only_error_new == true">
+                                            <template [ngIf]="_edit_users.agency_email_new_user == '' || _edit_users.agency_email_new_user == undefined">
+                                                <span class="with-errors-text">{{_edit_users.message_agency_email_new_user}}</span>
+                                            </template>
+
+                                            <template [ngIf]="_edit_users.error_new_agency_email_new_user == 'agency_email'">
+                                                <span class="with-errors-text">{{_edit_users.message_agency_email_new_user}}</span>
+                                            </template>
+                                        </template>
+
+                                        <!-- MESSAGE VALIDATION E-MAIL FORM NEW USER FROM FRONT -->
+                                        <template [ngIf]="_edit_users.validation_email_filter_agency == false">
+                                            <span class="with-errors-text">This value should be a valid email.</span>
+                                        </template>
+                                    </div>
+                                    <div class="col-xs-9 center form-group">
+                                        <label for="agency-number">Tax Number</label>
+                                        <input type="text" class="form-control tax-number-new-user" name="tax-number" id="tax-number-new-user" [(ngModel)]="_edit_users.agency_tax_number_new_user" (focus)="focus_new_user()" (blur)="blur_name()">
+                                        <template [ngIf]="_edit_users.only_error_new == true">
+                                            <template [ngIf]="_edit_users.agency_tax_number_new_user == '' || _edit_users.agency_tax_number_new_user == undefined">
+                                                <span class="with-errors-text">{{_edit_users.message_tax_new_user}}</span>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 d-flex justify-content-end save-or-cancel" >
+                                <button type="button" class="btn-grey-transparent-md" (click)="cancel_edit_form_new_user(_edit_users.first_name, _edit_users.middle_name, _edit_users.last_name, _edit_users.email, _edit_users.office_phone, _edit_users.mobile_phone, _edit_users.address, _edit_users.location_users, _edit_users.password, _edit_users.agency_code, _edit_users.is_admin, _edit_users.is_comissionable, _edit_users.user_access, _edit_users.never_disable, _edit_users.language)">Cancel</button>
+                                
+                                <div class="dropdown">
+                                    <button class="btn-red-md dropdown-toggle" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Save New User<span class="caret"></span></button>
+                                    <ul class="dropdown-menu" aria-labelledby="save-dropdown">                                       
+                                        <li (click)="save_form_new_user(false)"><a>Save</a></li>
+                                        <li (click)="save_form_new_user(true)"><a>Save & send Update</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Success Message after save from Back-End (New User) -->
+                <div class="col-xs-12">
+                    <template [ngIf]="_edit_users.updated_form == true"><br>
+                        <div class="success-alert center d-flex align-items-center" id="success-alert-user-new">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                        </div><br><br>
+                    </template>
+                </div> 
+            </div>
+
+            <!-- USERS TABLE -->
+            <div id="usersTable">
+                <table class="table default-table">
+                    <template [ngIf]="_service.total_page != 0">
+                        <tr>
+                            <th class="short-td checkbox-column"></th>
+                            <th class="pl-0">Name</th>
+                            <th>Surname</th>
+                            <th class="text-right">Phone<br>Number</th>
+                            <th>E-mail</th>
+                            <th class="location-th">Location</th>
+                            <th class="text-center"><i class="fa fa-shopping-cart" aria-hidden="true"></i></th>
+                            <th>Agency</th>
+                            <th class="text-center">Registered</th>
+                            <th class="text-center short-td">Status</th>
+                            <th class="text-center w-30"></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-u [ngForOf]="_service.list_users" let-i="index">
+                        <tr id="fila{{i}}" class="color-users" (mouseover)='showEllipsisIcon(i)' (mouseleave)='hideEllipsisIcon()'>
+                            <td class="short-td checkbox-column">
+                                <div class="checkbox abc-checkbox check-table-ag" (click)="show_icons_list_users()">
+                                    <input class="check-table-users" name="options" [checked]="selected_ag.indexOf(i) == true" id="checkbox{{i}}" value="{{u.code}}" type="checkbox" (change)="change_to_minus()">
+                                    <label class="label-selected no-pad" attr.for="checkbox{{i}}"></label>
+                                </div>
+                            </td>
+                            <td id="scrollToError{{i}}" class="pl-0 normal-whitespace break-column">{{u.first_name}}</td>
+                            <td class="normal-whitespace break-column">{{u.last_name}}</td>
+                            <td class="text-right">{{u.mobile_phone}}</td>
+                            <td>{{u.email}}</td>
+                            <td width="7" class="normal-whitespace">{{u.location}}</td>
+                            <td class="text-center bookings"><a (click)="searchBookings(u.first_name)">{{u.bookings}}</a></td>
+                            <td class="normal-whitespace bookings break-column">
+                                <a id="agency-opener{{i}}" (mousedown)="go_to_agency_detail(u.agency_code, $event, i)">{{u.agency_name}}</a>
+                            </td>
+                            <td class="text-center">{{u.registered}}</td>
+
+                            <!-- NEW STATES TOGGLE -->
+                            <template [ngIf]="u.status == 1">
+                                <td class="text-center">
+                                    <div class="radio-wrapper disabled-toggle-icon center d-flex align-items-center" (click)="enabled_disabled_toggle(2, u.code)">
+                                        <span for="isDisabled"></span>
+                                    </div>
+                                </td>
+                            </template>
+                            <!-- SUSPENDED USER -->
+                            <template [ngIf]="u.status == 2">
+                                <td class="text-center">
+                                    <div class="radio-wrapper suspended-toggle-icon center d-flex align-items-center" (click)="enabled_disabled_toggle(3, u.code)">
+                                        <span for="isDisabled"></span>
+                                    </div>
+                                </td>
+                            </template>
+                            <template [ngIf]="u.status == 3">
+                                <td class="text-center">
+                                    <div class="radio-wrapper enabled-toggle-icon center d-flex align-items-center" (click)="enabled_disabled_toggle(1, u.code)">
+                                        <span for="isDisabled"></span>
+                                    </div>
+                                </td>
+                            </template>
+                            <!--<td class="text-center fixed-icon">
+                                <span id="fixed-ellipsis-users"  class="prueba" [ngClass]="{'form-inline-users': !_edit_users.remove_class[i]}">
+                                    <p id="{{i}}ellipsisIcon" class="ellipsis-icon" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</p>
+                                    <ul class="dropdown-menu" id="drop{{i}}" aria-labelledby="save-dropdown">
+                                        <li><a (click)="get_data_users_form(u.code, i)">Edit</a></li>
+                                        <li><a (click)="forgedSession(u.code)" >Forged Session</a></li> 
+                                        <li><a>Activity log</a></li>
+                                        <li><a (click)="deleteUser(u.code)">Delete</a></li>
+                                    </ul>
+                                </span>
+                            </td>-->
+                            <td class="text-center folder-td-wrapper" (mouseleave)="removeOpenedEllipsis(i)">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <div class="ellipsis-wrapper center" id="fixed-ellipsis-users" [ngClass]="{'form-inline-users': !_edit_users.remove_class[i]}">
+                                            <div class="ellipsis" id="{{i}}ellipsisIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</div>
+                                            <ul class="dropdown-menu" id="drop{{i}}" aria-labelledby="dorpdown">
+                                                <li>
+                                                    <a (click)="get_data_users_form(u.code, i)">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a (click)="forgedSession(u.code)" >Forged Session</a>
+                                                </li> 
+                                                <li>
+                                                    <a id="activity-opener{{i}}" (mousedown)="go_to_activity_logs(u.code, i, u.first_name, u.last_name, $event)">Activity log</a>
+                                                </li>
+                                                <li>
+                                                    <a>Add IFE</a>
+                                                </li>
+                                                <hr class="divider">
+                                                <li>
+                                                    <a (click)="deleteUser(u.code)">Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- FORM EDIT USERS EXIST -->
+                        <tr id="form-inline-users{{i}}" [ngClass]="{'form-inline-users': _edit_users.remove_class[i]}">
+                            <td colspan="11">
+                                <div class="edit-user">
+                                    <div class="row">
+                                        <div class="col-xs-9 center">
+                                            <!-- Error specific Message if the field First name, email, Agency, Agency Name, Agency E-mail and Tax Number is empty from Back-End (User Exist) -->
+                                            <template [ngIf]="_edit_users.only_error[i] == true">
+                                                <template [ngIf]="_edit_users.field_error_first_name == 'first_name' || _edit_users.field_error_last_name == 'last_name' || _edit_users.field_error_email == 'email' || _edit_users.field_error_agency[i] == 'agency' || _edit_users.field_error_new_agency[i] == 'agency_name' || _edit_users.field_error_agency_email[i] == 'agency_email' || _edit_users.field_error_tax[i] == 'agency_tax_number'">
+                                                    <div class="row">
+                                                        <div class="danger-alert center d-flex align-items-center" [ngClass]="'danger-alert-user-exist'">
+                                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                                            <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                                                        </div>
+                                                    </div><br>
+                                                </template>
+                                            </template>
+                                            <div class="row">
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="first-name">First Name</label>
+                                                    <input type="text" name="first-name" id="first-name{{i}}" class="form-control first-name" [(ngModel)]="_edit_users.first_name_new[i]" value="{{_edit_users.first_name_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()">
+                                                    <template [ngIf]="_edit_users.only_error[i] == true"> 
+                                                        <template [ngIf]="_edit_users.first_name_new[i] == ''">
+                                                            <span class="with-errors-text">{{_edit_users.message_name}}</span>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="middle-name">Middle Name <span>(optional)</span></label>
+                                                    <input type="text" name="middle-name" id="middle-name{{i}}" class="form-control middle-name" [(ngModel)]="_edit_users.middle_name_new[i]" value="{{_edit_users.middle_name_data_form[i]}}">
+                                                </div>
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="last-name">Last Name</label>
+                                                    <input type="text" name="last-name" id="last-name{{i}}" class="form-control last-name" [(ngModel)]="_edit_users.last_name_new[i]" value="{{_edit_users.last_name_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()">
+                                                    <template [ngIf]="_edit_users.only_error[i] == true">
+                                                        <template [ngIf]="_edit_users.last_name_new[i] == ''">
+                                                            <span class="with-errors-text">{{_edit_users.message_name}}</span>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="office-phone">Office Phone</label>
+                                                    <input type="text" name="office-phone" id="office-phone{{i}}" class="form-control office-phone" [(ngModel)]="_edit_users.office_phone_new[i]" value="{{_edit_users.office_phone_data_form[i]}}">
+                                                </div>
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="mobile-phone">Phone Number</label>
+                                                    <input type="text" name="mobile-phone" id="mobile-phone{{i}}" class="form-control mobile-phone" [(ngModel)]="_edit_users.mobile_phone_new[i]" value="{{_edit_users.mobile_phone_data_form[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 form-group">
+                                                    <label for="adress">Address</label>
+                                                    <input type="text" name="address" id="address-user{{i}}" class="form-control address-user" [(ngModel)]="_edit_users.address_user_new[i]" value="{{_edit_users.address_data_form[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-8 form-group">
+                                                    <label for="city">City</label>
+                                                    <input type="text" name="city" id="city-user{{i}}" class="form-control city-user" autocomplete="off" [(ngModel)]="_edit_users.relation_name_users[i]"  (click)="filter_city_name_click(_edit_users.relation_name_users[i], 'users', i, $event)" (blur)="blur_city(i)" >
+                                                    <!-- Message Error for field City from Front-End -->
+                                                    <template [ngIf]="_edit_users.state_validate_city_user_exist == false && _edit_users.field_error_city == 'invalidUserExist'">
+                                                        <span id="tool-error-city" class="with-errors-text">No matches.</span>
+                                                    </template> 
+                                                    <!-- Message Error for field City from Backend -->
+                                                    <template [ngIf]="_edit_users.field_error_city == 'city'">
+                                                        <span id="tool-error-city" class="with-errors-text">{{_edit_users.message_city_save}}</span>
+                                                    </template> 
+                                                    <template [ngIf]="_edit_users.field_city_user[i] == 'city'">
+                                                        <span id="tool-error-city-auto" class="with-errors-text">{{_edit_users.message_city_user[i]}}</span>
+                                                    </template>
+
+                                                    <!-- Autocomplete to Field City -->
+                                                    <!-- Show Scroll -->
+                                                    <template [ngIf]="_edit_users.length_of_filteredList > 6">
+                                                        <div class="list-city" *ngIf="_edit_users.length_of_filteredList > 0">
+                                                            <ul class="margin-city" id="margin-city{{z}}" *ngFor="let item of _edit_users.filteredListCityUser[i]; let z=index">
+                                                                <li class="text-items-city{{z}}" (click)="select_city_user(i, item, _edit_users.list_of_codes_city[z],'users')" (mouseover)='mouseover_color_text(".text-items-city" + z)' (mouseleave)='mouseleave_color_text(".text-items-city" + z)'>
+                                                                    <a>{{item}}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+
+                                                    <!-- Hide Scroll -->                                            
+                                                    <template [ngIf]="_edit_users.length_of_filteredList[i] <= 6">
+                                                        <div class="list-city2 autocomplete-list2" *ngIf="_edit_users.length_of_filteredList[i] > 0">
+                                                            <ul class="margin-city" id="margin-city{{z}}" *ngFor="let item of _edit_users.filteredListCityUser[i]; let z=index">
+                                                                <li class="text-items-city{{z}}" (click)="select_city_user(i,item, _edit_users.list_of_codes_city[z],'users')" (mouseover)='mouseover_color_text(".text-items-city" + z)' (mouseleave)='mouseleave_color_text(".text-items-city" + z)'>
+                                                                    <a>{{item}}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+
+                                                    <!-- Message generic error for field City from Backend - Option REQUEST LIST AUTOCOMPLETE -->
+                                                    <div class="row message-gral-map" id="message-general-map" *ngIf="_edit_users.general_error_city != ''">
+                                                        <div id='arrow-tool-map' class='tooltip-arrow'></div>
+                                                        <div class="alert danger-alert alert-dismissible fade in generic-error" role="alert">
+                                                            <i id='icon-generic-error' class='fa fa-times-circle' aria-hidden='true'></i>
+                                                            <span>{{_edit_users.general_error_city}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="zip">Zip</label>
+                                                    <input type="text" name="zip" id="zip-user{{i}}" class="form-control zip-user" [(ngModel)]="_edit_users.zip_user_new[i]" value="{{_edit_users.zip_data_form[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="email">E-mail</label>
+                                                    <input type="email" name="email" id="email-user{{i}}" class="form-control email-user" [(ngModel)]="_edit_users.email_user_new[i]" value="{{_edit_users.email_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()" [ngClass]="{'border-errors': _edit_users.validation_email_filter_users[i] == false}" (keyup)="keyup_field_email_agency('users', i)">
+                                                    <!-- MESSAGE VALIDATION E-MAIL FORM USER EXIST FROM BACK -->
+                                                    <template [ngIf]="_edit_users.only_error[i] == true">
+                                                        <template [ngIf]="_edit_users.email_user_new[i] == ''">
+                                                            <span class="with-errors-text">{{_edit_users.message_name}}</span>
+                                                        </template>
+
+                                                        <template [ngIf]="_edit_users.field_error_email == 'email'">
+                                                            <span class="with-errors-text">{{_edit_users.message_name}}</span>
+                                                        </template>
+                                                    </template>
+
+                                                    <!-- MESSAGE VALIDATION E-MAIL FORM USER EXIST FROM FRONT -->
+                                                    <template [ngIf]="_edit_users.validation_email_filter_users[i] == false">
+                                                        <span class="with-errors-text">This value should be a valid email.</span>
+                                                    </template>
+                                                </div>
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" name="password" id="password{{i}}" class="form-control password" [(ngModel)]="_edit_users.password_new[i]" value="{{_edit_users.password_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()">
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <!-- SIMIL RADIO BUTTONS -->
+                                            <div class="row d-flex align-items-end btn-groups-wrapper">
+                                                <div class="col-xs-3">
+                                                    <h5 class="title5">Is admin?</h5>
+                                                    <div class="btn-group" role="group" aria-label="...">
+                                                        <!-- Button Is admin? (YES) -->
+                                                        <template [ngIf]="_edit_users.is_admin_data_form[i] == true">
+                                                            <button type="button" class="btn btn-default active" id="yes-admin" (click)="change_state_is_admin(true, i)">Yes</button>
+                                                            <button type="button" class="btn btn-default" id="no-admin" (click)="change_state_is_admin(false, i)">No</button>
+                                                        </template>
+                                                        <!-- Button Is admin? (NO) -->
+                                                        <template [ngIf]="_edit_users.is_admin_data_form[i] == false">
+                                                            <button type="button" class="btn btn-default" id="yes-admin" (click)="change_state_is_admin(true, i)">Yes</button>
+                                                            <button type="button" class="btn btn-default active" id="no-admin" (click)="change_state_is_admin(false, i)">No</button>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h5 class="title5">Type of prices to show</h5>
+                                                    <div class="btn-group" role="group" aria-label="...">    
+                                                        <!-- Button Type of prices to show (COMISSIONABLE) -->
+                                                        <template [ngIf]="_edit_users.is_comissionable_data_form[i] == true">
+                                                            <button type="button" class="btn btn-default active" id="commissionable" (click)="change_state_is_comissionable(true, i)">Commissionable</button>
+                                                            <button type="button" class="btn btn-default" id="net" (click)="change_state_is_comissionable(false, i)">Net</button>
+                                                        </template>
+                                                        <!-- Button Type of prices to show (NET) -->
+                                                        <template [ngIf]="_edit_users.is_comissionable_data_form[i] == false">
+                                                            <button type="button" class="btn btn-default" id="commissionable" (click)="change_state_is_comissionable(true, i)">Commissionable</button>
+                                                            <button type="button" class="btn btn-default active" id="net" (click)="change_state_is_comissionable(false, i)">Net</button>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <!-- Button How does this user... ( OPTION ADMIN) -->
+                                                    <template [ngIf]="_edit_users.user_access_data_form[i] == 4">
+                                                        <h5 class="title5 admin">User Admin</h5>
+                                                    </template>                                               
+                                                    <template [ngIf]="_edit_users.user_access_data_form[i] == 1 || _edit_users.user_access_data_form[i] == 2 || _edit_users.user_access_data_form[i] == 3">
+                                                        <h5 class="title5">How does this user <br>access the platform?</h5>
+                                                    </template>
+                                                    <div class="btn-group" role="group" aria-label="...">
+                                                        <!-- Button How does this user... ( OPTION FRONT) -->
+                                                        <template [ngIf]="_edit_users.user_access_data_form[i] == 1">
+                                                            <button type="button" class="btn btn-default active" id="front" (click)="change_state_user_access(1, i)">Front</button>
+                                                            <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access(2, i)">WebService</button>
+                                                            <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access(3, i)">WhiteLabel</button>
+                                                        </template>
+
+                                                        <!-- Button How does this user... ( OPTION WEBSERVICE) -->
+                                                        <template [ngIf]="_edit_users.user_access_data_form[i] == 2">
+                                                            <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access(1, i)">Front</button>
+                                                            <button type="button" class="btn btn-default active" id="web-service" (click)="change_state_user_access(2, i)">WebService</button>
+                                                            <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access(3, i)">WhiteLabel</button>
+                                                        </template>
+
+                                                        <!-- Button How does this user... ( OPTION WHITELABEL) -->
+                                                        <template [ngIf]="_edit_users.user_access_data_form[i] == 3">
+                                                            <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access(1, i)">Front</button>
+                                                            <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access(2, i)">WebService</button>
+                                                            <button type="button" class="btn btn-default active" id="white-label" (click)="change_state_user_access(3, i)">WhiteLabel</button>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row d-flex align-items-middle btn-groups-wrapper d-flex align-items-center">
+                                                <div class="col-xs-6">
+                                                    <div class="checkbox abc-checkbox check-table d-flex align-items-center">
+                                                        <div class="icon-check exception-icon-check" id="icon-check">
+                                                            <input class="check-never" name="options" id="checkbox-never{{i}}" type="checkbox" [attr.checked]="_edit_users.never_disable_data_form[i] == true ? true : null" (click)="change_checkbox(i)">
+                                                            <label class="label-selected" attr.for="checkbox-never{{i}}"></label>
+                                                        </div>
+                                                        <h5 class="title5 title-never">Never disable this user</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="language">Language</label>
+
+                                                    <!-- Dropdown field Language User Exist -->
+                                                    <div class="dropdown status-only">
+                                                        <button class="edit-lenguage-users language-users dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                        <input attr.data-langcode="{{u.code}}" type="text" name="language" id="language{{i}}" class="form-control language" autocomplete="off" [ngModel]="_edit_users.language_new[i]" value="{{_edit_users.language_data_form[i]}}" (click)="editing_language()">
+                                                            <span class="caret" id="caret-language"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" id="dropdownMenuUser" aria-labelledby="dropdownMenu1">
+                                                            <li class="text-items-language{{a}}" *ngFor="let lan of _edit_users.language_name; let a=index" (click)="_edit_users.select_language(lan.name, lan.code, i)" (mouseover)='mouseover_color_text(".text-items-language" + a)' (mouseleave)='mouseleave_color_text(".text-items-language" + a)'>
+                                                                <a>{{lan.name}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <template [ngIf]="_edit_users.hide_create_new_agency_users[i] == undefined">
+                                                <div class="row agency-users-container d-flex align-items-center">
+                                                    <div class="d-flex align-items-end">
+                                                        <div class="col-xs-8 form-group">
+                                                            <label for="agency">Agency</label>
+                                                            <div class="dropdown status-only edit-agency-users agency-users">
+                                                                <input type="text" name="agency-user" id="agency-user{{i}}" class="form-control agency" autocomplete="off" [(ngModel)]="_edit_users.relation_name_users_agency[i]" value="{{_edit_users.agency_name_data_form[i]}}" (click)="filter_agency_name_click(_edit_users.relation_name_users_agency[i], 'users', i, $event)"
+                                                                (keyup)="filter_agency_name(_edit_users.relation_name_users_agency[i], 'users', i, $event)">
+                                                                <span class="caret"></span>
+
+                                                                <!-- Autocomplete to Field Agency -->
+                                                                <!-- Show Scroll -->
+                                                                <template [ngIf]="_edit_users.length_of_filteredList[i] > 6">
+                                                                    <div class="list-city autocomplete-list2" style="overflow-y: auto; height: 153px;" *ngIf="_edit_users.length_of_filteredList[i] > 0">
+                                                                        <ul class="margin-agency" id="margin-agency{{z}}" *ngFor="let item of _edit_users.filteredListAgencyUser[i]; let z=index">
+                                                                            <li class="text-items-agency{{z}}" (click)="select_agency_user(i, item, _edit_users.list_of_codes_agency[z],'users')" (mouseover)='mouseover_color_text(".text-items-agency" + z)' (mouseleave)='mouseleave_color_text(".text-items-agency" + z)'>
+                                                                                <a>{{item}}</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </template>
+
+                                                                <!-- Hide Scroll -->
+                                                                <template [ngIf]="_edit_users.length_of_filteredList[i] <= 6">
+                                                                    <div class="list-city2 autocomplete-list2" *ngIf="_edit_users.length_of_filteredList[i] > 0">
+                                                                        <ul class="margin-agency" id="margin-agency{{z}}" *ngFor="let item of _edit_users.filteredListAgencyUser[i]; let z=index">
+                                                                            <li class="text-items-agency{{z}}" (click)="select_agency_user(i,item, _edit_users.list_of_codes_agency[z],'users')" (mouseover)='mouseover_color_text(".text-items-agency" + z)' (mouseleave)='mouseleave_color_text(".text-items-agency" + z)'>
+                                                                                <a>{{item}}</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                            <!-- Message Error for field City from Front-End -->
+                                                            <template [ngIf]="_edit_users.state_validate_agency_user_exist == false && _edit_users.field_error_agency == 'invalidUserExist'">
+                                                            <span id="tool-error-agency" class="with-errors-text">No matches.</span>
+                                                            </template> 
+
+                                                            <template [ngIf]="_edit_users.general_error_agency != ''">
+                                                            <span id="tool-error-agency" class="with-errors-text">{{_edit_users.general_error_agency}}</span>
+                                                            </template>
+                                
+                                                            <template [ngIf]="_edit_users.field_error_agency[i] == 'agency'">
+                                                                <span id="tool-error-agency" class="with-errors-text">{{_edit_users.message_agency_user[i]}}</span>
+                                                            </template> 
+                                                            <template [ngIf]="_edit_users.field_agency_user[i] == 'agency'">
+                                                                <span id="tool-error-agency-auto" class="with-errors-text">{{_edit_users.message_agency_user[i]}}</span>
+                                                            </template>
+                                                        </div>
+                                                        <div class="col-xs-1 text-center">
+                                                            <h5>OR</h5>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <button class="btn-blue-lg" (click)="show_form_create_new_agency(i, 'user')">Create New Agency</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                            <div id="create-agency-users{{i}}" class="row create-agency-users-container">
+                                                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                                                        <h3 class="title4">Create new agency</h3>
+                                                    </div>
+                                                    <a (click)="hide_form_create_new_agency(i, 'user')">X</a>
+                                                </div>
+                                                <div class="col-xs-12 create-agency-inputs">
+                                                    <div class="row">
+                                                        <div class="col-xs-9 center form-group">
+                                                            <label for="agency-name">Agency Name</label>
+                                                            <input type="text" class="form-control new-agency-name" name="agency-name" id="new-agency-name{{i}}" [(ngModel)]="_edit_users.agency_name_new_agency_user[i]" (focus)="focus_users(i)" (blur)="blur_name()">
+                                                            <template [ngIf]="_edit_users.only_error[i] == true">
+                                                                <template [ngIf]="_edit_users.agency_name_new_agency_user[i] == '' || _edit_users.agency_name_new_agency_user[i] == undefined">
+                                                                    <span class="with-errors-text">{{_edit_users.message_new_agency_user}}</span>
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                        <div class="col-xs-9 center form-group">
+                                                            <label for="agency-email">Agency E-mail</label>
+                                                            <input type="email" class="form-control new-agency-email" name="agency-email" id="new-agency-email{{i}}" [(ngModel)]="_edit_users.agency_email_user[i]" (focus)="focus_users(i)" (blur)="blur_name()" [ngClass]="{'border-errors': _edit_users.validation_email_filter[i] == false}" (keyup)="keyup_field_email_agency('agency', i)">
+                                                            <!-- MESSAGE VALIDATION E-MAIL FORM USER EXIST FROM BACK -->
+                                                            <template [ngIf]="_edit_users.only_error[i] == true">
+                                                                <template [ngIf]="_edit_users.agency_email_user[i] == '' || _edit_users.agency_email_user[i] == undefined">
+                                                                    <span class="with-errors-text">{{_edit_users.message_new_agency_mail_user}}</span>
+                                                                </template>
+
+                                                                <template [ngIf]="_edit_users.field_error_user == 'agency_email'">
+                                                                    <span class="with-errors-text">{{_edit_users.message_new_agency_mail_user}}</span>
+                                                                </template>
+                                                            </template>
+
+                                                            <!-- MESSAGE VALIDATION E-MAIL FORM USER EXIST FROM FRONT -->
+                                                            <template [ngIf]="_edit_users.validation_email_filter[i] == false">
+                                                                <span class="with-errors-text">This value should be a valid email.</span>
+                                                            </template>
+                                                        </div>
+                                                        <div class="col-xs-9 center form-group">
+                                                            <label for="agency-number">Tax Number</label>
+                                                            <input type="text" class="form-control tax-number" name="tax-number" id="tax-number{{i}}" [(ngModel)]="_edit_users.agency_tax_number_user[i]">
+                                                            <template [ngIf]="_edit_users.only_error[i] == true">
+                                                                <template [ngIf]="_edit_users.agency_tax_number_user[i] == '' || _edit_users.agency_tax_number_user[i] == undefined">
+                                                                    <span class="with-errors-text">{{_edit_users.message_new_agency_tax_user}}</span>
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                                                    <button type="button" class="btn-grey-transparent-md" (click)="cancel_edit_form_user(i)">Cancel</button>
+                                                    <div class="dropdown">
+                                                        <button class="btn-red-md dropdown-toggle" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Save User<span class="caret"></span></button>
+                                                        <ul class="dropdown-menu" aria-labelledby="save-dropdown">
+                                                            <li (click)="save_form_users(false, i)"><a>Save</a></li>
+                                                            <li (click)="save_form_users(true, i)"><a>Save & send Update</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Success Message after save from Back-End (User Exist) -->
+                                <div class="col-xs-12">
+                                    <template [ngIf]="_edit_users.updated_form_user[i] == true">
+                                        <div class="success-alert center d-flex align-items-center success-users-detail" id="success-alert-user{{i}}">
+                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                            <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                    <!--Close template "[ngForOf]="" -->
+                </table>
+            </div>
+            <!-- Notification Message if there is not results from Front-End (List Agencies) -->
+            <template [ngIf]="_service.total_page == 0">
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, <strong>we couldn't find any results that met your search criteria</strong>. You can try using different filters and/or dates in the search box above.</p>
+                </div>
+            </template>
+            <!-- Error Message if there are not registers in the table from Front-End 
+            <template [ngIf]="_service.total_page == 0> 
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“Users“</span> in the system yet. Create one from the button on the top right corner of this screen.</p>
+                </div>
+            </template>--> 
+
+            <!--{{Pagination insertada con componente hijo List Users}}-->
+            <my-pagination [paginationTrigger]="_filter_service.triggerInfo" *ngIf="_filter_service.showPaginationFilter" #pagination (change_current_page)="current_page_change($event)"></my-pagination>
+            <!--{{Close pagination insertada con componente hijo}}-->
+        </div>
+    </div>
+</div>

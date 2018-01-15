@@ -1,0 +1,40 @@
+
+<input type="text" name="city" class="form-control right-sided" autocomplete="off" [ngClass]="{'border-errors': border_active == true}" [(ngModel)]="relation_name" value="{{location_data_form}}" (click)="filter_name_click(relation_name, $event)"
+(keyup)="filter_name(relation_name, $event)">
+<!-- Message Error for field City from Front-End -->
+<template [ngIf]="state_validate == false">
+    <template [ngIf]="exist_error != true">
+        <span class="with-errors-text">No matches.</span>
+    </template> 
+</template> 
+
+ <template [ngIf]="exist_error == true">
+    <span class="with-errors-text">{{general_error}}</span>
+</template> 
+
+ <template [ngIf]="error_field == 'city'">
+    <span class="with-errors-text">{{message_error}}</span>
+</template> 
+
+<!-- Autocomplete to Field Provider -->
+<!-- Show Scroll -->
+<template [ngIf]="filteredList > 6"> 
+    <div (click)="myCallback()" class="list-city" *ngIf="filteredList > 0"> 
+        <ul class="margin-city" *ngFor="let item of filteredList; let z=index">
+            <li class="text-items{{z}}" (click)="select(item, list_of_codes[z])">
+                <a>{{item}}</a>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<!-- Hide Scroll -->
+<template [ngIf]="length_of_filteredList <= 6"> 
+    <div class="list-city2 autocomplete-list2" *ngIf="length_of_filteredList > 0"> 
+        <ul class="margin-city" *ngFor="let item of filteredList; let z=index">
+            <li class="text-items{{z}}" (click)="select(item, list_of_codes[z])" >
+                <a>{{item}}</a>
+            </li>
+        </ul>
+    </div>
+</template>

@@ -1,0 +1,86 @@
+<div (click)="remove_autocomplete()">
+<div class="js-sidebar-content">
+  <header class="logo hidden-sm-down">
+    <a href="#/app/bworkspace"> 
+      <img id="logo-text" src="{{host_domain}}/assets/images/logo_text.png"> 
+      <img id="logo-circle" src="{{host_domain}}/assets/images/logo_circle.png">
+    </a>
+  </header>
+  <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
+       looks good, so adding it and enhancing with notifications -->
+  <div class="sidebar-status hidden-md-up logo">
+    <a href="#/app/bworkspace" class="dropdown-toggle" data-toggle="dropdown">
+        <img id="logo2" src="assets/images/logo_text.png">
+    </a>
+    <!-- #notifications-dropdown-menu goes here when screen collapsed to xs or sm -->
+  </div>
+  <!-- main notification links are placed inside of .sidebar-nav -->
+
+<div class="bg-items">
+
+  <ul class="sidebar-nav" >
+    <li class="" *ngFor="let item of menu"> 
+      <template [ngIf]="item.url != '' "> 
+            <a [routerLink]="[item.url]" class="collapsed" data-toggle="collapse">        
+              <span id="" class="icon">
+                <i class="fa" [ngClass]="{ 
+                  'fa-shopping-cart': item.name == 'Booking Workspace',
+                   'fa-cog': item.name == 'Settings',
+                   'fa-sitemap': item.name == 'Mappings'}" aria-hidden="true">
+                </i>
+              </span>
+              {{ item.name }}
+              <template [ngIf]="item.lengh_submenu != 0 "><!-- Hide icon fa-angle-down -->  
+                <i id="icon{{item.menu_id}}" class="toggle fa fa-angle-down"></i>
+              </template>          
+            </a>
+      </template>
+
+      <template [ngIf]="item.url == ''">
+          <a class="collapsed" href="#item{{item.menu_id}}" data-toggle="collapse">
+           <span id="" class="icon">
+              <i class="fa" [ngClass]="{ 
+                'fa-shopping-cart': item.name == 'Booking Workspace',
+                'fa-cog': item.name == 'Settings',
+                'fa-sitemap': item.name == 'Mappings',
+                'fa-users': item.name == 'Customers',
+                'fa-shield' : item.name == 'Security',
+                'fa-database': item.name == 'Internal Data'}" aria-hidden="true">
+              </i>
+            </span>
+            {{ item.name }} 
+            <i id="icon{{item.menu_id}}" class="toggle fa fa-angle-down"></i>          
+          </a>
+        </template>
+
+           <ul id="item{{item.menu_id}}"  class="collapse">
+            <li class="" *ngFor="let subitem of item.submenu">
+              <template [ngIf]="subitem.url != '' ">
+                <a [routerLink]="[subitem.url]" (click)="_path_name.detect_url_change(subitem.url)" class="collapse active-sub" href="#item{{subitem.menu_id}}" data-toggle="collapse">
+                {{ subitem.name }}</a>
+              </template>
+
+              <template [ngIf]="subitem.url == '' ">
+                <a class="collapse active-sub" href="#item{{subitem.menu_id}}" data-toggle="collapse">
+                {{ subitem.name }}</a>
+              </template>
+
+              <ul id="item{{subitem.menu_id}}" class="collapse">
+              <li class="" *ngFor="let subsubitem of subitem.submenu">
+                <template [ngIf]="subsubitem.url != '' ">
+                    <a [routerLink]="[subsubitem.url]"> {{ subsubitem.name }} </a>
+                </template>
+
+                <template [ngIf]="subsubitem.url == '' ">
+                  <a> {{ subsubitem.name }} </a>
+                </template> 
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div> 
+  
+</div>
+</div>

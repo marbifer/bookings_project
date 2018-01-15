@@ -1,0 +1,406 @@
+<!-- Close modal Filters(click in body) -->
+<div class="close-modals" (click)="close_modal_filters()"></div>
+
+<!-- Filters Modal -->
+<div id="myModal" class="pull-right" role="dialog">
+    <div class="" id="no-center-modal">
+
+        <div class="container filters-container myModalFilters" id="myModalFilters">
+            <div id="wrapper-filters-agencies">
+                <main id="content" class="widget-login-container" role="main">
+                    <div class="row">
+                        <div id="column-filters" class="col-12 col-xs-12 center column-filters">
+                            <!-- Section title "Filter By" -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Filter By...</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- FILTERS COLUMN LIST -->
+                            <div id="filters" class="widget-body">
+                                <div class="filter-items center">
+                                    <ul class="sidebar-nav">
+                                        <li class="li-name-surname" (click)="show_filter_name()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Name / Surname d-flex align-items-center justify-content-between -->{{
+                                                _filter_service.response_filters[0].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-email" (click)="show_filter_email()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Email -->{{_filter_service.response_filters[1].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-phone" (click)="show_filter_phone_number()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Phone Number -->{{_filter_service.response_filters[2].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-agency" (click)="show_filter_agency()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Agency -->{{_filter_service.response_filters[3].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-location" (click)="show_filter_location()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Location -->{{_filter_service.response_filters[4].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-book" (click)="show_filter_bookings()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Bookings -->{{_filter_service.response_filters[5].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="li-status" (click)="show_filter_status()">
+                                            <a class="collapsed d-flex align-items-center justify-content-between" href="#" data-toggle="collapse">
+                                                <!-- Status -->{{_filter_service.response_filters[6].filter_type_name}}
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- SEARCH FOR USERS -->
+                                <div class="d-flex justify-content-center filter-button-container">
+                                    <!-- <button type="button" class="filter-button" (click)="search('is_new_filtering')">
+                                        Search for agencies
+                                    </button> --> <!-- VER DE BORRAR CUANDO SE DEFINA BIEN :P -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER USERS -->
+                    <div class="row">
+                        <div id="column-user-name" class="col-12 col-xs-12 center column-user-name secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">NAME/SURNAME</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER AGENCY WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterAgency">
+                                    <label id="label-agency" for="filter-Agency">Name</label>
+                                    <input type="text" class="form-control" name="filter-Agency" id="filter-Name" (keydown)="name_enter($event)" [(ngModel)]="_filter_service.content_input_name">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterAgency">
+                                    <label id="label-agency" for="filter-Agency">Surname</label>
+                                    <input type="text" class="form-control" name="filter-Agency" id="filter-Surname" (keydown)="name_enter($event)" [(ngModel)]="_filter_service.content_input_surname">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="filter-button-container">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-agency" class="filter-button" (click)="save_name()" [ngClass]="{'active-button-add-filter': _filter_service.content_input_name.length || _filter_service.content_input_surname.length > 0}">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'"> 
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_name.length > 0 && _filter_service.content_input_name != _filter_service.content_input_name_backup || _filter_service.content_input_surname.length > 0 && _filter_service.content_input_surname != _filter_service.content_input_surname_backup}" (click)="update_input_agency()">Update
+                                        </button><!-- Este debe llamarse update_input_name_surname(), sino llama al mismo para agency que está más abajo y no funciona bien :) -->
+
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_name != '' || _filter_service.content_input_surname != ''}" (click)="delete_content_input_name()"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER E-MAIL -->
+                    <div class="row">
+                        <div id="column-email" class="col-12 col-xs-12 center column-email secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">E-mail</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER EMAIL WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterEmail">
+                                    <label id="label-email" for="filter-Email">E-mail</label>
+                                    <input type="text" class="form-control" name="filter-Email" id="filter-Email" (keydown)="email_enter($event)" [(ngModel)]="_filter_service.content_input_email" (keyup)="keyup_field_email()">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="filter-button-container">
+                                    <template [ngIf]="_filter_service.event_type == 'new'"> 
+                                        <button type="button" id="button-email" class="filter-button" (click)="save_email()" [ngClass]="{'active-button-add-filter': _filter_service.content_input_email.length > 0}">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'"> 
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_email.length > 0 && _filter_service.content_input_email_backup != _filter_service.content_input_email}" (click)="update_input_mail()">Update</button>                               
+                                        <button (click)="delete_content_input_mail()" type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_email != ''}"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER PHONE -->
+                    <div class="row">
+                        <div id="column-phone" class="col-12 col-xs-12 center column-phone secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Phone Number</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER PHONE WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterPhone">
+                                    <label id="label-phone" for="filter-Phone">Phone Number</label>
+                                    <input type="text" class="form-control" name="filter-Phone" id="filter-Phone" (keydown)="phone_enter($event)" [(ngModel)]="_filter_service.content_input_phone">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="filter-button-container">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-phone" class="filter-button" (click)="save_phone_number()" [ngClass]="{'active-button-add-filter': _filter_service.content_input_phone.length > 0}">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'">
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_phone.length > 0 && _filter_service.content_input_phone_backup != _filter_service.content_input_phone}" (click)="update_input_phone()">Update
+                                        </button>
+
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_phone != ''}" (click)="delete_content_input_phone()"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER AGENCY -->
+                    <div class="row">
+                        <div id="column-agency" class="col-12 col-xs-12 center column-agency secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Agency</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER agency WITH INPUT -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filteragency">
+                                    <label id="label-agency" for="filter-agency">Agency</label>
+                                    <input type="text" class="form-control" name="filter-agency" id="filter-agency" (keydown)="agency_enter($event)" [(ngModel)]="_filter_service.content_input_agency">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="filter-button-container">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-agency" class="filter-button" (click)="save_agency()" [ngClass]="{'active-button-add-filter': _filter_service.content_input_agency.length > 0}">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'">
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium': _filter_service.content_input_agency.length > 0 && _filter_service.content_input_agency_backup != _filter_service.content_input_agency}" (click)="update_input_agency()">Update
+                                        </button>
+
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_agency != ''}" (click)="delete_content_input_agency()"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER LOCATION -->
+                    <div class="row">
+                        <div id="column-location" class="col-12 col-xs-12 center column-location secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Location</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER LOCATION WITH INPUTS -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterLocation">
+                                    <label for="filter-Adress">Address</label>
+                                    <input type="text" class="form-control" name="filter-Adress" id="filter-Address" (keydown)="location_enter($event)" [(ngModel)]="_filter_service.content_input_address">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterLocation">
+                                    <label for="filter-City">City</label>
+                                    <input type="text" class="form-control" name="filter-City" id="filter-City" (keydown)="location_enter($event)" [(ngModel)]="_filter_service.content_input_city">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterLocation">
+                                    <label for="filter-State">State</label>
+                                    <input type="text" class="form-control" name="filter-State" id="filter-State" (keydown)="location_enter($event)" [(ngModel)]="_filter_service.content_input_state">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterLocation">
+                                    <label for="filter-Country">Country</label>
+                                    <input type="text" class="form-control" name="filter-Country" id="filter-Country" (keydown)="location_enter($event)" [(ngModel)]="_filter_service.content_input_country">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group center" id="filterLocation">
+                                    <label for="filter-Zip">Zip</label>
+                                    <input type="text" class="form-control" name="filter-Zip" id="filter-Zip" (keydown)="location_enter($event)" [(ngModel)]="_filter_service.content_input_zip">
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="filter-button-container">
+                                    <template [ngIf]="_filter_service.event_type == 'new'">
+                                        <button type="button" id="button-adress" class="filter-button" [ngClass]="{'active-button-add-filter':_filter_service.content_input_address.length > 0 || _filter_service.content_input_city.length > 0 || _filter_service.content_input_state.length > 0 || _filter_service.content_input_country.length > 0 || _filter_service.content_input_zip.length > 0}" (click)="save_location()">Add Filter</button>
+                                    </template>
+                                    <template [ngIf]="_filter_service.event_type == 'edit'">
+                                        <button type="button" class="btn btn-red-medium-default update-filter-btn" [ngClass]="{'btn-red-medium':_filter_service.content_input_address.length > 0 && _filter_service.content_input_address_backup != _filter_service.content_input_address || _filter_service.content_input_city.length > 0 && _filter_service.content_input_city_backup != _filter_service.content_input_city || _filter_service.content_input_state.length > 0 && _filter_service.content_input_state_backup != _filter_service.content_input_state || _filter_service.content_input_country.length > 0 && _filter_service.content_input_country_backup != _filter_service.content_input_country || _filter_service.content_input_zip.length > 0 && _filter_service.content_input_zip_backup != _filter_service.content_input_zip}" (click)="update_inputs_location()">Update
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-gray-medium update-filter-btn" [ngClass]="{'btn-flamengo': _filter_service.content_input_address != '' || _filter_service.content_input_city != '' || _filter_service.content_input_state != '' || _filter_service.content_input_country != '' || _filter_service.content_input_zip != ''}" (click)="delete_content_inputs_location()"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER BOOKINGS -->
+                    <div class="row">
+                        <div id="column-bookings" class="col-12 col-xs-12 center column-bookings secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Bookings</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER BOOKINGS WITH BUTTONS -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group only-buttons d-flex justify-content-center center">
+                                    <button type="button" id="has-bookings" class="filter-button" [ngClass]="{'active': _filter_service.filter_book == 'has-book'}" (click)="save_bookings(true)">Has Bookings</button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group only-buttons d-flex justify-content-center center">
+                                    <button type="button" id="has-bookings" class="filter-button" [ngClass]="{'active': _filter_service.filter_book == 'never-book'}" (click)="save_bookings(false)">Has never Booked</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TITLE COLUMN FILTER STATUS -->
+                    <div class="row">
+                        <div id="column-status" class="col-12 col-xs-12 center column-status secondFilter">
+                            <!-- Section title -->
+                            <section class="widget widget-login fadeInUp" id="section-title">
+                                <div class="modal-header" id="header-filters">
+                                    <div class="bootstrap-dialog-header d-flex align-items-center justify-content-between">
+                                        <div class="bootstrap-dialog-title">
+                                            <h4 class="modal-title" id="titleFilters">Status</h4>
+                                        </div>
+                                        <div class="bootstrap-dialog-close-button" style="display: block;">
+                                            <button (click)="remove_modal_filters()" class="close">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- COLUMN FILTER STATUS WITH BUTTONS -->
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group only-buttons d-flex justify-content-center center">
+                                    <!-- <button type="button" id="enabled" class="filter-button" (click)="save_status(status.filter_type_code)">{{status.filter_type_name}}</button> -->
+                                    <button type="button" id="" class="filter-button" [ngClass]="{'active': _filter_service.filter_status == 'Active'}" (click)="save_status(1)">Active</button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group only-buttons d-flex justify-content-center center">
+                                    <!-- <button type="button" id="enabled" class="filter-button" (click)="save_status(status.filter_type_code)">{{status.filter_type_name}}</button> -->
+                                    <button type="button" id="" class="filter-button" [ngClass]="{'active': _filter_service.filter_status == 'Inactive'}" (click)="save_status(2)">Inactive</button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xs-12">
+                                <div class="form-group only-buttons d-flex justify-content-center center">
+                                    <!-- <button type="button" id="enabled" class="filter-button" (click)="save_status(status.filter_type_code)">{{status.filter_type_name}}</button> -->
+                                    <button type="button" id="" class="filter-button" [ngClass]="{'active': _filter_service.filter_status == 'Suspended'}" (click)="save_status(3)">Suspended</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>

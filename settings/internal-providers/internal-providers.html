@@ -1,0 +1,801 @@
+<!-- RESPONSIVE CONTAINER -->
+<div class="wrapper-bw" [ngClass]="{'container' : view_port_width}">
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing" (click)="remove_autocomplete()">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id="searchBox" type="text" autocomplete="off"  [(ngModel)]="_service.search_internal_providers" />
+                        <div class="after" (click)="restore_search()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>Search for Internal Provider</p>
+                    </div>
+                </div>
+                <div class="text-search">
+                    <p class="open-search">Search for Internal Provider</p>
+                </div><br><br>
+            </div>
+        </div>
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-4 align-items-center">
+                    <!-- Checkbox icon-checked -->
+                    <template [ngIf]="justchange == true">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-check" (click)="unselect_all()">
+                                <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox with minus-icon -->
+                    <template [ngIf]="justchange == 'minus'">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-minus" (click)="select_all()">
+                                <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox icon-empty -->
+                    <template [ngIf]="_service._data_pagination.total_page != 0">
+                        <template [ngIf]="justchange == false">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div id="icon-empty" (click)="select_all()">
+                                    <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+                        <p class="select">Select All</p>
+                    </template>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <!--<h1 class="title3">{{_service._data_pagination.total_page}} Results</h1>-->
+                    <h1 class="title3">{{_service._data_pagination.total_page}} Results</h1>
+                </div>
+                <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                    <button type="button" id="new-pricerules-button" class="btn-blue-lg" data-toggle="collapse" data-target="#newInternalProvider">New Internal Provider</button>
+                    <!--<template [ngIf]="show_icon == true">-->
+                    <template [ngIf]="show_icon == true">
+                        <div class="trash">
+                            <template [ngIf]="_service.toggle_status == true">
+                                <i *ngIf="_service._data_pagination.total_page != 0" class="fa fa-toggle-off default-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                            <template [ngIf]="_service.toggle_status == false">
+                                <i *ngIf="_service._data_pagination.total_page != 0" class="fa fa-toggle-on enabled-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                            <i *ngIf="_service._data_pagination.total_page != 0" class="fa fa-trash-o default-icon" aria-hidden="true" (click)="deleteInternalProvidersAll()"></i>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- NEW INTERNAL PROVIDER -->
+        <div id="newInternalProvider" class="collapse new-internal-provider">
+            <div class="row">
+                <div id="scrollToError" class="col-xs-9 center">
+                    <!-- Field Name -->
+                    <div class="row">
+                    <template  [ngIf]="_editInternalProviders.updated_form_error_new == true">
+                            <div class="danger-alert center d-flex align-items-center" id="danger-alert-internal-amenity-new">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                            </div><br>
+                     </template>
+                        <div class="col-xs-11 center">
+                            <div class="row d-flex align-items-end">
+                                <div class="col-xs-12 form-group first-form-group">
+                                    <label for="name">Name <span class="asteric">*</span></label>
+                                    <input type="text" name="name" id="field-name" class="form-control field-name" [(ngModel)]="_editInternalProviders.name_new" >
+                                    <template [ngIf]="_editInternalProviders.field_name_err_new != ''">
+                                       <span class="with-errors-text">{{_editInternalProviders.field_name_err_new}}</span>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 form-group">
+                                    <label for="adress">Address</label>
+                                    <input [(ngModel)]="_editInternalProviders.address_new" type="text" name="adress" id="adress" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 form-group">
+                                    <label for="city">City</label>
+                                    <input [ngClass]="{'border-errors' : _editInternalProviders.field_error_city_new == 'city' , 'form-control' : true , 'cityAutocomplete' : true }"  [(ngModel)]="_editInternalProviders.city_new" type="text" name="city" id="city" autocomplete="off" (click)="filter_city_name_click(_editInternalProviders.city_new,'', $event)"
+                                    (focus)="blur_city_new()" >
+                                  
+                                    <!-- Message Error for field City from Backend -->
+                                    <template [ngIf]="_editInternalProviders.field_error_city_new == 'city'">
+                                        <span id="tool-error-city" class="with-errors-text">{{_editInternalProviders.message_city_new}}</span>
+                                    </template>
+                                     <!-- Autocomplete to Field City -->
+                                    <!-- Show Scroll -->
+                                    <template [ngIf]="_editInternalProviders.filteredListCity.length > 6">              
+                                        <div class="list-city" *ngIf="_editInternalProviders.filteredListCity.length > 0">
+                                            <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _editInternalProviders.filteredListCity; let x=index">
+                                                <li class="text-items-city{{x}}" (click)="select_city(internal.id , item , _editInternalProviders.list_of_codes_city[x])" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                                    <a>{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </template>
+                                     <!-- Hide Scroll -->
+                                    <template [ngIf]="_editInternalProviders.filteredListCity.length <= 6">                          
+                                        <div id="cityAuto" class="list-city2 autocomplete-list2" *ngIf="_editInternalProviders.filteredListCity.length > 0">
+                                            <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _editInternalProviders.filteredListCity; let x=index">
+                                                <li class="text-items-city{{x}}" (click)="select_city('', item, _editInternalProviders.list_of_codes_city[x])" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                                    <a>{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </template>
+
+
+                                </div>
+                                <div class="col-xs-4 form-group">
+                                    <label for="zip">Zip</label>
+                                    <input [(ngModel)]="_editInternalProviders.zip_new" type="text" name="zip" id="zip" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 form-group">
+                                    <label for="email">Email</label>
+                                    <input id="field-email" [(ngModel)]="_editInternalProviders.email_new"  type="text" name="email" id="email" class="form-control" (focus)="focus_int_prov('int-new','')" (blur)="blur_email('int-new','')" [ngClass]="{'border-errors': _editInternalProviders.validation_email_filter_keyup_new == false}" (keyup)="keyup_field_email_int_prov('int-new','')">
+                                    <!-- MESSAGE VALIDATION E-MAIL FORM INTERNAL PROVIDERS FROM BACK -->
+                                    <template [ngIf]="_editInternalProviders.field_email_err_new != ''">
+                                        <span class="with-errors-text">{{_editInternalProviders.field_email_err_new}}</span>
+                                    </template>
+
+                                    <!-- MESSAGE VALIDATION E-MAIL FORM INTERNAL PROVIDERS FROM FRONT -->
+                                    <template [ngIf]="_editInternalProviders.validation_email_filter_keyup_new == false">
+                                        <span class="with-errors-text">This value should be a valid email.</span>
+                                    </template>
+                                </div>
+                                <div class="col-xs-6 form-group">
+                                    <label for="phone">Mobile Phone</label>
+                                    <input id="field-email"  [(ngModel)]="_editInternalProviders.mobile_phone_new" type="text" name="phone" id="phone" class="form-control">
+                                    <template [ngIf]="_editInternalProviders.field_phone_err_new != ''">
+                                        <span class="with-errors-text">{{_editInternalProviders.field_phone_err_new}}</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-12 grey-heading d-flex align-items-center">
+                            <div class="col-xs-6 col-xs-offset-3 text-center">
+                                <h3 class="title4">Legend</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="info-alert center d-flex align-items-center" id="success-alert">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <p>The legend appears on the booking page, below the Policies. It’s useful to inform the passenger of any special consideration they should have before booking. “Legend” is general and applies to all services. You can also define a specific Legend for each kind of service, or have both.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_new[i]" [(ngModel)]="{{_edit_prov.legend[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Hotel <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_hotel_new[i]" [(ngModel)]="{{_edit_prov.legend_hotel[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_hotel_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Attraction <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_attraction_new[i]" [(ngModel)]="{{_edit_prov.legend_attraction[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_attraction_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Transfer <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_transfer_new[i]" [(ngModel)]="{{_edit_prov.legend_transfer[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_transfer_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Ife <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_ife_new[i]" [(ngModel)]="{{_edit_prov.legend_ife[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_ife_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Air <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_flight_new[i]" [(ngModel)]="{{_edit_prov.legend_flight[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_flight_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Car <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_car_new[i]" [(ngModel)]="{{_edit_prov.legend_car[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_car_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Package <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_package_new[i]" [(ngModel)]="{{_edit_prov.legend_package[i]}}">-->
+                            <input  [(ngModel)]="_editInternalProviders.legend_package_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Cruise <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_cruise_new[i]" [(ngModel)]="{{_edit_prov.legend_cruise[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_cruise_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Legend for Insurance <span class="opcional">(Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_insurance_new[i]" [(ngModel)]="{{_edit_prov.legend_insurance[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.legend_insurance_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 grey-heading d-flex align-items-center">
+                            <div class="col-xs-6 col-xs-offset-3 text-center">
+                                <h3 class="title4">Voucher information</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="info-alert center d-flex align-items-center" id="success-alert">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <p>The information provided here appears when a voucher is released for a booking.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>The booking is paid by:<span class="opcional"> (Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_payable_new[i]" [(ngModel)]="{{_edit_prov.voucher_payable[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.voucher_payable_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>Observations<span class="opcional"> (Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_observations_new[i]" [(ngModel)]="{{_edit_prov.voucher_observations[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.voucher_observations_new"  type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11 center form-group">
+                            <label>In case of emergency the contact information is:<span class="opcional"> (Optional)</span></label>
+                            <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_emergency_contact_new[i]" [(ngModel)]="{{_edit_prov.voucher_emergency_contact[i]}}">-->
+                            <input [(ngModel)]="_editInternalProviders.voucher_emergency_contact_new" type="text" class="form-control field-legend">
+                        </div>
+                    </div>
+                    <template [ngIf]="_editInternalProviders.updated_form == true"><br>
+                        <div class="row">
+                            <div class="success-alert center d-flex align-items-center" id="success-alert-internal-provider">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                            </div><br><br>
+                        </div>
+                    </template>
+                     
+                    <div class="row">
+                        <div class="col-xs-11 center d-flex justify-content-end save-or-cancel">
+                            <button id="cancel_edit_int_prov" type="button" class="btn-grey-transparent-md" (click)="cancel_edit_int_prov_new()">Cancel</button>
+                            <button type="button" class="btn-red-md" (click)="save_internal_provider_new()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="InternalProvider" class="row">
+            <div class="load"></div>
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_service._data_pagination.total_page != 0">
+                        <tr>
+                            <th class="checkboxes"></th>
+                            <th class="nowrap-whitespace name-th">Name</th>
+                            <th class="nowrap-whitespace phone-th">Phone</th>
+                            <th class="nowrap-whitespace email-th">Email</th>
+                            <th class="nowrap-whitespace text-center status-th">Status</th>
+                            <th class="nowrap-whitespace text-center status-th"></th>
+                            <th class="nowrap-whitespace text-center status-th"></th>
+                        </tr>
+                    </template>
+                    <!--<tr class="pr-tr" *ngFor="let pr of _service.price_rules; let i=index" (mouseover)='showEllipsisIcon(i)' (mouseleave)='hideEllipsisDropdown()'>-->
+                    <template [ngIf]="true"  *ngFor="let internal of _service.internal_provider ; let i=index;">
+                   
+                        <tr class="pr-tr">
+                            <td>
+                                <div class="checkbox abc-checkbox" (click)="show_icon_internal_providers()">
+                                    <input class="check-b check-table-ip" name="options" [checked]="selected_c.indexOf(i)== true" id="checkbox{{i}}" value="{{internal.id}}" type="checkbox" (change)="change_to_minus()">
+                                    <label class="label-selected-pr" attr.for="checkbox{{i}}"></label>
+                                </div>
+                            </td>
+                            <td class="name-td">{{internal.name}}</td>
+                            <td>{{internal.phone_number}}</td>
+                            <td>{{internal.email}}</td>
+                            <td class="text-center">
+                                <template [ngIf]="internal.status == false">
+                                    <i class="fa fa-toggle-off untoggled-icon disabled" aria-hidden="true" (click)="enabled_disabled_toggle(true, internal.id )"></i>
+                                </template>
+                                <template [ngIf]="internal.status == true">
+                                    <i class="fa fa-toggle-on toggled-icon enabled" aria-hidden="true" (click)="enabled_disabled_toggle(false, internal.id )"></i>
+                                </template>
+                            </td>
+                            <td class="text-center edit-row">
+                                <i id="edit_i_p{{internal.id}}" [hidden]="_editInternalProviders.hideButton[internal.id] == true" (click)="preloadIntenal( internal.id , i )" class="fa fa-pencil" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#editInternalProvider'+i" ></i>
+                            </td>
+                            <td class="text-center delete-row">                                
+                                <i class="fa fa-trash-o default-icon" aria-hidden="true" (click)="deleteInterProv(internal.id)" ></i>
+                            </td>
+                        </tr>
+
+                        <!-- EDIT PRICE RULES -->
+                        <!--<tr class="collapsable">
+                            <td colspan="7">
+                                <div id="editInternalProvider" class="collapse edit-pricerules">
+                                    <div class="row edit-tr-container">
+                                        <div class="col-xs-9 center">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>-->
+
+                        <!-- Form inline editing Int. Providers -->
+                        <tr *ngIf="hideCollapsable[i] == true" id="edit-row-expandable{{internal.id}}" class="edit-row-expandable collapsable">
+                            <td colspan="7">
+                                <div id="editInternalProvider{{i}}" class="collapse edit-internal-provider">
+                                    <div class="row">
+                                        <div class="col-xs-9 center">
+                                            <!-- Field Name -->
+                                            <div class="row">
+                                                <div class="col-xs-11 center">
+                                                    <div class="row d-flex align-items-end first-form-group">
+                                                        <div class="col-xs-12 form-group">
+                                                            <label for="name">Name <span class="asteric">*</span></label>
+                                                            <input type="text" name="name" id="field-name{{internal.id}}" class="form-control field-name" [(ngModel)]="_editInternalProviders.name[internal.id]" >
+                                                            <template [ngIf]="_editInternalProviders.field_name_err[internal.id] != ''">
+                                                                <span class="with-errors-text">{{_editInternalProviders.field_name_err[internal.id]}}</span>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 form-group">
+                                                            <label for="adress">Address</label>
+                                                            <input [(ngModel)]="_editInternalProviders.address[internal.id]" type="text" name="adress{{internal.id}}" id="adress{{internal.id}}" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-8 form-group">
+                                                            <label for="city">City</label>
+                                                            <input [ngClass]="{'border-errors' : _editInternalProviders.field_error_city[internal.id] == 'city'  , 'form-control' : true , 'cityAutocomplete' : true }"  [(ngModel)]="_editInternalProviders.city[internal.id]" type="text" name="city" id="city{{internal.id}}" autocomplete="off" (click)="filter_city_name_click(_editInternalProviders.city[internal.id],internal.id, $event)" (blur)="blur_city(internal.id)"  >
+                                                           <!--  <template [ngIf]="_editInternalProviders.state_validate_city == false && _editInternalProviders.field_error_city == 'invalidNewUser'">
+                                                                <span id="tool-error-city" class="with-errors-text">No matches.</span>
+                                                            </template>  -->
+                                                            <!-- Message Error for field City from Backend -->
+                                                            <template [ngIf]="_editInternalProviders.field_error_city[internal.id] == 'city'">
+                                                                <span id="tool-error-city" class="with-errors-text">{{_editInternalProviders.message_city}}</span>
+                                                            </template>
+                                                             <!-- Autocomplete to Field City -->
+                                                            <!-- Show Scroll -->
+                                                            <template [ngIf]="_editInternalProviders.filteredListCity.length > 6">              
+                                                                <div class="list-city" *ngIf="_editInternalProviders.filteredListCity.length > 0">
+                                                                    <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _editInternalProviders.filteredListCity; let x=index">
+                                                                        <li class="text-items-city{{x}}" (click)="select_city(internal.id , item, _editInternalProviders.list_of_codes_city[x])" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                                                            <a>{{item}}</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </template>
+                                                             <!-- Hide Scroll -->
+                                                            <template [ngIf]="_editInternalProviders.filteredListCity.length <= 6">                          
+                                                                <div id="cityAuto" class="list-city2 autocomplete-list2" *ngIf="_editInternalProviders.filteredListCity.length > 0">
+                                                                    <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _editInternalProviders.filteredListCity; let x=index">
+                                                                        <li class="text-items-city{{x}}" (click)="select_city(internal.id, item, _editInternalProviders.list_of_codes_city[x])" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                                                            <a>{{item}}</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </template>
+
+
+                                                        </div>
+                                                        <div class="col-xs-4 form-group">
+                                                            <label for="zip">Zip</label>
+                                                            <input  [(ngModel)]="_editInternalProviders.zip[internal.id]" type="text" name="zip" id="zip{{internal.id}}" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 form-group">
+                                                            <label for="email">Email</label> 
+                                                            <input id="field-email{{internal.id}}"   [(ngModel)]="_editInternalProviders.email[internal.id]"  type="text" name="email" id="email{{internal.id}}" class="form-control" (focus)="focus_int_prov('int',internal.id)" (blur)="blur_email('int',internal.id)" [ngClass]="{'border-errors': _editInternalProviders.validation_email_filter_keyup[internal.id] == false}" (keyup)="keyup_field_email_int_prov('int',internal.id)">
+
+                                                            <template [ngIf]="_editInternalProviders.field_email_err[internal.id] != ''">
+                                                                <span class="with-errors-text">{{_editInternalProviders.field_email_err[internal.id]}}</span>
+                                                            </template>
+
+                                                            <!-- MESSAGE VALIDATION E-MAIL FORM INTERNAL PROVIDERS FROM FRONT -->
+                                                            <template [ngIf]="_editInternalProviders.validation_email_filter_keyup[internal.id] == false">
+                                                                <span class="with-errors-text">This value should be a valid email.</span>
+                                                            </template>
+                                                        </div>
+                                                        <div class="col-xs-6 form-group">
+                                                            <label for="phone">Mobile Phone</label>
+                                                            <input id="phone{{internal.id}}"  [(ngModel)]="_editInternalProviders.mobile_phone[internal.id]" type="text" name="phone"  class="form-control">
+                                                            <template [ngIf]="_editInternalProviders.field_phone_err[internal.id] != ''">
+                                                                <span class="with-errors-text">{{_editInternalProviders.field_phone_err[internal.id]}}</span>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                                                        <h3 class="title4">Legend</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                    <p>The legend appears on the booking page, below the Policies. It’s useful to inform the passenger of any special consideration they should have before booking. “Legend” is general and applies to all services. You can also define a specific Legend for each kind of service, or have both.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_new[i]" [(ngModel)]="{{_edit_prov.legend[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Hotel <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_hotel_new[i]" [(ngModel)]="{{_edit_prov.legend_hotel[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_hotel[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Attraction <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_attraction_new[i]" [(ngModel)]="{{_edit_prov.legend_attraction[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_attraction[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Transfer <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_transfer_new[i]" [(ngModel)]="{{_edit_prov.legend_transfer[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_transfer[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Ife <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_ife_new[i]" [(ngModel)]="{{_edit_prov.legend_ife[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_ife[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Air <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_flight_new[i]" [(ngModel)]="{{_edit_prov.legend_flight[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_flight[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Car <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_car_new[i]" [(ngModel)]="{{_edit_prov.legend_car[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_car[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Package <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_package_new[i]" [(ngModel)]="{{_edit_prov.legend_package[i]}}">-->
+                                                    <input  [(ngModel)]="_editInternalProviders.legend_package[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Cruise <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_cruise_new[i]" [(ngModel)]="{{_edit_prov.legend_cruise[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_cruise[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Insurance <span class="opcional">(Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_insurance_new[i]" [(ngModel)]="{{_edit_prov.legend_insurance[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.legend_insurance[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                                                        <h3 class="title4">Voucher information</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                    <p>The information provided here appears when a voucher is released for a booking.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>The booking is paid by:<span class="opcional"> (Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_payable_new[i]" [(ngModel)]="{{_edit_prov.voucher_payable[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.voucher_payable[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Observations<span class="opcional"> (Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_observations_new[i]" [(ngModel)]="{{_edit_prov.voucher_observations[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.voucher_observations[internal.id]"  type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>In case of emergency the contact information is:<span class="opcional"> (Optional)</span></label>
+                                                    <!--<input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_emergency_contact_new[i]" [(ngModel)]="{{_edit_prov.voucher_emergency_contact[i]}}">-->
+                                                    <input [(ngModel)]="_editInternalProviders.voucher_emergency_contact[internal.id]" type="text" class="form-control field-legend">
+                                                </div>
+                                            </div>
+                                            <template [ngIf]="_editInternalProviders.updated_form == true"><br>
+                                                <div class="row">
+                                                    <div class="success-alert center d-flex align-items-center" id="success-alert-internal-provider">
+                                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                                        <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                                    </div><br><br>
+                                                </div>
+                                            </template>
+                                             <template [ngIf]="_editInternalProviders.updated_form_error[i] == true">
+                                                <div class="row">
+                                                    <div class="danger-alert center d-flex align-items-center" id="danger-alert-internal-amenity-new">
+                                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                                        <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                                                    </div><br>
+                                                </div>
+                                             </template>
+                                            <div class="row">
+                                                <div class="col-xs-11 center d-flex justify-content-end save-or-cancel">
+                                                    <button id="cancel_edit_int_prov{{internal.id}}" type="button" class="btn-grey-transparent-md" (click)="cancel_edit_int_prov(internal.id , i )">Cancel</button>
+                                                    <button type="button" class="btn-red-md" (click)="save_internal_provider(internal.id)">Save Changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- NOTIFICATION RULES -->
+                                    <div class="row notification-rules-table">
+                                        <div class="col-xs-11 center">
+                                            <div class="row">
+                                                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                                                        <h3 class="title3">Notification rules</h3>
+                                                    </div>
+                                                    <div class="col-xs-3 d-flex align-items-center justify-content-end">
+                                                        <button type="button" class="btn-blue-lg">New Notification Rule</button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- NOTIFICATION RULES TABLE -->
+                                                <table *ngIf="_editInternalProviders.notification_rules_length != 0" class="table short-table table-striped table-hover">
+                                                    <tr>
+                                                        <th>Admin</th>
+                                                        <th class="text-center"><i class="fa fa-bed" aria-hidden="true" (mouseover)='mouseover_icons("fa-bed")' (mouseleave)='mouseleave_icons("fa-bed")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i></th>
+                                                        <th class="text-center"><i class="fa fa-ticket" aria-hidden="true" (mouseover)='mouseover_icons("fa-ticket")' (mouseleave)='mouseleave_icons("fa-ticket")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i></th> 
+                                                        <th class="text-center"><i class="fa fa-bus" aria-hidden="true" (mouseover)='mouseover_icons("fa-bus")' (mouseleave)='mouseleave_icons("fa-bus")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i></th>
+                                                        <th class="text-center"><i class="fa fa-car" aria-hidden="true" (mouseover)='mouseover_icons("fa-car")' (mouseleave)='mouseleave_icons("fa-car")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i></th>
+                                                        <th class="text-center"><i class="fa fa-plane" aria-hidden="true" (mouseover)='mouseover_icons("fa-plane")' (mouseleave)='mouseleave_icons("fa-plane")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Air"></i></th>
+                                                        <th class="text-center"><i class="fa fa-shield" aria-hidden="true" (mouseover)='mouseover_icons("fa-shield")' (mouseleave)='mouseleave_icons("fa-shield")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i></th>
+                                                        <th class="text-center"><i class="fa fa-ship" aria-hidden="true" (mouseover)='mouseover_icons("fa-ship")' (mouseleave)='mouseleave_icons("fa-ship")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i></th>
+                                                        <th class="text-center"><i class="fa fa-th" aria-hidden="true" (mouseover)='mouseover_icons("fa-th")' (mouseleave)='mouseleave_icons("fa-th")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Packages"></i></th>
+                                                        <th class="text-center"><i class="fa fa-building-o" aria-hidden="true" (mouseover)='mouseover_icons("fa-building-o")' (mouseleave)='mouseleave_icons("fa-building-o")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Agency"></i></th>
+                                                        <th class="text-center"><i class="fa fa-user" aria-hidden="true" (mouseover)='mouseover_icons("fa-user")' (mouseleave)='mouseleave_icons("fa-user")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User"></i></th> 
+                                                        <th class="text-center"><i class="fa fa-cog" aria-hidden="true" (mouseover)='mouseover_icons("fa-cog")' (mouseleave)='mouseleave_icons("fa-cog")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="System"></i></th>
+                                                        <th>Rule Name</th>
+                                                        <th class="status-th"></th>
+                                                        <th class="status-th"></th>
+                                                    </tr>
+                                                    <tr *ngFor="let notif of _editInternalProviders.notification_rules ; let i=index" >
+                                                        <td>{{notif.admins}}</td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_hotel == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_hotel == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_attractions == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_attractions == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_transfers == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_transfers == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_cars == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_cars == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_flights == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_flights == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_insurances == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_insurances == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_cruises == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_cruises == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.apply_to_packages == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.apply_to_packages == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.agency_event == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.agency_event == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.user_event == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.user_event == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <i *ngIf="notif.system_event == true" class="fa fa-check checked-icon" aria-hidden="true"></i>
+                                                            <i *ngIf="notif.system_event == false" class="fa fa-times unchecked-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                        <td>{{notif.name}}</td>
+                                                        <td class="text-center edit-row">
+                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="collapse" data-target="#editInternalProvider"></i>
+                                                        </td>
+                                                        <td class="text-center delete-row">
+                                                            <i *ngIf="notif.avail_remove == true" class="fa fa-trash-o default-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <!-- Error Message if there are not registers in the table from Front-End --> 
+                                            <template [ngIf]="_editInternalProviders.notification_rules_length == 0" > 
+                                                <div class="row">
+                                                    <div id="notiAlert" class="info-alert center d-flex align-items-center">
+                                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                        <p>There are no <span>“Notification Rules“</span> for this element yet. Create one from the "new Notification Rule" button.</p>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                        </div>
+                                    </div><!-- END OF NOTIFICATION RULES TABLE -->
+                                    
+                                    <!-- PRICE RULES -->
+                                    <div class="row price-rules-table">
+                                        <div class="col-xs-11 center">
+                                            <div class="row">
+                                                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                                                        <h3 class="title3">Price rules</h3>
+                                                    </div>
+                                                    <div class="col-xs-3 d-flex align-items-center justify-content-end">
+                                                        <button type="button" class="btn-blue-lg">New Price Rule</button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- PRICE RULES TABLE -->
+                                                <table *ngIf="_editInternalProviders.price_rules_length != 0"  class="table short-table table-hover">
+                                                    <tr>
+                                                        <th class="service-type-th text-center">Service Type</th>
+                                                        <th>Rule Name</th>
+                                                        <th>Price Range</th>
+                                                        <th>Amount</th>
+                                                        <th>Type</th>
+                                                        <th class="status-th"></th>
+                                                        <th class="status-th"></th>
+                                                    </tr>
+                                                    <tr *ngFor="let price of _editInternalProviders.price_rules ; let ind=index" >
+                                                        <td  class="service-type-td text-center" [innerHTML]="htmlService_type[ind]">
+                                                        </td>
+                                                        <td>{{price.name}}</td>
+                                                        <td>{{price.currency_default_symbol}}{{price.amount_start}} to {{price.currency_default_symbol}}{{price.amount_end}}</td>
+                                                        <td>
+                                                            <!-- Unspecified -->
+                                                            <template [ngIf]="price.amount_type == 0"></template>
+                                
+                                                            <!-- Fixed Value Currency --> 
+                                                            <template [ngIf]="price.amount_type == 1">{{price.amount_symbol}}{{price.amount}}</template>
+                                
+                                                            <!-- Porcentaje -->   
+                                                            <template [ngIf]="price.amount_type == 2">{{price.amount}}{{price.amount_symbol}}</template>
+                                                        </td>                                                        <td>{{price.rule_type_name}}</td>
+                                                        <td (click)="goToPriceRules(price.name , price.code)" class="text-center edit-row">
+                                                            <i class="fa fa-pencil" aria-hidden="true" data-toggle="collapse" ></i>
+                                                        </td>
+                                                        <td (click)="deletePriceRule(price.code , internal.id )" class="text-center delete-row">
+                                                            <i *ngIf="price.avail_remove == true"  class="fa fa-trash-o default-icon" aria-hidden="true"></i>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <!-- Error Message if there are not registers in the table from Front-End --> 
+                                            <template  [ngIf]="_editInternalProviders.price_rules_length == 0" > 
+                                                <div class="row">
+                                                    <div id="priceAlert" class="info-alert center d-flex align-items-center">
+                                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                        <p>There are no <span>“Price Rules“</span> for this element yet. Create one from the "New Price Rule" button.</p>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                        </div>
+                                    </div><!-- END OF PRICE RULES TABLE -->
+                                </div><!-- END OF edit-internal-provider -->
+                            </td>
+                        </tr><!-- END OF ROW WITH INTERNAL PROVIDER DETAIL -->
+                    </template>
+                </table>
+            </div>
+        </div>
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity" >
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_internal_providers.length > 0"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_service.search_internal_providers}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+            <!-- Error Message if there are not registers in the table from Front-End -->
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_internal_providers == undefined"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“Internal Providers“</span> in the system yet. Create one from the button on the top right corner of this screen.
+                    </p>
+                </div>
+            </template>
+
+            <!-- Error Message if there are not registers in the table from Front-End -->
+            <template [ngIf]="_service._data_pagination.total_page == 0 && _service.search_internal_providers.length == 0"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“Internal Providers“</span> in the system yet. Create one from the button on the top right corner of this screen.
+                    </p>
+                </div>
+            </template>
+
+        </div>
+    </div>
+    <my-pagination  *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination>  
+</div>
+</div>

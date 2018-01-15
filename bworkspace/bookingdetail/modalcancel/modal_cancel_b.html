@@ -1,0 +1,96 @@
+<div class="load"></div>
+
+<!--<div class="container" id="modal-cancel-bookings">
+  <main id="content" class="widget-login-container" role="main">
+    <div class="row">
+      <div id="modal_log" class="col-xs-10 col-xs-offset-1">
+        <section id="no-bground-b" class="widget widget-login animated fadeInUp">
+          <header class="header-cancel-bookings">
+            <button (click)="remove_modal_booking()" type="button" id="cross-cancel-book" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+             </button>
+            <i class="fa fa-exclamation-circle yellow" aria-hidden="true"></i>
+            <p class="widget-login-logo animated fadeInUp">Cancel Booking?</p>     
+          </header>
+         
+          <div id="width-cancel-bookings" class="widget-body">
+            <p id="cancel-file" class="">
+              Cancelling a Booking will notify all the interested parties of the action automatically. Do you want to continue?
+            </p>
+              <br>
+             <div id="modal_cancel_book">
+              <button (click)="remove_modal_booking()" class="btn btn-default no-cancel-b">No, Keep Booking</button>
+              <button (click)="cancel_bookings()" class="btn btn-primary yes-cancel-b">Yes, Cancel Booking</button>
+             </div>
+          </div>
+        </section>
+      </div>
+  <div class="container">
+    <div id="msg-success-b" class="alert alert-success" alert-dismissible>
+      <button type="button" class="close color-cross-b" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i id='success-cancel-book' class="fa fa-check-circle" aria-hidden="true"></i>
+      <p>Your Booking has been canceled successfully</p>
+    </div>
+    <div id="msg-failed-b" class="alert alert-danger" alert-dismissible>
+      <button type="button" class="close color-cross-b" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <i id='error-cancel-book' class='fa fa-times-circle' aria-hidden='true'></i>
+       <strong>We're sorry!</strong> <span>We can't do the cancellation, please try again.</span>
+    </div>
+    <div id="close-modal-b"><button (click)="remove_modal()" class="btn btn-primary btn-lg btn-block">Close</button></div><br> 
+     
+  </div>
+
+    </div>
+  </main>
+</div>-->
+
+
+
+<!-- Modal -->
+<div class="container travtion-modal cancel-modal" id="modal-cancel-bookings">
+    <div class="row modal-header align-items-center justify-content-center">
+        <div class="text-center">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            <h1>Cancel Booking?</h1>
+        </div>
+        <i class="fa fa-times close" aria-hidden="true" (click)="remove_modal_booking()"></i>
+    </div>
+    <div  class="row modal-body">
+        <div *ngIf="state_bookings_close == false" id="width-cancel-bookings" class="hide-content-container animated fadeInUp">
+            <div class="hide-content d-flex align-items-center flex-column">
+                <div class="modal-text">
+                    <p id="cancel-file" class="cancel-file text-center animated fadeInUp">
+                        Cancelling a Booking will notify all the interested parties of the action automatically. Do you want to continue?
+                    </p>
+                </div>
+                <div class="modal-buttons d-flex align-items-end justify-content-end">
+                    <div id="modal_cancel_book" class="d-flex align-items-center justify-content-end">
+                        <button (click)="remove_modal_booking()" class="d-flex align-items-center justify-content-center btn-grey-transparent-md no-cancel">No, Keep Booking</button>
+                        <button (click)="cancel_bookings()" class="d-flex align-items-center justify-content-center btn-red-md yes-cancel">Yes, Cancel Booking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="close-modal-b">
+            <div class="show-content-container d-flex align-items-center flex-column">
+                <div *ngIf="state_bookings_success == true" id="msg-success-b">
+                    <div class="alert success-alert center d-flex align-items-center" alert-dismissible>
+                        <i class="fa fa-times close" aria-hidden="true" data-dismiss="alert" aria-label="Close"></i>
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>Your Booking has been canceled successfully</p>
+                    </div>
+                </div>
+                <div *ngIf="state_bookings_error == true" id="msg-failed-b">
+                    <div class="alert danger-alert center d-flex align-items-center" alert-dismissible>
+                        <i class="fa fa-times close" aria-hidden="true" data-dismiss="alert" aria-label="Close"></i>
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p><span>We're sorry!</span> We can't do the cancellation, please try again.</p>
+                    </div>
+                </div>
+                <div *ngIf="state_bookings_close == true"  class="button-after-close">
+                    <button (click)="remove_modal_booking()" class="btn-red-md d-flex align-items-center justify-content-center">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

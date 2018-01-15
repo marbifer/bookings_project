@@ -1,0 +1,69 @@
+<!-- Modal -->
+<div class="container travtion-modal compose-modal" id="composeModal">
+    <div class="row compose-modal-header align-items-center justify-content-between">
+        <h1 class="title4">Compose</h1>
+        <!--<button type="button" class="close" (click)="remove_modal()">
+            <span aria-hidden="true">&times;</span>
+        </button>-->
+        <i class="fa fa-times close" aria-hidden="true" (click)="remove_modal()"></i>
+    </div>
+    <div class="row compose-modal-content">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="form-group send-to d-flex align-items-center">
+                    <div class="col-xs-2 text-right">
+                        <label for="to">To</label>
+                    </div>
+                    <div class="col-xs-10">
+                        <input type="text" id="to" name="to" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-10">
+                    <div class="d-flex flex-wrap pill-wrapper">
+                        <div class="pill agency-email-pill d-flex align-items-center">
+                            <span>Agency E-mail</span>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                        <div class="pill operator-email-pill d-flex align-items-center">
+                            <span>Operator E-mail</span>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                        <div class="pill passenger-email-pill d-flex align-items-center">
+                            <span>Passenger E-mail</span>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group d-flex align-items-center">
+                    <div class="col-xs-2 text-right">
+                        <label for="subject">Subject</label>
+                    </div>
+                    <div class="col-xs-10">
+                        <input type="text" id="subject" name="subject" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group d-flex align-items-start">
+                    <div class="col-xs-2 text-right">
+                        <label for="message">Message</label>
+                    </div>
+                    <div class="col-xs-10">
+                        <textarea name="message" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-10">
+                    <button class="btn-red-md send d-flex align-items-center justify-content-center">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

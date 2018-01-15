@@ -1,0 +1,28 @@
+<div class="container" id="modal-logout">
+  <main id="content" class="widget-login-container" role="main">
+    <div class="row">
+      <div id="modal_log" class="col-xs-10 col-xs-offset-1">
+        <section id="no-bground-logout" class="widget widget-login animated fadeInUp">
+         <header class="header-logout">
+           <button (click)="remove_modal()" type="button" id="cross-logout" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <i class="fa fa-exclamation-circle yellow" aria-hidden="true"></i>
+            <p class="widget-login-logo animated fadeInUp">Are you sure you want to Log out?</p>     
+          </header>
+
+          <div id="width-logout" class="widget-body">
+              <br>
+             <div id="modal_logout">
+              <button (click)="remove_modal()" class="btn btn-default no-logout">Cancel</button>
+              <button (click)="logoff()" class="btn btn-primary yes-logout">Yes, Log out</button>
+             </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>   
+
+</div>
+
+

@@ -1,0 +1,900 @@
+<h1 class="page-title"></h1>
+<div class="load"></div>
+<!-- RESPONSIVE CONTAINER -->
+<div class="overflow-x" (click)="notify_event_to_autocomplete()">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container ife-container">
+        <div class="blue-heading d-flex align-items-center">
+            <div class="new-ife-title d-flex align-items-center justify-content-center">
+                <h1 class="title2">New ife</h1>
+            </div>
+            <h1 class="title3">{{reservation_code_locator}} {{name}}</h1>
+        </div>
+        <div class="ife-inner-container">
+            <div class="wizard-bar">
+                <div class="row wizard-buttons">
+                    <div class="col-xs-12 d-flex justify-content-between">
+                        <!--
+                            - La clase "active" es para el botón del paso activo.
+                            - La clase "inactive" es para el botón del paso anterior
+                        -->
+                        <button type="button" id="serviceStepButton" [ngClass]="{'active': currentStep == 1, 'btn-red-lg': true}" (click)="showServiceStep(1)">1. Service</button>
+                        <button type="button" id="passengerStepButton" [ngClass]="{'active': currentStep == 2, 'btn-red-lg': true}" (click)="showPassengerStep(2)">2. Passenger</button>
+                        <button type="button" id="pricesStepButton" [ngClass]="{'active': currentStep == 3, 'btn-red-lg': true}" (click)="showPricesStep(3)">3. Prices</button>
+                        <button type="button" id="policiesStepButton" [ngClass]="{'active': currentStep == 4, 'btn-red-lg': true}" (click)="showPoliciesStep(4)">4. Policies</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="wizard-progress-bar">
+                            <!--
+                                - La clase ".progress-step1" es para que la barra se marque hasta el paso 1.
+                                - La clase ".progress-step2" es para que la barra se marque hasta el paso 2.
+                                - La clase ".progress-step3" es para que la barra se marque hasta el paso 3.
+                                - La clase ".progress-step4" es para que la barra se marque hasta el paso 4.
+                            -->
+                            <div class="progress progress-step{{currentStep}}"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerta que se muestra sólo si el IFE no pudo ser creado -->
+                <div *ngIf="general_error_ife != undefined && general_error_ife != ''" class="danger-alert center d-flex align-items-center error-message-inline">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                    <p>{{general_error_ife}}</p>
+                </div>
+            </div>
+            <div class="ife-content">
+
+                <!-- 1. SERVICE TYPE STEP -->
+                <!-- Le asigno este ID para que sirva para la implementación de cada uno de los pasos -->
+                <div class="service-step" id="servicestep" [hidden]="currentStep != 1" >
+
+                    <!-- SERVICES TOOLBAR -->
+                    <div class="row service-types">
+                        <div class="col-xs-7">
+                            <div class="btn-group service-types-group" role="group">
+                                <!-- GENERAL -->
+                                <!-- Se debería aplicar la clase "active" al botón en el que se haga click, para que se vea rojo
+                                     y se muestre el contenido de ese servicio :) ! -->
+                                <button (click)="selectPill(1)" type="button" class=" btn btn-default d-flex justify-content-center align-items-center title5"  [ngClass]="{'active': selectedPill == 1}">
+                                    General
+                                </button>
+                                <!-- HOTEL -->
+                                <button (click)="selectPill(2)" type="button" class="btn btn-default d-flex justify-content-center align-items-center title5" [ngClass]="{'active': selectedPill == 2}">
+                                    Hotel
+                                </button>
+                                <!-- TRANSFER -->
+                                <button (click)="selectPill(4)" type="button" class="btn btn-default d-flex justify-content-center align-items-center title5" [ngClass]="{'active': selectedPill == 4}">
+                                    Transfer
+                                </button>
+                                <!-- CAR -->
+                                <button (click)="selectPill(5)" type="button" class="btn btn-default d-flex justify-content-center align-items-center title5" [ngClass]="{'active': selectedPill == 5}">
+                                    Car
+                                </button>
+                                <!-- INSURANCE -->
+                                <button (click)="selectPill(6)" type="button" class="btn btn-default d-flex justify-content-center align-items-center title5" [ngClass]="{'active': selectedPill == 6}">
+                                    Insurance
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GENERAL TYPE -->
+                    <!-- Le asigno un ID a cada uno de los servicios para que luego a través de implementación se muestre
+                         el contenido de cada tipo de servicio según corresponda :) -->
+                    <div id="generalType" class="general-type" [hidden]="selectedPill != 1" >
+                        <div class="row service-name-date-picture align-items-end justify-content-between">
+                            <div class="col-xs-9">
+                                <!-- SERVICE NAME -->
+                                <div class="row service-name">
+                                    <div class="col-xs-12">
+                                        <label for="service-name" class="title5">Service name</label>
+                                        <input [ngClass]="{'border-errors': message_service_name != undefined}" [(ngModel)]="_editIfe.serviceName_general" (keyup)="hide_error()" type="text" name="service-name" id="service-name-g" class="form-control">
+                                        <!-- MESSAGE FIELD ALL SERVICE NAME FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_name}}</span>
+                                    </div>
+                                </div>
+                                <!-- SERVICE DATE -->
+                                <div class="row service-date">
+                                    <div class="col-xs-12">
+                                        <div class="d-flex align-items-center datepicker-wrapper">
+                                            <all-datepicker (fillFrom)="notify_from_selection($event, 0)" (fillTo)="notify_to_selection($event, 0)" (onDatePicked)="notify_date_selection($event, 0)" #date_step_1_general [type]='"step_1_general"' [indexer]='0'></all-datepicker>                                            
+                                        </div>
+                                        <!-- MESSAGE DATEPICKER DATE START FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_start}}</span>
+                                        <!-- MESSAGE DATEPICKER DATE END FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_end}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SERVICE PICTURE -->
+                            <div class="col-xs-3 service-picture">
+                                <h1 class="title5">Service picture <span class="optional">(optional)</span></h1>
+                                <div class="drop-files-wrapper d-flex align-items-center justify-content-center">
+                                    <div id="imageContainergeneral" [ngClass]="{'drop-files' : true , 'd-flex' : true , 'align-items-center' : true , 'justify-content-center' : true , 'dragOver' : fileOver == true }">
+                                        <input class="fileStep1" type="file" (drop)="onDrop($event)" (dragover)="dragover($event)" (dragleave)="dragleave()" (change)="changeListener($event, 'general')" />
+                                        <div class="text-center">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                            <p>Choose a file<br>or drag it here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SERVICE DESCRIPTION -->
+                        <div class="row service-description">
+                            <div class="col-xs-12">
+                                <label for="service-description" class="title5">Description</label>
+                                <textarea [ngClass]="{'border-errors': message_description != undefined}" [(ngModel)]="_editIfe.descriptionGeneral" (keyup)="hide_error_des()" name="service-description" id="service-description" class="form-control"></textarea>
+                                <!-- MESSAGE FIELD DESCRIPTION FROM BACKEND -->
+                                <span class="with-errors-text">{{message_description}}</span>
+                            </div>
+                        </div>
+                    </div><!-- END OF GENERAL TYPE -->
+
+                    <!-- HOTEL TYPE -->
+                    <div id="hotelType" class="hotel-type" [hidden]="selectedPill != 2" >
+                        <div class="row service-name-date-picture align-items-end justify-content-between">
+                            <div class="col-xs-9">
+                                <!-- SERVICE NAME -->
+                                <div class="row service-name">
+                                    <div class="col-xs-12">
+                                        <label for="service-name" class="title5">Hotel name</label>
+                                        <input [ngClass]="{'border-errors': message_service_name != undefined}" [(ngModel)]="_editIfe.serviceName_hotel" (keyup)="hide_error()" type="text" name="service-name" id="service-name-h" class="form-control">
+                                        <!-- MESSAGE FIELD ALL SERVICE NAME FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_name}}</span>
+                                    </div>
+                                </div>
+                                <!-- SERVICE DATE -->
+                                <div class="row service-date">
+                                    <div class="col-xs-12">
+                                        <all-datepicker (fillFrom)="notify_from_selection($event, 0)" (fillTo)="notify_to_selection($event, 0)" (onDatePicked)="notify_date_selection($event, 0)" #date_step_1_hotel [type]='"date_step_1_hotel"' [indexer]='0'></all-datepicker>                                       
+                                    </div>
+                                    <!-- MESSAGE DATEPICKER DATE START FROM BACKEND -->
+                                    <span class="with-errors-text">{{message_service_date_start}}</span>
+                                    <!-- MESSAGE DATEPICKER DATE END FROM BACKEND -->
+                                    <span class="with-errors-text">{{message_service_date_end}}</span>
+                                </div>
+                            </div>
+                            <!-- SERVICE PICTURE -->
+                            <div class="col-xs-3 service-picture">
+                                <h1 class="title5">Service picture <span class="optional">(optional)</span></h1>
+                                <div class="drop-files-wrapper d-flex align-items-center justify-content-center">
+                                    <div id="imageContainerhotel" [ngClass]="{'drop-files' : true , 'd-flex' : true , 'align-items-center' : true , 'justify-content-center' : true , 'dragOver' : fileOver == true }">
+                                        <input class="fileStep1" type="file"  (drop)="onDrop($event)" (dragover)="dragover($event)" (dragleave)="dragleave()"  (change)="changeListener($event , 'hotel')" />
+                                        <div class="text-center">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                            <p>Choose a file<br>or drag it here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ADDRESS -->
+                        <div class="row hotel-adddress">
+                            <div class="col-xs-12 form-group">
+                                <label for="hotel-address" class="title5">Address</label>
+                                <input [ngClass]="{'border-errors': message_address_hotel != undefined}" [(ngModel)]="_editIfe.address_hotel" (keyup)="hide_error_address_hotel()" type="text" name="hotel-address" id="hotel-address" class="form-control">
+                                <!-- MESSAGE FIELD ADDRESS FROM BACKEND -->
+                                <span class="with-errors-text">{{message_address_hotel}}</span>
+                            </div>
+                        </div>
+                        <!-- ROOM TYPE -->
+                        <div class="row room-type">
+                            <div class="col-xs-12 form-group">
+                                <label for="room-type" class="title5">Room type</label>
+                                <input [ngClass]="{'border-errors': message_hotel_room_type != undefined}" [(ngModel)]="_editIfe.room_type_hotel" (keyup)="hide_error_room_type_hotel()" type="text" name="room-type" id="room-type" class="form-control">
+                                <!-- MESSAGE FIELD ROOM TYPE FROM BACKEND -->
+                                <span class="with-errors-text">{{message_hotel_room_type}}</span>
+                            </div>
+                        </div>
+                        <!-- SERVICE DESCRIPTION -->
+                        <div class="row service-description">
+                            <div class="col-xs-12">
+                                <label for="service-description" class="title5">Description <span class="optional">(optional)</span></label>
+                                <textarea [(ngModel)]="_editIfe.description_hotel" name="service-description" id="service-description" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div><!-- END OF HOTEL TYPE -->
+
+
+                    <!-- TRANSFER TYPE -->
+                    <div id="transferType" class="transfer-type" [hidden]="selectedPill != 4" >
+                        <div class="row service-name-date-picture align-items-end justify-content-between">
+                            <div class="col-xs-9">
+                                <!-- SERVICE NAME -->
+                                <div class="row service-name">
+                                    <div class="col-xs-12">
+                                        <label for="service-name" class="title5">Transfer service name</label>
+                                        <input [ngClass]="{'border-errors': message_service_name != undefined}" [(ngModel)]="_editIfe.serviceName_transfer" (keyup)="hide_error()" type="text" name="service-name" id="service-name-t" class="form-control">
+                                        <!-- MESSAGE FIELD ALL SERVICE NAME FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_name}}</span>
+                                    </div>
+                                </div>
+                                <!-- SERVICE DATE -->
+                                <div class="row service-date">
+                                    <div class="col-xs-12">
+                                        <div class="d-flex align-items-center datepicker-wrapper">
+                                            <all-datepicker (fillFrom)="notify_from_selection($event, 0)" (fillTo)="notify_to_selection($event, 0)" (onDatePicked)="notify_date_selection($event, 0)" #date_step_1_transfer [type]='"date_step_1_transfer"' [indexer]='0'></all-datepicker>
+                                        </div>
+                                        <!-- MESSAGE DATEPICKER DATE START FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_start}}</span>
+                                        <!-- MESSAGE DATEPICKER DATE END FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_end}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SERVICE PICTURE -->
+                            <div class="col-xs-3 service-picture">
+                                <h1 class="title5">Service picture <span class="optional">(optional)</span></h1>
+                                <div class="drop-files-wrapper d-flex align-items-center justify-content-center">
+                                    <div id="imageContainertransfer" [ngClass]="{'drop-files': true, 'd-flex': true, 'align-items-center': true, 'justify-content-center': true, 'dragOver': fileOver == true}">
+                                        <input class="fileStep1" type="file" (drop)="onDrop($event)" (dragover)="dragover($event)" (dragleave)="dragleave()" (change)="changeListener($event, 'transfer')"/>
+                                        <div class="text-center">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                            <p>Choose a file<br>or drag it here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FROM / TO -->
+                        <div class="row">
+                            <div class="col-xs-6 form-group">
+                                <label for="from" class="title5">From</label>
+                                <input [ngClass]="{'border-errors': message_transfer_from != undefined}" [(ngModel)]="_editIfe.from_transfer" (keyup)="hide_error_trans_from()" type="text" name="from" id="from" class="form-control">
+                                <!-- MESSAGE FIELD FROM FROM BACKEND -->
+                                <span class="with-errors-text">{{message_transfer_from}}</span>
+                            </div>
+                            <div class="col-xs-6 form-group">
+                                <label for="to" class="title5">To</label>
+                                <input [ngClass]="{'border-errors': message_transfer_to != undefined}" [(ngModel)]="_editIfe.to_transfer" (keyup)="hide_error_trans_to()" type="text" name="to" id="to" class="form-control">
+                                <!-- MESSAGE FIELD FROM FROM BACKEND -->
+                                <span class="with-errors-text">{{message_transfer_to}}</span>
+                            </div>
+                        </div>
+                        <!-- SERVICE PROVIDED BY / CITY -->
+                        <div class="row">
+                            <div class="col-xs-6 form-group">
+                                <label for="service-provided-by" class="title5">Service provided by <span class="optional">(optional)</span></label>
+                                <input [(ngModel)]="_editIfe.provided_by_transfer" type="text" name="service-provided-by" id="service-provided-by" class="form-control">
+                            </div>
+                            <div class="col-xs-6 form-group city-form-group d-flex flex-column justify-content-center">
+                                <label for="city" class="title5">City <span class="optional">(optional)</span></label>
+                                <all-autocompletes #get_function_from_subcomponent_city [type]='"city"'></all-autocompletes>
+                            </div>
+                        </div>
+                        <!-- PICK UP / DROP OFF INFO -->
+                        <div class="row service-description">
+                            <div class="col-xs-6">
+                                <label for="pick-up-info" class="title5">Pick up info <span class="optional">(optional)</span></label>
+                                <textarea [(ngModel)]="_editIfe.pickUp_transfer" name="pick-up-info" id="pick-up-info" class="form-control"></textarea>
+                            </div>
+                            <div class="col-xs-6">
+                                <label for="drop-off-info" class="title5">Drop off info <span class="optional">(optional)</span></label>
+                                <textarea [(ngModel)]="_editIfe.dropOff_transfer" name="drop-off-info" id="drop-off-info" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div><!-- END OF TRANSFER TYPE -->
+                    
+
+
+                    <!-- CAR TYPE -->
+                    <div id="carType" class="car-type" [hidden]="selectedPill != 5" >
+                        <div class="row service-name-date-picture align-items-end justify-content-between">
+                            <div class="col-xs-9">
+                                <!-- SERVICE NAME -->
+                                <div class="row service-name">
+                                    <div class="col-xs-12">
+                                        <label for="service-name" class="title5">Car service name</label>
+                                        <input [ngClass]="{'border-errors': message_service_name != undefined}" [(ngModel)]="_editIfe.serviceName_car" (keyup)="hide_error()" type="text" name="service-name" id="service-name-c" class="form-control">
+                                        <!-- MESSAGE FIELD ALL SERVICE NAME FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_name}}</span>
+                                    </div>
+                                </div>
+                                <!-- SERVICE DATE -->
+                                <div class="row service-date">
+                                    <div class="col-xs-12">
+                                        <div class="d-flex align-items-center datepicker-wrapper">
+                                            <all-datepicker (fillFrom)="notify_from_selection($event, 0)" (fillTo)="notify_to_selection($event, 0)" (onDatePicked)="notify_date_selection($event, 0)" #date_step_1_car [type]='"date_step_1_car"' [indexer]='0'></all-datepicker>                                            
+                                        </div>
+                                        <!-- MESSAGE DATEPICKER DATE START FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_start}}</span>
+                                        <!-- MESSAGE DATEPICKER DATE END FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_end}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SERVICE PICTURE -->
+                            <div class="col-xs-3 service-picture">
+                                <h1 class="title5">Service picture <span class="optional">(optional)</span></h1>
+                                <div class="drop-files-wrapper d-flex align-items-center justify-content-center">
+                                    <div id="imageContainercar" [ngClass]="{'drop-files': true, 'd-flex': true, 'align-items-center': true, 'justify-content-center': true, 'dragOver': fileOver == true}">
+                                        <input class="fileStep1" type="file" (drop)="onDrop($event)" (dragover)="dragover($event)" (dragleave)="dragleave()" (change)="changeListener($event, 'car')" />
+                                        <div class="text-center">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                            <p>Choose a file<br>or drag it here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CAR DETAILS -->
+                        <div class="row car-details">
+                            <div class="col-xs-12 form-group">
+                                <label for="car-details" class="title5">Car details <span class="optional">(optional)</span></label>
+                                <input [(ngModel)]="_editIfe.car_details" type="text" name="car-details" id="car-details" class="form-control">
+                            </div>
+                        </div>
+                        <!-- RENTAL COMPANY -->
+                        <div class="row service-description">
+                            <div class="col-xs-12 form-group">
+                                <label for="rental-company" class="title5">Rental company</label>
+                                <input [ngClass]="{'border-errors': message_car_rental_comp != undefined}" [(ngModel)]="_editIfe.service_description_car" (keyup)="hide_error_car_rental_comp()" type="text" name="rental-company" id="rental-company" class="form-control">
+                                <!-- MESSAGE FIELD RENTAL COMPANY FROM BACKEND -->
+                                <span class="with-errors-text">{{message_car_rental_comp}}</span>
+                            </div>
+                        </div>
+                        <!-- CAR INSURANCE -->
+                        <div class="row service-description">
+                            <div class="col-xs-12">
+                                <label for="car-insurance" class="title5">Car insurance <span class="optional">(optional)</span></label>
+                                <textarea [(ngModel)]="_editIfe.car_insurance" name="car-insurance" id="car-insurance" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div><!-- END OF CAR TYPE -->
+
+                    <!-- INSURANCE TYPE -->
+                    <div id="insuranceType" class="insurance-type" [hidden]="selectedPill != 6" >
+                        <div class="row service-name-date-picture align-items-end justify-content-between">
+                            <div class="col-xs-9">
+                                <!-- SERVICE NAME -->
+                                <div class="row service-name">
+                                    <div class="col-xs-12">
+                                        <label for="service-name" class="title5">Insurance service name</label>
+                                        <input [ngClass]="{'border-errors': message_service_name != undefined}" [(ngModel)]="_editIfe.serviceName_insurance" (keyup)="hide_error()" type="text" name="service-name" id="service-name-i" class="form-control">
+                                        <!-- MESSAGE FIELD ALL SERVICE NAME FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_name}}</span>
+                                    </div>
+                                </div>
+                                <!-- SERVICE DATE -->
+                                <div class="row service-date">
+                                    <div class="col-xs-12">
+                                        <div class="d-flex align-items-center datepicker-wrapper">
+                                            <all-datepicker (fillFrom)="notify_from_selection($event, 0)" (fillTo)="notify_to_selection($event, 0)" (onDatePicked)="notify_date_selection($event, 0)" #date_step_1_insurance [type]='"date_step_1_insurance"' [indexer]='0'></all-datepicker>
+                                        </div>
+                                        <!-- MESSAGE DATEPICKER DATE START FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_start}}</span>
+                                        <!-- MESSAGE DATEPICKER DATE END FROM BACKEND -->
+                                        <span class="with-errors-text">{{message_service_date_end}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SERVICE PICTURE -->
+                            <div class="col-xs-3 service-picture">
+                                <h1 class="title5">Service picture <span class="optional">(optional)</span></h1>
+                                <div class="drop-files-wrapper d-flex align-items-center justify-content-center">
+                                    <div id="imageContainerinsurance" [ngClass]="{'drop-files': true, 'd-flex': true, 'align-items-center': true, 'justify-content-center': true, 'dragOver': fileOver == true}">
+                                        <input class="fileStep1" type="file" (drop)="onDrop($event)" (dragover)="dragover($event)" (dragleave)="dragleave()" (change)="changeListener($event, 'insurance')"/>
+                                        <div class="text-center">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                            <p>Choose a file<br>or drag it here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- PLACE OF COVERAGE -->
+                        <div class="row place-of-coverage">
+                            <div class="col-xs-12 form-group">
+                                <label for="place-of-coverage" class="title5">Place of coverage</label>
+                                <input [ngClass]="{'border-errors': message_service_insu_place_coverage != undefined}" [(ngModel)]="_editIfe.place_coverage_insurance" (keyup)="hide_error_insu_place_coverage()" type="text" name="place-of-coverage" id="place-of-coverage" class="form-control">
+                                <!-- MESSAGE FIELD PLACE OF COVERAGE FROM BACKEND -->
+                                <span class="with-errors-text">{{message_service_insu_place_coverage}}</span>
+                            </div>
+                        </div>
+                        <!-- INSURANCE POLICY DETAILS -->
+                        <div class="row service-description">
+                            <div class="col-xs-12 form-group">
+                                <label for="insurance-policy-details" class="title5">Insurance policy details</label>
+                                <textarea [ngClass]="{'border-errors': message_insu_policy != undefined}" [(ngModel)]="_editIfe.policy_detail_insurance" (keyup)="hide_error_insu_policy()" name="insurance-policy-details" id="insurance-policy-details" class="form-control"></textarea>
+                                <!-- MESSAGE FIELD INSURANCE POLICY DETAILS FROM BACKEND -->
+                                <span class="with-errors-text">{{message_insu_policy}}</span>
+                            </div>
+                        </div>
+                        <!-- SERVICE DESCRIPTION -->
+                        <div class="row service-description">
+                            <div class="col-xs-12">
+                                <label for="service-description" class="title5">Description <span class="optional">(optional)</span></label>
+                                <textarea [(ngModel)]="_editIfe.service_description_insurance" name="service-description" id="service-description" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div><!-- END OF INSURANCE TYPE -->
+                    <div class="row prev-next-step">
+                        <div class="col-xs-12 d-flex justify-content-end">
+                            <button (click)="cancelStep()" type="button" class="btn-grey-transparent-md d-flex align-items-center justify-content-center">Cancel</button>
+                            <button (click)="nextStep()" type="button" class="btn-red-md d-flex align-items-center justify-content-center">Next Step</button>
+                        </div>
+                    </div>
+                </div><!-- END OF SERVICE TYPE STEP -->
+
+
+                <!--********************************************
+                    2. PASSENGER STEP
+                ********************************************-->
+                <div class="passenger-step" id="passengerStep" [hidden]="currentStep != 2">
+                    <!-- BOOKING STATUS / CONFIRMATION NUMBER -->
+                    <div class="row align-items-end">
+                        <div class="col-xs-8 booking-status form-group">
+                            <label class="title5">Booking status</label>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type == 6}" (click)="show_status(6)">Voucher
+                                </button>
+                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type == 3}" (click)="show_status(3)">Confirmed
+                                </button>
+                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type == 7}" (click)="show_status(7)">Not Confirmed
+                                </button>
+                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type == 5}" (click)="show_status(5)">On Request
+                                </button>
+                                <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type == 2}" (click)="show_status(2)">Cancelled
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 confirmation-number form-group">
+                            <label for="confirmation-number" class="title5">Confirmation Number <span class="optional">(optional)</span></label>
+                            <input type="text" name="confirmation-number" id="confirmation-number" class="form-control" [(ngModel)]="conf_number">
+                        </div>
+                    </div><!-- END OF BOOKING STATUS / CONFIRMATION NUMBER -->
+
+                    <!-- PAX INFO EDIT IFE STEP 2 -->      
+                    <div class="row pax-info-container">
+                        <div class="col-xs-12">
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <!-- MESSAGE STEP 2 IF THERE ARE NOT PASSENGER FROM BACKEND -->
+                                <div *ngIf="message_passenger != undefined" class="danger-alert center d-flex align-items-center error-message-inline">
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                    <p>{{message_passenger}}</p>
+                                </div>
+                                                                                          
+                                <div *ngFor="let passanger of passanger_array; let i=index" class="panel panel-default">
+                                    <div class="panel-heading d-flex align-items-center" role="tab" id="paxOneHeading{{i}}" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#paxOneInfo'+i" aria-expanded="true" [attr.aria-controls]="'paxOneInfo'+i" (click)="hide_button_add(i)">
+                                        <h4 class="panel-title d-flex align-items-center">
+                                            <a class="panel-link" role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#paxOneInfo'+i" aria-expanded="true" [attr.aria-controls]="'paxOneInfo'+i" (click)="hide_button_add(i)">
+                                                Pax {{i+1}}.
+                                            </a>
+                                            <!-- Estos son los datos del pasajero una vez que se agrega.
+                                                 Ahora están maquetados acá a modo de ejemplo :) ! -->
+                                            <div class="passenger-data d-flex align-items-center" [ngClass]="{'hide': pax_name_header_collapse[i] == undefined && surname_header_collapse[i] == undefined && document_type_header_collapse[i] == undefined && age_header_collapse[i] == undefined}">
+                                                <div class="passenger-name wtout-margin-left">
+                                                    <p *ngIf="pax_name_header_collapse[i] != '' && pax_name_header_collapse[i] != undefined"><b>Name: </b>{{pax_name_header_collapse[i]}} {{surname_header_collapse[i]}}</p>
+                                                </div>
+                                                <div class="passenger-passport wtout-margin-left">
+                                                    <p *ngIf="document_type_header_collapse[i] != '' && document_type_header_collapse[i] != undefined">, 
+                                                        <b>{{type_doc_name[i]}}: </b>{{document_type_header_collapse[i]}}
+                                                    </p>
+                                                </div>
+                                                <div class="passenger-age wtout-margin-left">
+                                                    <p *ngIf="age_header_collapse[i] != '' && age_header_collapse[i] != undefined">, 
+                                                        <b>Age: </b>{{age_header_collapse[i]}}
+                                                    </p>
+                                                </div>
+                                                <div class="passenger-birthday wtout-margin-left">
+                                                    <p *ngIf="age_header_collapse[i] < 2 && age_header_collapse[i] != ''">, 
+                                                        <b>Birthday: </b>{{birthday_header_collapse[i]}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </h4>
+                                    </div>
+                                    <div id="paxOneInfo{{i}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'paxOneHeading'+i">
+                                        <div class="panel-body d-flex align-items-center justify-content-center">
+                                            <div class="row">
+                                                <div class="col-6 col-xs-6 form-group">
+                                                    <label for="passenger-name" class="title5">Passenger-name</label>
+                                                    <input type="text" name="passenger-name" id="passenger-name" class="form-control" value="" [ngClass]="{'border-errors': error_pax_name_indexer[i] != undefined}" [(ngModel)]="pax_name[i]" (keyup)="check_inputs(i)">
+                                                    <!-- MESSAGE FIELD PASSENGER NAME FROM BACKEND -->
+                                                    <span class="with-errors-text">{{error_pax_name_indexer[i]}}</span>
+                                                </div>
+                                                <div class="col-6 col-xs-6 form-group">
+                                                    <label for="surname" class="title5">Surname</label>
+                                                    <input type="text" name="surname" id="surname" class="form-control" value="" [ngClass]="{'border-errors': error_pax_surname_indexer[i] != undefined}" [(ngModel)]="surname[i]" (keyup)="check_inputs(i)">
+                                                    <!-- MESSAGE FIELD SURNAME FROM BACKEND -->
+                                                    <span class="with-errors-text">{{error_pax_surname_indexer[i]}}</span>
+                                                </div>
+                                                <div class="col-2 col-xs-2 pax-id-type">
+                                                    <label for="id-type"><span class="optional">(optional)</span></label>
+                                                    <div class="btn-group-wrapper">
+                                                        <div class="btn-group types-buttons" role="group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="editing_type_doc(i)">
+                                                                <template [ngIf]="type_doc_name[i] == undefined"><span>Id Type</span></template>
+                                                                <template [ngIf]="type_doc_name[i] != undefined">{{type_doc_name[i]}}</template>
+                                                            </button>
+                                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="editing_type_doc(i)">
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                        </div>
+                                                        <ul class="dropdown-menu" id="typeDocs{{i}}" aria-labelledby="typeDocs">
+                                                            <li *ngFor="let doc of identification_types; let a=index" (click)="select_type_doc(doc.name, doc.code, i)">
+                                                                <a>{{doc.name}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-xs-4">
+                                                    <label for="id-number"><span class="optional">(optional)</span></label>
+                                                    <input type="text" name="id-number" id="id-number" class="form-control" value="" [(ngModel)]="document_type[i]" placeholder="Id Number">
+                                                </div>
+                                                <div class="col-2 col-xs-2 pax-age">
+                                                    <label for="age" class="title5">Age <span class="optional">(optional)</span></label>
+                                                    <input type="number" name="age" id="age" class="form-control" value="" [(ngModel)]="age[i]" (keyup)="validateOnlyNumbers(i, $event)">
+                                                </div>
+                                                <!-- Esta columna sólo se muestra si el pasajero es menor a 2 años.
+                                                     Por ahora, está oculta, para mostrarse a través de implementación -->
+                                                <div class="col-xs-3 pax-birthday" *ngIf="age[i]<2 && age[i] != undefined  && age[i] != ''">
+                                                    <label for="birthday" class="title5">Birthday</label>
+                                                    <input type="text" name="birthday" id="birthday" class="form-control" value="" [(ngModel)]="birthday[i]">
+                                                </div>
+                                            </div>
+                                            <!-- Botones de save y cancel -->
+                                            <div id="addPassenger" class="save-cancel">
+                                                <div class="d-flex align-items-center">
+                                                    <i (click)="save_add_new_passenger(i)" id="passengerCheck{{i}}" class="fa fa-check save" (mouseover)='rollover_icons_save_cancel("#passengerCheck" + i)' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save" [ngClass]="{'disabled-save-icon': disabled_save[i] == true}"></i>
+                                                    <i (click)="cancel_add_new_passenger(i)" id="passengerCross{{i}}" class="fa fa-times cancel passengerCross" (mouseover)='rollover_icons_save_cancel("#passengerCross" + i)' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- END OF PANEL -->                               
+
+                            </div><!-- END OF PANEL GROUP -->
+                        </div><!-- END OF COL-XS-12 -->
+
+                        <div class="col-12 col-xs-12 add-item text-center">
+                            <button (click)="add_new_passenger()" [ngClass]="{'hide': hide_add_button == true}" class="addbut"><i class="fa fa-plus" aria-hidden="true"></i>Add another passenger</button>
+                        </div>
+                   </div><!-- END OF ROW PAX INFO CONTAINER -->  
+
+                    <div class="row prev-next-step">
+                        <div class="col-xs-12 d-flex justify-content-end">
+                            <button (click)="backStep()" type="button" class="btn-grey-transparent-md d-flex align-items-center justify-content-center">Back</button>
+                            <button (click)="nextStep()" type="button" class="btn-red-md d-flex align-items-center justify-content-center">Next Step</button>
+                        </div>
+                    </div>
+                </div><!-- END OF PASSENGER STEP -->
+
+                <!--********************************************
+                                 3. PRICES STEP
+                    ********************************************-->
+                <div class="prices-step" id="pricesStep" [hidden]="currentStep != 3">
+                    <!-- WARNING Message if net rate is smaller than provider cost from Front-End -->          
+                    <template [ngIf]="general_error != undefined && general_error != ''">
+                        <div class="onlineb-alert-container">
+                            <div class="warning-alert center d-flex align-items-center">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                <p><strong>Warning!</strong>{{general_error}}</p>
+                                </div>
+                            </div>
+                    </template>
+
+                    <div class="row align-items-start">                        
+                        <div class="col-xs-5">
+                            <label class="title5">Prices</label>
+                            <div class="prices-container d-flex justify-content-center flex-column">
+                                <!-- PROVIDER COST -->
+
+                                <div class="row price-input-container align-items-center">
+                                    <div class="col-xs-5 text-right">
+                                        <p>Provider cost</p>
+                                    </div>
+                                    <div class="col-xs-7 text-left">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                 <dropdown-currency #get_dropdown_provider_cost [currency_code_from_parent]='1'></dropdown-currency>
+                                            </div><!-- END OF INPUT GROUP BUTTON -->
+                                            <input type="text" name="price-currency" class="form-control" id="prov-cost" [ngClass]="{'border-errors': message_provider_cost != undefined}" [(ngModel)]="provider_cost" (keyup)="calculate_net_rate()">
+                                        </div><!-- END OF INPUT GROUP -->
+                                        <!-- MESSAGES FIELD PROVIDER COST FROM BACKEND REQUEST CALCULATE NET RATE -->
+                                        <template [ngIf]="error_prov_cost != undefined">
+                                            <span class="with-errors-text">{{error_prov_cost}}</span>
+                                        </template>
+                                        <!-- MESSAGES FIELD PROVIDER COST FROM BACKEND REQUEST SAVE -->
+                                        <span class="with-errors-text">{{message_provider_cost}}</span>
+                                    </div>
+                                </div>
+
+                                <!-- CLIENT COMMISION -->
+                                <div class="row price-input-container align-items-center">
+                                    <div class="col-xs-5 text-right">
+                                        <p>Client Commission</p>
+                                    </div>
+                                    <div class="col-xs-7 text-left">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{dropdown_client_sale.dropdown_symbol}}
+                                                </button>
+                                            </div><!-- END OF INPUT GROUP BUTTON -->
+                                            <input type="text" name="price-currency" class="form-control" id="client-comm" [ngClass]="{'border-errors': message_client_comm != undefined}" [(ngModel)]="client_commission" (keyup)="calculate_net_rate()">
+                                        </div><!-- END OF INPUT GROUP -->
+                                        <!-- MESSAGE FIELD CLIENT COMMISSION FROM BACKEND -->
+                                        <template [ngIf]="error_client_comm != undefined">
+                                            <span class="with-errors-text">{{error_client_comm}}</span>
+                                        </template>
+                                        <!-- MESSAGES FIELD CLIENT COMMISSION FROM BACKEND REQUEST SAVE -->
+                                        <span class="with-errors-text">{{message_client_comm}}</span>
+                                    </div>
+                                </div>
+
+                                <!-- NET RATE -->
+                                <div class="row price-input-container align-items-center">
+                                    <div class="col-xs-5 text-right">
+                                        <p>Net Rate</p>
+                                    </div>
+                                    <div class="col-xs-7 text-left">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{dropdown_client_sale.dropdown_symbol}}
+                                                </button>
+                                            </div><!-- END OF INPUT GROUP BUTTON -->
+                                            <input type="text" name="price-currency" class="form-control" id="net-rate" readonly [(ngModel)]="net_rate">
+                                        </div><!-- END OF INPUT GROUP -->
+                                    </div>
+                                </div>
+
+                                <!-- TAXES -->
+                                <template ngFor let-tax [ngForOf]="taxes_array" let-i="index">
+                                    <div class="row price-input-container align-items-center">
+                                        <div class="col-5 col-xs-5 d-flex align-items-center justify-content-end">
+                                            <i id="editPrice{{i}}" class="fa fa-pencil edit-price" aria-hidden="true" (click)="editPrice(i)"></i>
+                                            <div class="tax-text d-flex justify-content-end">
+                                                <p id="currentPrice{{i}}">{{store_change_text[i]}}</p>
+                                                <div class="newPrice" id="newPrice{{i}}">
+                                                    <input type="text" name="new-text" class="" id="new-text{{i}}" [(ngModel)]="change_text[i]">
+                                                    <div class="save-cancel">
+                                                        <div class="d-flex align-items-center">
+                                                            <i id="paymentCheck{{i}}" class="fa fa-check save" aria-hidden="true" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save" (click)="edit_change_text(i)"></i>
+                                                            <i id="paymentCross{{i}}" class="fa fa-times save" aria-hidden="true" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel" (click)="cancel_edit_change_text(i)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 col-xs-7 text-left">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <dropdown-currency #get_dropdown_taxes [currency_code_from_parent]='1'></dropdown-currency>
+                                                </div><!-- END OF INPUT GROUP BUTTON -->
+                                                <input type="text" name="price-currency" class="form-control" placeholder="(optional)" [ngClass]="{'border-errors': error_taxes_indexer[i] != undefined}" [(ngModel)]="taxes[i]" (keyup)="save_taxes(i)"> 
+                                            </div><!-- END OF INPUT GROUP -->
+                                        </div>
+                                        <i class="fa fa-trash-o add-price" aria-hidden="true" (click)="remove_new_tax(i)"></i>
+                                        <!-- MESSAGES FIELD TAXES FROM BACKEND REQUEST SAVE -->
+                                        <template [ngIf]="error_taxes_indexer[i] != undefined">
+                                            <span class="with-errors-text">{{error_taxes_indexer[i]}}</span>
+                                        </template> 
+                                    </div>
+                                </template>
+
+                                <div class="row">
+                                    <div class="col-5 col-xs-5"></div>
+                                    <div class="col-7 col-xs-7 text-left add-item">
+                                        <button class="addbut text-center" (click)="add_new_tax()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div><!-- END OF PRICES CONTAINER -->
+
+                            <div class="client-sale-input">
+                                <!-- CLIENT SALE -->
+                                <div class="row price-input-container align-items-center">
+                                    <div class="col-xs-5 text-right">
+                                        <p>Client Sale</p>
+                                    </div>
+                                    <div class="col-xs-7 text-left">
+                                        <div class="input-group">
+                                            <div class="input-group-btn"> 
+                                                <dropdown-currency #get_dropdown_client_sale [currency_code_from_parent]='1'></dropdown-currency>
+                                            </div><!-- END OF INPUT GROUP BUTTON -->
+                                            <input type="text" name="price-currency" class="form-control" id="client-sale" [ngClass]="{'border-errors': message_client_sale != undefined}" [(ngModel)]="client_sale" (keyup)="calculate_net_rate()">
+                                        </div><!-- END OF INPUT GROUP -->
+                                        <!-- MESSAGE FIELD CLIENT SALE FROM BACKEND -->
+                                        <template [ngIf]="error_client_sale != undefined">
+                                            <span class="with-errors-text">{{error_client_sale}}</span>
+                                        </template>
+                                        <!-- MESSAGES FIELD CLÑIOENT SALE FROM BACKEND REQUEST SAVE -->
+                                        <span class="with-errors-text">{{message_client_sale}}</span>
+                                    </div>
+                                </div>
+                            </div><!-- END OF CLIENT-SALE-INPUT -->
+
+                        </div><!-- END OF COL-XS-5 -->
+
+
+                        <div class="col-xs-7">
+
+                            <!-- PROVIDER -->
+                            <div class="row">
+                                <div class="col-xs-12 provider-container form-group">
+                                    <label class="title5">Provider</label>
+                                    <div class="input-group">
+                                        <all-autocompletes #get_function_from_subcomponent_prov [type]='"providers"' (clickOnInput)="clean_error_message_prov($event)"></all-autocompletes>
+                                        
+                                        <div class="input-group-btn">
+                                            <!-- <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center">
+                                                New provider  
+                                            </button> --> <!-- NO BORRAR, por ahora según Pablo la función de este botón no se va a implementar, por eso sólo hay que ocultarlo -->
+                                        </div><!-- END OF INPUT GROUP BUTTON -->
+                                    </div><!-- END OF INPUT GROUP -->
+                                    <!-- MESSAGE AUTOCOMPLETE INTERNAL PROVIDERS FROM BACKEND -->
+                                    <span class="with-errors-text">{{message_provider}}</span>
+                                </div>
+                            </div>
+
+                            <!-- REMARKS -->
+                            <div class="row">
+                                <div class="col-xs-12 remarks-container">
+                                    <label class="title5">Remarks <span class="optional">(optional)</span></label>
+                                    <textarea class="form-control" [(ngModel)]="remarks"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row prev-next-step">
+                        <div class="col-xs-12 d-flex justify-content-end">
+                            <button  (click)="backStep()" type="button" class="btn-grey-transparent-md d-flex align-items-center justify-content-center">Back</button>
+                            <button (click)="nextStep()" type="button" class="btn-red-md d-flex align-items-center justify-content-center">Next Step</button>
+                        </div>
+                    </div>
+                </div><!-- END OF PRICES STEP -->
+
+                <!-- 4. POLICIES STEP -->
+                    <div class="policies-step" id="policiesStep" [hidden]="currentStep != 4">
+                        <!-- Alerta que se muestra solo cuando no hay policies -->
+                        <template [ngIf]="policies_array < 1">
+                            <div class="row alert-add-policy">
+                                <div class="col-xs-12">
+                                    <div class="alert info-alert center d-flex align-items-center">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                        <p><span>POLICIES:</span> If you do not enter any policy that means that the reservation will not allow cancellation or modification.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- POLICIES CONTAINER -->
+                        <div class="row policies-container">
+                            <div class="col-xs-12">
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <!-- PANEL EJEMPLO DE CANCELATION POLICY -->
+                                    <div *ngFor="let policy of policies_array; let i=index" class="panel panel-default">
+                                        <div class="panel-heading d-flex align-items-center" role="tab" id="policyOneHeading{{i}}" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#policyOneInfo'+i" aria-expanded="true" [attr.aria-controls]="'policyOneInfo'+i" (click)="hide_button_add_pol(i)">
+                                            <h4 class="panel-title d-flex align-items-center">
+                                                <a class="panel-link" role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#policyOneInfo'+i" aria-expanded="true" [attr.aria-controls]="'policyOneInfo'+i" (click)="hide_button_add_pol(i)">
+                                                    Policy {{i+1}}.
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="policyOneInfo{{i}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'policyOneHeading'+i">
+                                            <div class="panel-body d-flex align-items-center justify-content-center">
+                                                <div class="row">
+                                                    <div class="col-xs-5 form-group">
+                                                        <label class="title5">Applying a policy of</label>
+                                                        <div class="btn-group">
+                                                            <button type="button" class="active btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type_step4[i] == 1}" (click)="show_status_step4(1, i)">
+                                                                Cancelation
+                                                            </button>
+                                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type_step4[i] == 3}" (click)="show_status_step4(3, i)">
+                                                                Modification
+                                                            </button>
+                                                            <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" [ngClass]="{'active': status_type_step4[i] == 4}" (click)="show_status_step4(4, i)">
+                                                                Payment
+                                                            </button>
+                                                        </div><!-- END OF BTN GROUP -->
+                                                    </div>
+
+                                                    <div class="col-xs-4 within-date-range form-group">
+                                                        <label class="title5">Within this date range</label>
+                                                        <all-datepicker (fillFrom)="notify_from_selection_step4($event, i)" (fillTo)="notify_to_selection_step4($event, i)" (onDatePicked)="notify_date_selection($event, i)" #date_step_4 [type]='"step4"' [indexer]='i'></all-datepicker>
+                                                    </div>
+                                                    <!-- MESSAGE DATEPICKER DATE START FROM BACKEND -->
+                                                    <div><span class="with-errors-text">{{error_policy_date_start[i]}}</span></div>
+                                                    <!-- MESSAGE DATEPICKER DATE END FROM BACKEND -->
+                                                    <div><span class="with-errors-text">{{error_policy_date_end[i]}}</span></div>
+
+                                                    <div class="col-xs-2 it-will-cost" [ngClass]="{'disabled-col': status_type_step4[i] == 4}">
+                                                        <label class="title5">It will cost</label>
+                                                        <div (click)="disable_input($event, i)" class="input-group" >
+                                                            <div class="input-group-btn">
+                                                                <dropdown-currency #get_dropdown_will_cost [currency_code_from_parent]='1'></dropdown-currency>
+                                                            </div><!-- END OF INPUT GROUP BUTTON -->
+                                                            <template [ngIf]="status_type_step4[i] != 4">
+                                                                <input type="text" name="provider" class="form-control" id="new-cost{{i}}" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': validation_dropdown_currency[i] == false || error_policy_cost_indexer[i] != undefined}" [(ngModel)]="cost_input[i]" (keyup)="keyup_field_cost('cost', i)">
+                                                            </template>
+                                                            <template [ngIf]="status_type_step4[i] == 4">
+                                                                <input type="text" name="provider" class="form-control" disabled>
+                                                            </template>
+                                                        </div><!-- END OF INPUT GROUP -->
+                                                        <!-- MESSAGE DROPDOWN CURRENCY FROM FRONT-END -->
+                                                        <template [ngIf]="validation_dropdown_currency[i] == false">
+                                                            <span class="with-errors-text">The value must be a decimal.</span>
+                                                        </template> 
+                                                        <!-- MESSAGE FIELD IT WILL COST DROPDOWN FROM BACKEND -->
+                                                        <span class="with-errors-text">{{error_policy_cost_indexer[i]}}</span>
+                                                    </div>
+                                                    <div class="col-xs-12 service-description">
+                                                        <label for="policy-description" class="title5">Description <span class="optional">(optional)</span></label>
+                                                        <textarea [(ngModel)]="description_step4[i]" name="policy-description" class="form-control"></textarea>
+                                                    </div>
+                                                </div><!-- END OF ROW WITH APPLYING POLICY, DATE RANGE COST AND DESCRIPTION -->
+                                                <!-- Botones de save y cancel -->
+                                                <div id="addPolicy" class="save-cancel">
+                                                    <div class="d-flex align-items-center">
+                                                        <i (click)="save_add_new_policy(i)" id="passenger-check{{i}}" class="fa fa-check save" (mouseover)='rollover_icons_save_cancel("#passenger-check" + i)' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Save" [ngClass]="{'disabled-save-icon': disabled_save_4[i] == true}"></i>
+                                                        <i (click)="cancel_add_new_policy(i)" id="passenger-cross{{i}}" class="fa fa-times cancel passenger-cross" (mouseover)='rollover_icons_save_cancel("#passenger-cross" + i)' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Cancel"></i>
+                                                    </div>
+                                                </div>
+                                            </div><!-- END OF PANEL BODY -->
+                                        </div>
+                                    </div><!-- END OF PANEL -->
+
+                                    
+                            </div><!-- END OF COL-XS-12 -->
+
+                            <!-- ADD policy -->
+                            <div class="col-xs-12 add-item text-center">
+                                <button (click)="add_new_policy()" [ngClass]="{'hide': hide_add_button_pol == true}" class="addbut">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>Add another Policy
+                                </button>
+                            </div>
+                        </div><!-- END OF ROW POLICIES CONTAINER -->
+                        <div class="row prev-next-step">
+                            <div class="col-xs-12 d-flex justify-content-end">
+                                <div class="checkbox abc-checkbox d-flex align-items-center">
+                                    <input class="check-b check-table-ife" name="send-notification" checked="false" id="checkbox{{i}}" type="checkbox">
+                                    <label class="label-selected-ife" for="send-notification">Send notification</label>
+                                </div>
+                                <div class="checkbox abc-checkbox d-flex align-items-center">
+                                    <input class="check-b check-table-ife" name="create-another" checked="false" id="checkbox{{i}}" type="checkbox">
+                                    <label class="label-selected-ife" for="create-another">Create another</label>
+                                </div>
+                                <button (click)="backStep()" type="button" class="btn-grey-transparent-md d-flex align-items-center justify-content-center">Back</button>
+                                <button type="button" class="btn-red-md d-flex align-items-center justify-content-center" (click)="save_new_ife()">Create New IFE</button>
+                            </div>
+                        </div>
+                    </div><!-- END OF POLICIES STEP -->
+
+                <!--<div class="row prev-next-step">
+                    <div class="col-xs-12 d-flex justify-content-end">
+                        <button type="button" class="btn-grey-transparent-md d-flex align-items-center justify-content-center">Back</button>
+                        <button type="button" class="btn-red-md d-flex align-items-center justify-content-center">Next Step</button>
+                    </div>
+                </div>-->
+            </div>
+            <!-- 5. FINAL STEP => FEEDBACK -->
+            <div class="final-step" id="finalStep">
+                <!-- Alerta que se muestra sólo cuando se creó el IFE -->
+                <div class="row alert-ife-added">
+                    <div class="col-xs-12">
+                        <div class="alert success-alert center d-flex align-items-center">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p><span>IFE</span> created <span>successfully</span>.</p>
+                        </div>
+                    </div>
+                </div>
+                                   
+                <div class="row prev-next-step">
+                    <div class="col-xs-12 d-flex justify-content-end align-items-center">
+                        <button type="button" class="btn-grey-transparent-md d-flex align-items-center justify-content-center" (click)="create_another_ife()">Create another IFE</button>
+                        <p>or</p>
+                        <button type="button" class="btn-red-md d-flex align-items-center justify-content-center" (click)="return_bw()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <button type="button" class="btn-red-md d-flex align-items-center justify-content-center" (click)="return_bw()">Close</button> -->
+</div>

@@ -1,0 +1,617 @@
+<!-- Search External Providers -->
+<div id="wrapper-prov" [ngClass]="{'container' : view_port_width_prov}">
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container simple-listing">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="searchable">
+                    <div class="search-circle-lupa">
+                        <input class="search-circle" type="text"/>
+                        <i class="fa fa-search lupa" aria-hidden="true"></i>
+                    </div>
+            
+                    <form class="circle-animate-search" (keydown)="keyDownFunction($event)">
+                        <input id="searchBox" type="text" autocomplete="off" [(ngModel)]="_providers_service.search_ext_provider" />
+                        <div class="after" (click)="restore_search()"></div>
+                        <input type="submit" />
+                    </form>
+                    <h4>&nbsp;</h4>
+                    <div class="text-search-animate">
+                        <p>Search for External Providers</p>
+                    </div>
+                </div>
+                <div class="text-search">
+                    <p class="open-search">Search for External Providers</p>
+                </div><br><br>
+            </div>
+        </div>
+        <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-xs-4 align-items-center">
+                    <!-- Checkbox icon-checked -->
+                    <template [ngIf]="justchange == true">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-check" (click)="unselect_all()">
+                                <i class="fa fa-check-square check-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox with minus-icon -->
+                    <template [ngIf]="justchange == 'minus'">
+                        <div class="checkbox abc-checkbox check-results">
+                            <div id="icon-minus" (click)="select_all()">
+                                <i class="fa fa-minus-square minus-icon" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Checkbox icon-empty -->
+                    <template [ngIf]="_providers_service._data_pagination.total_page != 0">
+                        <template [ngIf]="justchange == false">
+                            <div class="checkbox abc-checkbox check-results">
+                                <div id="icon-empty" (click)="select_all()">
+                                    <i class="fa fa-square-o empty-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </template>
+                        <p class="select">Select All</p>
+                    </template>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <h1 class="title3">{{_providers_service._data_pagination.total_page}} Results</h1>
+                </div>
+                <div class="col-xs-4 d-flex align-items-center justify-content-end">
+                    <template [ngIf]="show_icons_prov == true">
+                        <div class="trash d-flex align-items-center">
+                            <div class="text-enabled"><p>Enable/Disable all selected</p></div>
+                            <template [ngIf]="_providers_service.toggle_status == true">
+                                <i *ngIf="_providers_service._data_pagination.total_page != 0" class="fa fa-toggle-off default-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                            <template [ngIf]="_providers_service.toggle_status == false">
+                                <i *ngIf="_providers_service._data_pagination.total_page != 0" class="fa fa-toggle-on enabled-icon" aria-hidden="true" (click)="enabled_disabled_all()"></i>
+                            </template>
+                            <i *ngIf="_providers_service._data_pagination.total_page != 0" class="fa fa-trash-o default-icon" aria-hidden="true" (click)="delete_all_mappings()"></i>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!--  Table External Providers -->
+        <div class="row" id="ext-providers">
+        <div class="load"></div>
+            <div class="col-xs-12">
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_providers_service._data_pagination.total_page != 0">
+                        <tr>
+                            <th class="check-prov"></th>
+                            <th class="name-prov">Name</th>
+                            <th>Environment</th>
+                            <th class="text-center"><i class="fa fa-bed" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-bed")' (mouseleave)='mouseleave_ext_providers("fa-bed")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i></th>
+                            <th class="text-center"><i class="fa fa-ticket" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-ticket")' (mouseleave)='mouseleave_ext_providers("fa-ticket")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i></th> 
+                            <th class="text-center"><i class="fa fa-bus" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-bus")' (mouseleave)='mouseleave_ext_providers("fa-bus")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i></th>
+                            <th class="text-center"><i class="fa fa-car" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-car")' (mouseleave)='mouseleave_ext_providers("fa-car")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i></th>
+                            <th class="text-center"><i class="fa fa-plane" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-plane")' (mouseleave)='mouseleave_ext_providers("fa-plane")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Air"></i></th>
+                            <th class="text-center"><i class="fa fa-shield" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-shield")' (mouseleave)='mouseleave_ext_providers("fa-shield")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i></th>
+                            <th class="text-center"><i class="fa fa-ship" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-ship")' (mouseleave)='mouseleave_ext_providers("fa-ship")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i></th>
+                            <th class="text-center"><i class="fa fa-th" aria-hidden="true" (mouseover)='mouseover_ext_providers("fa-th")' (mouseleave)='mouseleave_ext_providers("fa-th")' aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Packages"></i></th>  
+                            <th class="logged">Search only<br>Logged</th>
+                            <th class="mandatory">Is MSRP <br>Mandatory</th>
+                            <th class="voucher">Replace <br>Voucher Data</th>
+                            <th class="days">Days to <br>Cancel</th>
+                            <th class="status-prov">Status</th> 
+                            <th></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-prov [ngForOf]="_providers_service.external_providers" let-i="index">
+                        <tr id="height-tr-prov" class="color-prov">
+                            <td>
+                                <div class="checkbox abc-checkbox" (click)="show_icons_ext_prov()">
+                                  <input class="check-b check-table-prov" name="options" [checked]="selected_c.indexOf(i)== true" id="checkbox{{i}}" value="{{prov.id}}" type="checkbox" (change)="change_to_minus()">
+                                  <label class="label-selected" attr.for="checkbox{{i}}"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <template [ngIf]="_edit_prov.field_name_new[i] == undefined">
+                                    {{prov.name}}
+                                </template> 
+                                <template [ngIf]="_edit_prov.field_name_new[i] != undefined">
+                                    {{_edit_prov.field_name_new[i]}}
+                                </template> 
+                            </td>
+                            <td>{{prov.environment}}</td>
+                            <!-- STATUS -->
+                            <template ngFor let-sta [ngForOf]="prov.status_services" let-x="index">
+                                <!-- Icon Hotel -->
+                                <template [ngIf]="sta.service_type_code == 1 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+
+                                <!-- Icon Attractions -->
+                                <template [ngIf]="sta.service_type_code == 2 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+
+                                <!-- Icon Transfers -->
+                                <template [ngIf]="sta.service_type_code == 3 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+
+                                <!-- Icon Cars -->
+                                <template [ngIf]="sta.service_type_code == 7 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+
+                                <!-- Icon Air -->
+                                <template [ngIf]="sta.service_type_code == 9 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+
+                                <!-- Icon Insurance -->
+                                <template [ngIf]="sta.service_type_code == 11 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+
+                                <!-- Icon Cruise -->
+                                <template [ngIf]="sta.service_type_code == 8 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+
+                                <!-- Icon Package -->
+                                <template [ngIf]="sta.service_type_code == 10 ">
+                                    <template [ngIf]="sta.status == 1 ">
+                                        <!--<td><i class="fa fa-check green" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-check checked-icon" aria-hidden="true"></i></td>
+                                    </template>
+                                    <template [ngIf]="sta.status == 0 ">
+                                        <!--<td><i class="fa fa-times gray-p" aria-hidden="true"></i></td>-->
+                                        <td class="text-center"><i class="fa fa-times unchecked-icon" aria-hidden="true"></i></td>
+                                    </template>  
+                                </template>
+                            </template>
+
+                            <!-- Radio Button: Only Logged by default of first request GET data Table -->
+                            <template [ngIf]="_edit_prov.search_only_logged_new[i] == undefined">
+                                <template [ngIf]="prov.search_only_logged == true">
+                                    <td class="yes-prov">Yes</td>
+                                </template> 
+                                <template [ngIf]="prov.search_only_logged == false">
+                                    <td class="no-prov">No</td>
+                                </template>
+                            </template>
+
+                            <!-- Radio Button: Only Logged Modified by User -->
+                            <template [ngIf]="_edit_prov.search_only_logged_new[i] == 'true'"> 
+                                <td class="yes-prov">Yes</td>
+                            </template> 
+                            <template [ngIf]="_edit_prov.search_only_logged_new[i] == 'false'">
+                                <td class="no-prov">No</td>
+                            </template>
+                        
+                            <!-- Radio Button: Mandatory by default of first request GET data Table -->
+                            <template [ngIf]="_edit_prov.is_msrp_mandatory_new[i] == undefined">
+                                <template [ngIf]="prov.is_msrp_mandatory == true">
+                                    <td class="yes-prov">Yes</td>
+                                </template> 
+                                <template [ngIf]="prov.is_msrp_mandatory == false">
+                                    <td class="no-prov">No</td>
+                                </template>
+                            </template>
+
+                            <!-- Radio Button: Mandatory Modified by User -->
+                            <template [ngIf]="_edit_prov.is_msrp_mandatory_new[i] == 'true'">
+                                <td class="yes-prov">Yes</td>
+                            </template> 
+                            <template [ngIf]="_edit_prov.is_msrp_mandatory_new[i] == 'false'">
+                                <td class="no-prov">No</td>
+                            </template>
+
+                            <!-- Radio Button: Replace Voucher by default of first request GET data Table -->
+                            <template [ngIf]="_edit_prov.replace_voucher_data_new[i] == undefined">
+                                <template [ngIf]="prov.replace_voucher_data == true">
+                                    <td class="yes-prov">Yes</td>
+                                </template> 
+                                <template [ngIf]="prov.replace_voucher_data == false">
+                                    <td class="no-prov">No</td>
+                                </template>
+                            </template>
+
+                            <!-- Radio Button: Replace Voucher Modified by User -->
+                            <template [ngIf]="_edit_prov.replace_voucher_data_new[i] == 'true'">
+                                <td class="yes-prov">Yes</td>
+                            </template> 
+                            <template [ngIf]="_edit_prov.replace_voucher_data_new[i] == 'false'">
+                                <td class="no-prov">No</td>
+                            </template>
+
+                            <!-- Days to Cancel -->
+                            <td class="no-prov">
+                                <template [ngIf]="_edit_prov.days_to_cxl_new[i] == undefined">
+                                    {{prov.days_to_cancel}}
+                                </template> 
+                                <template [ngIf]="_edit_prov.days_to_cxl_new[i] != undefined">
+                                    {{_edit_prov.days_to_cxl_new[i]}}
+                                </template> 
+                            </td>
+                            
+                            <!-- Status -->
+                            <!-- Hide toggle if is_required is true -->
+                            <template [ngIf]="prov.name == 'Inventory'">
+                                <template [ngIf]="prov.is_required == true">
+                                    <td class="disabled-toogle"></td>
+                                </template>
+
+                                <!-- Show toggle if is_required is false -->
+                                <template [ngIf]="prov.is_required == false">
+                                    <template [ngIf]="prov.status != 'Enabled'">
+                                        <td class="short-td text-center">
+                                            <i class="fa fa-toggle-off toggle-icon disabled" aria-hidden="true" (click)="enabled_disabled_toogle(prov.id, true)"></i>
+                                        </td>
+                                    </template>
+                                    <template [ngIf]="prov.status == 'Enabled'">
+                                        <td class="short-td text-center">
+                                            <i class="fa fa-toggle-on toggle-icon enabled" aria-hidden="true" (click)="enabled_disabled_toogle(prov.id, false)"></i>
+                                        </td>
+                                    </template>
+                                </template>
+                            </template>
+                            
+                            <!-- Show toggles if propertie name != 'Inventory' -->
+                            <template [ngIf]="prov.name != 'Inventory'">
+                                <template [ngIf]="prov.status != 'Enabled'">
+                                    <td class="short-td text-center">
+                                        <i class="fa fa-toggle-off toggle-icon disabled" aria-hidden="true" (click)="enabled_disabled_toogle(prov.id, true)"></i>
+                                    </td>
+                                </template>
+                                <template [ngIf]="prov.status == 'Enabled'">
+                                    <td class="short-td text-center">
+                                        <i class="fa fa-toggle-on toggle-icon enabled" aria-hidden="true" (click)="enabled_disabled_toogle(prov.id, false)"></i>
+                                    </td>
+                                </template>
+                            </template> 
+
+                            <!-- Icon Pencil -->
+                            <td class="edit-row" (mouseover)='mouseover_icon_edit(i)' (mouseleave)='mouseleave_icon_edit()'>
+                                <span class="pencil-prov" id="pencil-prov{{i}}" (click)="open_form_prov(i, prov.id)">
+                                    <i id="{{i}}icon-edit" class="cursor fa fa-pencil" aria-hidden="true"></i>
+                                </span>
+                            </td>
+                        </tr>
+
+                        <!-- Form inline editing Ext. Providers -->
+                        <tr id="edit-row-expandable{{i}}" class="edit-row-expandable">
+                            <td colspan="17">
+                                <div>
+                                    <!-- Error specific Message if the field First name, Last name, and email is empty from Back-End (Agency Detail) -->
+                                    <div class="row col-xs-9 center">
+                                        <template [ngIf]="_edit_prov.general_error_prov != ''"> 
+                                            <div class="info-alert center d-flex align-items-center" id="success-alert">
+                                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                <p>{{_edit_prov.general_error_prov}}</p>
+                                            </div>
+                                        </template>
+                                        <template [ngIf]="_edit_prov.general_error_prov != ''"> 
+                                            <div class="col-xs-10 col-md-10 center">
+                                                <hr class="divider-line">
+                                            </div>
+                                        </template>
+                                        <template [ngIf]="_edit_prov.general_error_prov_save != ''"> 
+                                            <div class="info-alert center d-flex align-items-center" id="success-alert">
+                                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                <p>{{_edit_prov.general_error_prov_save}}</p>
+                                            </div>
+                                        </template>
+                                        <!-- Line -->
+                                        <template [ngIf]="_edit_prov.general_error_prov_save != ''"> 
+                                            <div class="row">
+                                                <div class="col-xs-10 col-md-10">
+                                                    <hr class="divider-line">
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-9 center">
+                                            <!-- Field Name -->
+                                            <div class="row">
+                                                <div class="col-xs-11 center">
+                                                    <div class="row d-flex align-items-end first-form-group">
+                                                        <div class="col-xs-10 form-group">
+                                                            <label for="name">Name <span class="asteric">*</span></label>
+                                                            <input type="text" name="name" id="field-name{{i}}" class="form-control field-name" [(ngModel)]="_edit_prov.field_name_new[i]" value="{{_edit_prov.field_name[i]}}" (focus)="focus_name(i)" (blur)="blur_name()">
+                                                            <template [ngIf]="_edit_prov.field_name_new[i] == ''">
+                                                                <span id="tool-error-name">{{_edit_prov.message_name[i]}}</span>
+                                                            </template>
+                                                        </div>
+                                                        <!-- Field Days to Cancel -->
+                                                        <div class="col-xs-2 form-group">
+                                                            <label>Days to <br>Cancel<span class="asteric"> *</span>
+                                                            <i class="fa fa-question-circle" aria-hidden="true"></i></label>
+                                                            <input type="text" id="field-days{{i}}" class="form-control field-days" id="days" [(ngModel)]="_edit_prov.days_to_cxl_new[i]" value="{{_edit_prov.days_to_cxl[i]}}" (focus)="focus_days(i)" (blur)="blur_name()">
+                                                            <template [ngIf]="_edit_prov.message_days[i] != ''">
+                                                                <span id="tool-error-days">{{_edit_prov.message_days[i]}}</span>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row d-flex align-items-start">
+                                                <div class="col-xs-11 center">
+                                                    <div class="row yes-no-choice">
+                                                        <div class="col-xs-3">
+                                                            <h1>Search only logged</h1>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <label class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input" name="optionlogged{{i}}" id="option-logged-yes{{i}}" value="true">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <div>
+                                                                    <span class="choice">Yes</span>
+                                                                    <span class="custom-control-description">Search results will only show up for this providers if the user is logged-in.</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <label class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input" name="optionlogged{{i}}" id="option-logged-no{{i}}" value="false">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <div>
+                                                                    <span class="choice">No</span>
+                                                                    <span class="custom-control-description">Search results will show up for this provider even if it's on onnonimous user.</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row d-flex align-items-start">
+                                                <div class="col-xs-11 center">
+                                                    <div class="row second-yes-no-choice">
+                                                        <div class="col-xs-3">
+                                                            <h1>Mandatory MSRP</h1>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <label class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input" name="optionmandatory{{i}}" id="option-mandatory-yes{{i}}" value="true">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <div>
+                                                                    <span class="choice">Yes</span>
+                                                                    <span class="custom-control-description">Respect MSRP as send by the provider for it's services.</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <label class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input" name="optionmandatory{{i}}" id="option-mandatory-no{{i}}" value="false">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <div>
+                                                                    <span class="choice">No</span>
+                                                                    <span class="custom-control-description">Don't take in consideration MSRP when showing up this provider services.</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                                                        <h3 class="title4">Legend</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                    <p>The legend appears on the booking page, below the Policies. It’s useful to inform the passenger of any special consideration they should have before booking. “Legend” is general and applies to all services. You can also define a specific Legend for each kind of service, or have both.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_new[i]" value="{{_edit_prov.legend[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Hotel <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_hotel_new[i]" value="{{_edit_prov.legend_hotel[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Attraction <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_attraction_new[i]" value="{{_edit_prov.legend_attraction[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Transfer <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_transfer_new[i]" value="{{_edit_prov.legend_transfer[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Ife <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_ife_new[i]" value="{{_edit_prov.legend_ife[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Air <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_flight_new[i]" value="{{_edit_prov.legend_flight[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Car <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_car_new[i]" value="{{_edit_prov.legend_car[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Package <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_package_new[i]" value="{{_edit_prov.legend_package[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Cruise <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_cruise_new[i]" value="{{_edit_prov.legend_cruise[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Legend for Insurance <span class="opcional">(Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.legend_insurance_new[i]" value="{{_edit_prov.legend_insurance[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                                                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                                                        <h3 class="title4">Voucher information</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                    <p>The information provided here appears when a voucher is released for a booking. This information can extend or replace what’s originally sent by the provider.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>The booking is paid by:<span class="opcional"> (Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_payable_new[i]" value="{{_edit_prov.voucher_payable[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>Observations<span class="opcional"> (Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_observations_new[i]" value="{{_edit_prov.voucher_observations[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center form-group">
+                                                    <label>In case of emergency the contact information is:<span class="opcional"> (Optional)</span></label>
+                                                    <input type="text" class="form-control field-legend" [(ngModel)]="_edit_prov.voucher_emergency_contact_new[i]" value="{{_edit_prov.voucher_emergency_contact[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row d-flex align-items-start">
+                                                <div class="col-xs-11 center">
+                                                    <div class="row yes-no-choice">
+                                                        <div class="col-xs-3">
+                                                            <h1>Replace Voucher Data</h1>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <label class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input" name="optionvoucher{{i}}" id="option-voucher-yes{{i}}" value="true">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <div>
+                                                                    <span class="choice">Yes</span>
+                                                                    <span class="custom-control-description">You can only answer “Yes” after completing “The booking is paid by” and “Emergency contact info” fields.</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <label class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input" name="optionvoucher{{i}}" id="option-voucher-no{{i}}" value="false">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <div>
+                                                                    <span class="choice">No</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-11 center d-flex justify-content-end save-or-cancel">
+                                                    <button type="button" class="btn-grey-transparent-md" (click)="cancel_edit_ext_prov(i, _edit_prov.field_name[i], _edit_prov.days_to_cxl[i], _edit_prov.legend[i], _edit_prov.legend_hotel[i], _edit_prov.legend_attraction[i], _edit_prov.legend_transfer[i], _edit_prov.legend_ife[i], _edit_prov.legend_flight[i], _edit_prov.legend_car[i], _edit_prov.legend_package[i], _edit_prov.legend_cruise[i], _edit_prov.legend_insurance[i], _edit_prov.voucher_payable[i], _edit_prov.voucher_observations[i], _edit_prov.voucher_emergency_contact[i])">Cancel</button>
+                                                    <button type="button" class="btn-red-md" (click)="save_ext_prov(prov.id, prov.status, i)">Save Changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </template> <!--Close template "[ngForOf]="" -->
+                </table> <!--Close Principal Table -->
+            </div>
+        </div>
+
+        <!-- Error Message if there is not results from Front-End -->
+        <div class='mOpacity' [style.opacity]="messageOpacity">
+            <template  [ngIf]="_providers_service._data_pagination.total_page == 0 && _providers_service.search_ext_provider 
+            != undefined"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, we couln’t find any results for: <span>“{{_providers_service.search_ext_provider}}“</span>. You can try using different terms in the search box above.</p>
+                </div>
+            </template>
+            <!-- Error Message if there are not registers in the table from Front-End -->
+            <template [ngIf]="_providers_service._data_pagination.total_page == 0 && _providers_service.search_ext_provider == undefined"> 
+                <div class="info-alert center d-flex align-items-center" id="success-alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>There are no <span>“External Providers“</span> in the system yet. Create one from the button on the top right corner of this screen.</p>
+                </div>
+            </template>
+        </div>
+
+        <!--{{Pagination insertada con componente hijo Ext. Providers}}--> 
+        <my-pagination *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination>
+        <!--{{close pagination insertada con componente hijo}}-->
+
+    </div> <!-- Close container for Table External Providers and pagination -->
+</div> <!-- Close container wrapper-prov -->
+</div>

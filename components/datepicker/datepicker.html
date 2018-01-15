@@ -1,0 +1,15 @@
+
+<div class="d-flex align-items-center datepicker-wrapper">
+    <p class="d-flex justify-content-center align-items-center">{{_config.datepicker_name}}</p>
+    <div class="datepicker datepicker-date-range d-flex align-items-center">
+        <div class="datepicker-text">
+            <span class="datepicker-active d-flex align-items-center justify-content-center" [ngClass]="{'hide': from_text_input[indexer] == true}">From</span>
+            <input type="text" name="date-range-start" value="" id="date-range-start{{type}}{{indexer}}" class="form-control text-center date-range-start" [ngClass]="{'border-errors': border_error_from == true}" [(ngModel)]="date_range_start" (click)="line_picker()" (keyup)="filled_from()">                                                                
+        </div>
+        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+        <div class="datepicker-text">
+            <span class="d-flex align-items-center justify-content-center" [ngClass]="{'hide': to_text_input[indexer] == true}">To</span>
+            <input type="text" name="date-range-end" value="" class="form-control text-center date-range-end" id="date-range-end{{type}}{{indexer}}" [ngClass]="{'border-errors': border_error_to == true}" [(ngModel)]="date_range_end" (click)="line_picker()" (keyup)="filled_to()">
+        </div>
+    </div>
+</div>

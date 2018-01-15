@@ -1,0 +1,778 @@
+<h1 class="page-title"></h1>
+<div class="load"></div>
+<!-- RESPONSIVE CONTAINER -->
+<div class="wrapper-bw" [ngClass]="{'container' : view_port_width_list_agen}">
+    <div class="overflow-x">
+        <!-- BOX CONTAINER CONTAINER -->
+        <div class="container ams-container">
+            <!-- SEARCH FORM CONTAINER -->
+            <div class="searchform-wrapper">
+                <div class="searchform-container center">
+                    <div class="row">
+                        <div class="col-xs-12 center">
+                            <h5 class="title5">Search By Individual Bookings or File Groups</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 center search-input form-control d-flex align-items-center" (click)="open_modal_filters()" data-toggle="modal" data-target="#filtersModal">
+                            <!-- PILLS -->
+                            <div class="filters-wrapper">
+                                <!-- CREATED DATE FROM -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_created_from_array; let i=index" id="filter_created_from">
+                                    <span (click)="edit_pill('created-from', $event, i)">
+                                        <span>Created Date From:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_created_from_array', i)">x</button>
+                                </div>
+                                
+                                <!-- CREATED DATE TO -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_created_to_array; let i=index" id="filter_created_to">
+                                    <span (click)="edit_pill('created-to', $event, i)">
+                                        <span>Created Date To:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_created_to_array', i)">x</button>
+                                </div>
+
+                                <!-- SERVICE DATES FROM -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_service_from_array; let i=index" id="filter_created_from">
+                                    <span (click)="edit_pill('service-from', $event, i)">
+                                        <span>Service Dates From:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_service_from_array', i)">x</button>
+                                </div>
+
+                                <!-- SERVICE DATES TO -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_service_to_array; let i=index" id="filter_created_to">
+                                    <span (click)="edit_pill('service-to', $event, i)">
+                                        <span>Service Dates To:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_service_to_array', i)">x</button>
+                                </div>
+
+                               <!-- PASSENGER NAME -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_pax_array; let i=index" id="filter_pax">
+                                    <span (click)="edit_pill('pax', $event, i)">
+                                        <span>{{_filter_service.response_filters[0].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_pax_array', i)">x</button>
+                                </div>
+                                
+                                <!-- FILTER RES. CODE LOCATOR -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_loc_array; let i=index" id="filter_loc">
+                                    <span (click)="edit_pill('loc', $event, i)">
+                                        <span>{{_filter_service.response_filters[1].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_loc_array', i)">x</button>
+                                </div>
+
+                                <!-- FILTER WILL AUTO CANCEL -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_auto_cancel_array; let i=index" id="filter_auto_cancel">
+                                    <span (click)="edit_pill('auto_cancel', $event, i)">
+                                        <span>{{_filter_service.response_filters[2].filter_type_name}}:</span>
+                                        <div *ngFor="let cancel of _filter_service.response_filters[2].sub_item_filter_list">
+                                            <template [ngIf]="info == cancel.filter_type_code">
+                                                <p>{{cancel.filter_type_name}}</p>
+                                            </template>
+                                        </div>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_auto_cancel_array', i)">x</button>
+                                </div>
+
+                                <!-- FILTER STATUS -->
+                                <template ngFor let-info [ngForOf]="_filter_service.filter_status_array" let-i="index">
+                                    <div class="inline-filter" id="filter_status" *ngIf="info != undefined">
+                                        <span (click)="edit_pill('status', $event, i)">
+                                            <span>{{_filter_service.response_filters[3].filter_type_name}}:</span>
+                                            <div *ngFor="let status of _filter_service.response_filters[3].sub_item_filter_list">
+                                                <template [ngIf]="info == status.filter_type_code">
+                                                    <p>{{status.filter_type_name}}</p>
+                                                </template>
+                                            </div>
+                                        </span>
+                                        <button class="close-filter" (click)="remove_filter_array($event, 'filter_status_array', i)">x</button>
+                                    </div>
+                                </template>
+
+                                <!-- FILTER SERVICE TYPE -->
+                                <template ngFor let-info [ngForOf]="_filter_service.filter_service_array" let-i="index">
+                                    <div class="inline-filter" id="filter_service" *ngIf="info != undefined">
+                                        <span (click)="edit_pill('service', $event, i)">
+                                            <span>{{_filter_service.response_filters[4].filter_type_name}}:</span>
+                                            <div *ngFor="let service_type of _filter_service.response_filters[4].sub_item_filter_list">
+                                                <template [ngIf]="info == service_type.filter_type_code">
+                                                    <p>{{service_type.filter_type_name}}</p>
+                                                </template>
+                                            </div>
+                                        </span>
+                                        <button class="close-filter" (click)="remove_filter_array($event, 'filter_service_array', i)">x</button>
+                                    </div>
+                                </template>
+
+                                <!-- FILTER PROVIDER -->
+                                <template ngFor let-info [ngForOf]="_filter_service.filter_provider_array" let-i="index">
+                                    <div class="inline-filter" id="filter_provider" *ngIf="info != undefined">
+                                        <span (click)="edit_pill('provider', $event, i)">
+                                            <span>{{_filter_service.response_filters[5].filter_type_name}}:</span>
+                                            <div *ngFor="let provider of _filter_service.response_filters[5].sub_item_filter_list">
+                                                <template [ngIf]="info == provider.filter_type_code">
+                                                    <p>{{provider.filter_type_name}}</p>
+                                                </template>
+                                            </div>
+                                        </span>
+                                        <button class="close-filter" (click)="remove_filter_array($event, 'filter_provider_array', i)">x</button>
+                                    </div>
+                                </template>
+
+                                <!-- FILTER AGENCY OR USER -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_agency_array; let i=index" id="filter_agency">
+                                    <span (click)="edit_pill('agency', $event, i)">
+                                        <span>{{_filter_service.response_filters[6].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_agency_array', i)">x</button>
+                                </div>
+
+                                <!-- FILTER DESTINATION -->
+                                <div class="inline-filter" *ngFor="let info of _filter_service.filter_destination_array; let i=index" id="filter_agency">
+                                    <span (click)="edit_pill('destination', $event, i)">
+                                        <span>{{_filter_service.response_filters[7].filter_type_name}}:</span>
+                                        <p>{{info}}</p>
+                                    </span>
+                                    <button class="close-filter" (click)="remove_filter_array($event, 'filter_destination_array', i)">x</button>
+                                </div>
+                            </div>
+                            <div class="icon-search">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- NO BORRAR ESTE CÓDIGO COMENTADO PORQUE SI SE HACE UN TEST CON USUARIOS PARA LOS FILTROS, ES POSIBLE QUE SE VUELVA A USAR :) 
+                    <div class="row temporal">
+                        <div class="col-xs-12">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center datepicker-wrapper">
+                                    <p class="d-flex justify-content-center align-items-center" (click)="picker_created($event)">Created Date</p>
+                                    <div class="datepicker datepicker-created d-flex align-items-center">
+                                        <input type="text" #date_created_from id="date_created_from" name="date_created_from" class="form-control text-center" (click)="line_picker()" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true">
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                        <input type="text" #date_created_to id="date_created_to" name="date_created_to" class="form-control text-center" (click)="line_picker()" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true">
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center datepicker-wrapper">
+                                    <p class="d-flex justify-content-center align-items-center" (click)="picker_travel($event)">Service Dates</p>
+                                    <div class="datepicker datepicker-travel d-flex align-items-center">
+                                        <input type="text" #date_travel_from id="date_travel_from" name="date_travel_from" class="form-control text-center" (click)="line_picker()" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true">
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                        <input type="text" #date_travel_to id="date_travel_to" name="date_travel_to" class="form-control text-center" (click)="line_picker()" data-provide="datepicker" data-date-format="dd-M-yyyy" data-date-autoclose="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row temporal">
+                        <div class="col-xs-12 d-flex align-items-center justify-content-between booking-or-file">
+                            <button class="btn-transparent d-flex justify-content-center align-items-center" (click)="search('Bookings', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'creation_date', 'false' , '')" [ngClass]="{'active-buttons': selected_type == 'Bookings'}">
+                                Search by individual Bookings
+                            </button>
+                            <button class="btn-transparent d-flex justify-content-center align-items-center" (click)="search('Files', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'creation_date', 'false' , '')" [ngClass]="{'active-buttons': selected_type == 'Files'}">
+                                Search by File Groups
+                            </button>
+                        </div>
+                    </div> --> 
+                </div>
+            </div>
+
+            <!-- RESULTS BAR AND SORTING -->
+            <div class="results-bar-wrapper d-flex align-items-center justify-content-center">
+                <div class="row align-items-center">
+                    <div class="col-xs-2 sortable-wrapper">
+                        <template [ngIf]="count_items != 0">
+                            <button class="sortable btn-blue-md" (click)="sort_open()">
+                                <i class="fa fa-long-arrow-up" id="button-sort1" aria-hidden="true"></i>
+                                <i class="fa fa-long-arrow-down" id="button-sort2" aria-hidden="true"></i> 
+                                Sort
+                            </button>
+                        </template>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                        <h4 id="title-bookings" class="title3">{{count_items}} Individual Bookings Results</h4>
+                        <h4 class="title_files title3">{{count_items}} File Groups Results</h4>
+                    </div>
+                    <div class="col-xs-4 action-buttons">
+                        <template [ngIf]="show_icons_book == true">
+                            <i class="fa fa-print" aria-hidden="true" (mouseover)='action_icons_detail("fa-print")' (mouseleave)='mouseleave_icons_detail("fa-print")' data-toggle="tooltip" data-placement="bottom" title="Print Res. Detail"></i>
+                            <i class="fa fa-download" aria-hidden="true" (mouseover)='action_icons_detail("fa-download")' (mouseleave)='mouseleave_icons_detail("fa-download")' data-toggle="tooltip" data-placement="bottom" title="Download Invoice"></i>
+                        </template>
+                        <template [ngIf]="show_icons_files == true">
+                            <i class="fa fa-print" aria-hidden="true" (mouseover)='action_icons_detail("fa-print")' (mouseleave)='mouseleave_icons_detail("fa-print")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Print Res. Detail"></i>
+                            <i class="fa fa-download" aria-hidden="true" (mouseover)='action_icons_detail("fa-download")' (mouseleave)='mouseleave_icons_detail("fa-download")' aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download Invoice"></i>
+                        </template>
+                    </div>
+                </div>
+            </div>
+ 
+
+            <!-- Sorting Individual Bookings Results with Icons -->
+            <div class="white_b">
+                <div class="row show-grid show-sort scroll-sort-b">
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="record_b" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'record_locator')" (mouseover)='mouseover_icons_sort("record_b", "fa-barcode")' (mouseleave)='mouseleave_icons_sort("record_b", "fa-barcode")'>
+                        <div class="sort-content">
+                            <i class="fa fa-barcode type" aria-hidden="true"></i>
+                            <p class="text_icon">Record<br>Locator</p>
+                        </div>
+                        <div class="arrows" id="arrow-record">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="service_type_b" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'service_type')" (mouseover)='mouseover_icons_sort("service_type_b", "fa-shopping-cart")' (mouseleave)='mouseleave_icons_sort("service_type_b", "fa-shopping-cart")'>
+                        <div class="sort-content">
+                            <i class="fa fa-shopping-cart type" aria-hidden="true"></i>
+                            <p class="text_icon">Service<br>Type</p>
+                        </div>
+                        <div class="arrows" id="arrow-serv-type">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="service_name_b" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'service_name')" (mouseover)='mouseover_icons_sort("service_name_b", "fa-shopping-cart")' (mouseleave)='mouseleave_icons_sort("service_name_b", "fa-shopping-cart")'>
+                        <div class="sort-content">
+                            <i class="fa fa-shopping-cart type" aria-hidden="true"></i>
+                            <p class="text_icon">Service<br>Name</p>
+                        </div>
+                        <div class="arrows" id="arrow-serv-name">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="lead_b" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'lead_passenger')" (mouseover)='mouseover_icons_sort("lead_b", "fa-user")' (mouseleave)='mouseleave_icons_sort("lead_b", "fa-user")'>
+                        <div class="sort-content">
+                            <i class="fa fa-user type" aria-hidden="true"></i>
+                            <p class="text_icon">Lead<br>Passenger</p>
+                        </div>
+                        <div class="arrows" id="arrow-lead">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="provider_b" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'provider_name')" (mouseover)='mouseover_icons_sort("provider_b", "fa-briefcase")' (mouseleave)='mouseleave_icons_sort("provider_b", "fa-briefcase")'>
+                        <div class="sort-content">
+                            <i class="fa fa-briefcase type" aria-hidden="true"></i>
+                            <p class="text_icon">Provider</p>
+                        </div>
+                        <div class="arrows" id="arrow-prov">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="agency_b" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'agency_operator')" (mouseover)='mouseover_icons_sort("agency_b", "fa-building-o")' (mouseleave)='mouseleave_icons_sort("agency_b", "fa-building-o")'>
+                        <div class="sort-content">
+                            <i class="fa fa-building-o type" aria-hidden="true"></i>
+                            <p class="text_icon">Agency/<br>Operator</p>
+                        </div>
+                        <div class="arrows" id="arrow-agency">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="booking-start-date" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'service_start_date')" (mouseover)='mouseover_icons_sort("booking-start-date", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("booking-start-date", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">Booking<br>Start Date</p>
+                        </div>
+                        <div class="arrows" id="arrow-booking-start-date">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="booking-end-date" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'service_end_date')" (mouseover)='mouseover_icons_sort("booking-end-date", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("booking-end-date", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">Booking<br>End Date</p>
+                        </div>
+                        <div class="arrows" id="arrow-booking-end-date">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="reservation_b" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'status')" (mouseover)='mouseover_icons_sort("reservation_b", "fa-list-alt")' (mouseleave)='mouseleave_icons_sort("reservation_b", "fa-list-alt")'>
+                        <div class="sort-content">
+                            <i class="fa fa-list-alt type" aria-hidden="true"></i>
+                            <p class="text_icon">Reservation<br>Status</p>
+                        </div>
+                        <div class="arrows" id="arrow-reservation">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="auto" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'auto_cancel')" (mouseover)='mouseover_icons_sort("auto", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("auto", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">Auto<br>Cancel</p>
+                        </div>
+                        <div class="arrows" id="arrow-auto-cancel">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="confirmation" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'confirmation_number')" (mouseover)='mouseover_icons_sort("confirmation", "fa-check-circle-o")' (mouseleave)='mouseleave_icons_sort("confirmation", "fa-check-circle-o")'>
+                        <div class="sort-content">
+                            <i class="fa fa-check-circle-o type" aria-hidden="true"></i>
+                            <p class="text_icon">Confirmation<br>Number</p>
+                        </div>
+                        <div class="arrows" id="arrow-confirm">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="creation" (click)="sort_all('Bookings', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'creation_date')" (mouseover)='mouseover_icons_sort("creation", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("creation", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">Creation<br>Date</p>
+                        </div>
+                        <div class="arrows" id="arrow-creation">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sorting File Groups Results with Icons -->
+            <div class="white_f">
+                <div class="row show-grid show-sort scroll-sort-f">
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="record_f" (click)="sort_all('Files', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'record_locator')" (mouseover)='mouseover_icons_sort("record_f", "fa-barcode")' (mouseleave)='mouseleave_icons_sort("record_f", "fa-barcode")'>
+                        <div class="sort-content">
+                            <i class="fa fa-barcode type" aria-hidden="true"></i>
+                            <p class="text_icon">Record<br>Locator</p>
+                        </div>
+                        <div class="arrows" id="arrow-record_f">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="lead_f" (click)="sort_all('Files', _filters.date_created_from, _filters.date_created_to, _filters.date_travel_from, _filters.date_travel_to, 'lead_passenger')" (mouseover)='mouseover_icons_sort("lead_f", "fa-user")' (mouseleave)='mouseleave_icons_sort("lead_f", "fa-user")'>
+                        <div class="sort-content">
+                            <i class="fa fa-user type" aria-hidden="true"></i>
+                            <p class="text_icon">Lead<br>Passenger</p>
+                        </div>
+                        <div class="arrows" id="arrow-lead_f">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="creation_date" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'creation_date')" (mouseover)='mouseover_icons_sort("creation_date", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("creation_date", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">Creation<br>Date</p>
+                        </div>
+                        <div class="arrows" id="arrow-creation_date">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="last_updated" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'last_updated')" (mouseover)='mouseover_icons_sort("last_updated", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("last_updated", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">Last<br>Updated</p>
+                        </div>
+                        <div class="arrows" id="arrow-last-updated">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="number_serv" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'number_of_services')" (mouseover)='mouseover_icons_sort("number_serv", "fa-list-ol")' (mouseleave)='mouseleave_icons_sort("number_serv", "fa-list-ol")'>
+                        <div class="sort-content">
+                            <i class="fa fa-list-ol type" aria-hidden="true"></i>
+                            <p class="text_icon">Number<br>of Service</p>
+                        </div>
+                        <div class="arrows" id="arrow-number-serv">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="agency_f" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'agency_operator')" (mouseover)='mouseover_icons_sort("agency_f", "fa-building-o")' (mouseleave)='mouseleave_icons_sort("agency_f", "fa-building-o")'>
+                        <div class="sort-content">
+                            <i class="fa fa-building-o type" aria-hidden="true"></i>
+                            <p class="text_icon">Agency/<br>Operator</p>
+                        </div>
+                        <div class="arrows" id="arrow-agency_f">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="file-start-date" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'file_start_date')" (mouseover)='mouseover_icons_sort("file-start-date", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("file-start-date", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">File<br>Start Date</p>
+                        </div>
+                        <div class="arrows" id="arrow-file-start-date">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="file-end-date" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'file_end_date')" (mouseover)='mouseover_icons_sort("file-end-date", "fa-calendar")' (mouseleave)='mouseleave_icons_sort("file-end-date", "fa-calendar")'>
+                        <div class="sort-content">
+                            <i class="fa fa-calendar type" aria-hidden="true"></i>
+                            <p class="text_icon">File<br>End Date</p>
+                        </div>
+                        <div class="arrows" id="arrow-file-end-date">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="number_nights" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'number_of_nights')" (mouseover)='mouseover_icons_sort("number_nights", "fa-moon-o")' (mouseleave)='mouseleave_icons_sort("number_nights", "fa-moon-o")'>
+                        <div class="sort-content">
+                            <i class="fa fa-moon-o type" aria-hidden="true"></i>
+                            <p class="text_icon">Number<br>of Nights</p>
+                        </div>
+                        <div class="arrows" id="arrow-number-nights">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 line d-flex align-items-center justify-content-center text-center" id="number_passen" (click)="sort_all('Files', _filter_service.content_input_created_from, _filter_service.content_input_created_to, _filter_service.content_input_service_from, _filter_service.content_input_service_to, 'number_of_passengers')" (mouseover)='mouseover_icons_sort("number_passen", "fa-users")' (mouseleave)='mouseleave_icons_sort("number_passen", "fa-users")'>
+                        <div class="sort-content">
+                            <i class="fa fa-users type" aria-hidden="true"></i>
+                            <p class="text_icon">Number of<br>Passengers</p>
+                        </div>
+                        <div class="arrows" id="arrow-number-passen">
+                            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table By Bookings -->
+            <div id="book">
+                <table class="table default-table table-striped table-hover">
+                    <template [ngIf]="count_items != 0">
+                        <tr id="space-b" class="color">
+                            <th class="no-width"></th>
+                            <th>Record Locator</th>
+                            <th>Service <br>Type</th>
+                            <th class="service-name-th">Service <br>Name</th>
+                            <th class="lead-passenger-th">Lead Passenger</th>
+                            <th>Provider</th>
+                            <th>Agency</th>
+                            <th class="right-b booking-dates-th">Booking Dates: <br>Start & End</th>
+                            <th class="pad-left-b text-center"><i id="moon-b" class="fa fa-moon-o" aria-hidden="true"></i></th>
+                            <th class="pad-left-b text-center"><i id="moon-b" class="fa fa-users" aria-hidden="true"></i></th>
+                            <th>Reservation Status</th>
+                            <th>Auto <br>Cancel</th>
+                            <th class="right-b no-pad">Confirmation Number</th>
+                            <th class="right-b text-right" id="space-date">Creation<br> Date</th>
+                            <th class="folder-width-b"></th>        
+                        </tr>
+                    </template>
+                    <template ngFor let-b [ngForOf]="response_json" let-i="index">
+                        <tr class="color-row" (dblclick)="open_booking_detail(b.id, $event, i)" (mouseover)='mouseover_icon_folder(i)' (mouseleave)='mouseleave_icon_folder()'>
+                            <td class="checkbox-column">
+                                <div class="checkbox abc-checkbox" (click)="show_icons_bookings()">
+                                <input class="check-b" id="checkbox{{i}}" type="checkbox">
+                                <label attr.for="checkbox{{i}}"></label>
+                                </div>
+                            </td>
+                            <td>{{b.record_locator}}</td>
+                            <td class="icons-book text-center"><i class="fa" [ngClass]="{ 
+                                'fa-bed': b.service_type== 'hotel',
+                                'fa-ticket': b.service_type== 'attraction',
+                                'fa-exchange': b.service_type== 'transfer',
+                                'fa-file-text-o': b.service_type== 'ife',
+                                'fa-car': b.service_type== 'car',
+                                'fa-ship': b.service_type== 'cruise',
+                                'fa-plane': b.service_type== 'flight',
+                                'fa-th': b.service_type== 'package',
+                                'fa-shield': b.service_type== 'insurance',
+                                'fa-male': b.service_type== 'concierge'
+                            }" aria-hidden="true"></i></td>
+                            <td class="normal-whitespace">{{b.service_name}}</td>
+                            <td class="normal-whitespace">{{b.lead_passenger_name_first}}<br>{{b.lead_passenger_name_last}}</td>
+                            <td class="provider-td">{{b.provider}}</td>
+                            <td class="bookings">
+                                <a id="agency-opener{{i}}" (mousedown)="go_to_agency_detail(b.agency_code, $event, i)">{{b.agency}}</a>
+                            </td>
+                            <td class="text-right right-b">{{b.booking_start_date}}<br>{{b.booking_end_date}}</td>
+                            <td class="pad-center-b text-center">{{b.number_of_nights}}</td>
+                            <td class="pad-center-b text-center">{{b.passenger_count}}</td>
+                            <td>{{b.reservation_status}}</td>                  
+                            <td class="book-cancel">
+                                <template [ngIf]="is_auto_cancel[i] == true" >
+                                    {{b.auto_cancel_date}}
+                                </template>
+                                <template [ngIf]="is_auto_cancel[i] == false" >
+                                    Disabled
+                                </template>
+                             </td>
+                            <td class="right-b">{{b.confirmation_number}}</td>
+                            <td id="pad-date-b" class="text-right right-b">{{b.date_created}}</td>
+                            <td class="text-center folder-td-wrapper" (mouseleave)="removeOpenedEllipsis(i)">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <div class="folder-wrapper center">
+                                            <a id="bookingOpener{{i}}">
+                                                <i id="{{i}}icon-b" class="fa fa-folder-open-o" aria-hidden="true" (mousedown)="open_booking_detail(b.id, $event, i)"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ellipsis-wrapper center" id="fixed-ellipsis-b">
+                                            <div class="ellipsis" id="{{i}}ellipsisIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</div>
+                                            <ul class="dropdown-menu bookingDropdown" aria-labelledby="dorpdown">
+                                                <li (click)="download_voucher_booking( b.id , i )" [ngClass]="{ 'dv_li' : allowVoucher_css[i] }">
+                                                    <a  [ngClass]="{ 'dv_a' : allowVoucher_css[i] }">Download voucher</a>
+                                                </li>
+                                                <li>
+                                                    <a>Send by Email</a>
+                                                </li>
+                                                <li>
+                                                <template [ngIf]="is_auto_cancel[i] == false" >
+                                                    <a (click)="toggleAutocancel(b.id , true , i)" >Enable automatic cancellation</a>
+                                                </template>
+                                                <template [ngIf]="is_auto_cancel[i] == true" >
+                                                    <a (click)="toggleAutocancel(b.id , false , i )" > Disable automatic cancellation </a>
+                                                </template>
+                                                </li>
+                                                <li  >
+                                                    <a (click)="actionButton_booking( b.id , 'print' )" >Print details</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <!--<td class="folder-td normal-whitespace"> 
+                                <a id="bookingOpener{{i}}">
+                                    <span id="fixed-folder-b" (mousedown)="open_booking_detail(b.id, $event, i)">
+                                        <i id="{{i}}icon-b" class="cursor folder folder-icon fa fa-folder-open-o" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                                <span class="ellipsis-icon-wrapper" id="fixed-ellipsis-b">
+                                    <p id="{{i}}ellipsisIcon" class="ellipsis center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</p>
+                                    <ul class="dropdown-menu" aria-labelledby="dorpdown">
+                                         <li (click)="download_voucher_booking( b.id , i )" [ngClass]="{ 'dv_li' : allowVoucher_css[i] }">
+                                            <a  [ngClass]="{ 'dv_a' : allowVoucher_css[i] }">Download voucher</a>
+                                        </li>
+                                        <li>
+                                            <a>Send by Email</a>
+                                        </li>
+                                        <li>
+                                            <a>Print details</a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </td>-->
+                        </tr>                 
+                    </template>
+                </table>
+
+                <!-- Pagination Bookings -->
+                <!-- <my-pagination  *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination> -->
+
+              <!--   <template [ngIf]="count_items != 0">
+                    <nav aria-label="...">
+                        <ul class="pager" id="pager-b">
+                            <li class="disabled" id="prev_b"><a href="#" (click)="prev_pages('Bookings', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'orden')">Prev</a></li>
+                            
+                            <li class="active" *ngFor="let page_b of array_pages">
+                                <span class="cursor" [ngClass]="{ elected: page_b == current_page }" (click)="select(page_b, 'Bookings', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'orden')" [attr.id]="page_b" >
+                                    {{page_b}} <span class="sr-only">(current)</span>
+                                </span>
+                            </li>
+                            <li class="points"><a>...</a></li>
+                            <li class="disabled" id="next_b"><a href="#" (click)="next_pages('Bookings', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'orden')">Next</a></li>
+                        </ul>
+                    </nav>
+                </template> -->
+            </div>
+
+            <!-- Table By Files -->
+            <div id="files">
+                <table class="table default-table table-striped table-hover">
+                    <template [ngIf]="count_items != 0">
+                        <tr id="space-f" class="color">
+                            <th class="no-width"></th>
+                            <th>Record <br>Locator</th>
+                            <th>Lead <br>Passenger</th>
+                            <th>Creation Date/ <br>Last Updated</th>
+                            <th class="text-center">Number of <br>Services</th>
+                            <th class="pad-left-f">Agency</th>
+                            <th>File Dates: <br>Start & End</th> 
+                            <th class="pad-left-f text-center">
+                                <i id="moon-f" class="fa fa-moon-o" aria-hidden="true"></i>
+                            </th>
+                            <th class="text-center">
+                                <i id="users-f" class="fa fa-users" aria-hidden="true"></i>
+                            </th>
+                            <th>Reservation <br>Status</th>
+                            <th class="folder-width"></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-f [ngForOf]="response_json_files" let-i="index">
+                        <tr class="color-row" (dblclick)="open_file_detail(f.record_locator , $event , i)" (mouseover)='mouseover_icon_folder_f(i)' (mouseleave)='mouseleave_icon_folder_f()'>
+                            <td class="checkbox-column">
+                                <div class="checkbox abc-checkbox" (click)="showIconsFiles()">
+                                    <input class="check-f" id="checkbox-f{{i}}" type="checkbox">
+                                    <label attr.for="checkbox-f{{i}}"></label>
+                                </div>
+                            </td>
+                            <td>{{f.record_locator}}</td>
+                            <td>{{f.lead_passenger_name_first}}<br>{{f.lead_passenger_name_last}}</td>
+                            <td class="creation-files">{{f.creation_date}}<br>{{f.last_updated}}</td>
+                            <td class="creation-files text-center">{{f.number_of_services}}</td>
+                            <td class="pad-left-f bookings">
+                                <a id="agency-opener{{i}}" (mousedown)="go_to_agency_detail(f.agency_code, $event, i)">{{f.agency}}</a>                           
+                            </td>
+                            <td class="creation-files">{{f.file_start_date}}<br>{{f.file_end_date}}</td>
+                            <td class="pad-left-f text-center">{{f.number_of_nights}}</td>
+                            <td class="text-center">{{f.number_of_passengers}}</td>
+                            <td id="fixed-status-f">
+                                <template ngFor let-x [ngForOf]="f.bookings_status" let-i="index">
+                                    {{x.name_front}} ({{x.count}})
+                                </template>
+                            </td> 
+                            <!--<td class="folder-td">
+                                <a id="fileOpener{{i}}">
+                                    <span id="fixed-folder-f" (mousedown)="open_file_detail(f.record_locator , $event , i)">
+                                        <i id="{{i}}icon-f" class="cursor folder-f folder-icon fa fa-folder-open-o" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </td>-->
+                            <td class="text-center folder-td-wrapper" (mouseleave)="removeOpenedEllipsis(i)">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <div class="folder-wrapper center">
+                                            <a id="fileOpener{{i}}">
+                                                <i id="{{i}}icon-f" class="fa fa-folder-open-o" aria-hidden="true" (mousedown)="open_file_detail(f.record_locator, $event, i)"></i>
+                                            </a>
+                                        </div>
+                                        <!--<a id="fileOpener{{i}}">
+                                            <span id="fixed-folder-f" (mousedown)="open_file_detail(f.record_locator , $event , i)">
+                                                <i id="{{i}}icon-f" class="cursor folder-f folder-icon fa fa-folder-open-o" aria-hidden="true"></i>
+                                            </span>
+                                        </a>-->
+                                        <div class="ellipsis-wrapper center" id="fixed-ellipsis-b">
+                                            <div class="ellipsis" id="{{i}}ellipsisIconF" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</div>
+                                            <ul class="dropdown-menu" aria-labelledby="dorpdown">
+                                                <li>
+                                                    <a (click)="addIfeServ(f.record_locator,f.lead_passenger_name_first,f.lead_passenger_name_last)">Add IFE Service</a>
+                                                </li>
+                                                <li>
+                                                    <a (click)="user_forged_file(f.record_locator)" >Add Service</a>
+                                                </li>
+                                                <li  (click)="actionButton_file(f.record_locator, 'addPayment')" >
+                                                    <a>Add Payment</a>
+                                                </li>
+                                                <li (click)="download_voucher_file(f.record_locator, i)" [ngClass]="{ 'dv_li' : allowVoucher_css[i] }">
+                                                    <a  [ngClass]="{ 'dv_a': allowVoucher_css[i] }">Download voucher</a>
+                                                </li>
+                                                <li>
+                                                    <a (click)="download_invoice(f.record_locator)">Download invoice</a>
+                                                </li>
+                                                <li>
+                                                    <a>Send by Email</a>
+                                                </li>
+                                                <li>
+                                                    <a (click)="actionButton_file(f.record_locator , 'print')" >Print details</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <!--<td class="folder-td normal-whitespace"> 
+                                <a id="fileOpener{{i}}">
+                                    <span id="fixed-folder-f" (mousedown)="open_file_detail(f.record_locator , $event , i)">
+                                        <i id="{{i}}icon-f" class="cursor folder-f folder-icon fa fa-folder-open-o" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                                <span class="ellipsis-icon-wrapper" id="fixed-ellipsis-b">
+                                    <p id="{{i}}ellipsisIconF" class="ellipsis center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" (click)="focusEllipsis(i)">...</p>
+                                    <ul class="dropdown-menu" aria-labelledby="dorpdown">
+                                        <li>
+                                            <a>Add IFE Service</a>
+                                        </li>
+                                        <li>
+                                            <a>Add Service</a>
+                                        </li>
+                                        <li   >
+                                            <a>Add Payment</a>
+                                        </li>
+                                        <li (click)="download_voucher_file(f.record_locator , i )" [ngClass]="{ 'dv_li' : allowVoucher_css[i] }">
+                                            <a  [ngClass]="{ 'dv_a' : allowVoucher_css[i] }">Download voucher</a>
+                                        </li>
+                                        <li>
+                                            <a (click)="download_invoice(f.record_locator)">Download invoice</a>
+                                        </li>
+                                        <li>
+                                            <a>Send by Email</a>
+                                        </li>
+                                        <li>
+                                            <a>Print details</a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </td>-->
+                        </tr>
+                    </template>
+                </table>
+
+                <!-- Pagination Files -->
+                <!-- <my-pagination  *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination> -->
+                <!-- <template [ngIf]="count_items != 0">
+                    <nav aria-label="...">
+                        <ul class="pager">
+                            <li class="disabled" id="prev_f"><a href="#" (click)="prev_pages('Files', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'orden')">Prev</a></li>
+                            
+                            <li class="active" *ngFor="let page_f of array_pages">     
+                                <span class="cursor" [ngClass]="{ elected: page_f == current_page }" (click)="select(page_f, 'Files', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'orden')" [attr.id]="page_f"> 
+                                {{page_f}} <span class="sr-only">(current)</span>
+                                </span>
+                            </li>
+                            <li class="points"><a>...</a></li>
+                            <li class="disabled" id="next_f">
+                            <a href="#" (click)="next_pages('Files', date_created_from.value, date_created_to.value, date_travel_from.value, date_travel_to.value, 'orden')">Next</a></li>
+                        </ul>
+                    </nav>
+                </template> -->
+            </div>
+
+            <my-pagination  *ngIf="showPagination" #pagination (change_current_page)="current_page_change($event)"></my-pagination>
+
+            <!-- Error Message if there is not results from Front-End (Bookings) -->
+            <template [ngIf]="count_items == 0"> 
+                <div class="info-alert center d-flex align-items-center">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <p>Sorry, <strong>we couldn't find any results that met your search criteria</strong>. You can try using different filters and/or dates in the search box above.</p>
+                </div>
+            </template>
+        </div>
+    </div>
+</div>

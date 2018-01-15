@@ -1,0 +1,90 @@
+/*-----------------------------*/
+/*     AMSTERDAM SASS FILES    */
+/*-----------------------------*/
+@import "../../../../scss/generals/ams-variables";
+@import "../../../../scss/generals/ams-typography";
+@import "../../../../scss/generals/ams-generals";
+@import "../../../../scss/generals/ams-icons";
+@import "../../../../scss/generals/ams-positions";
+@import "../../../../scss/generals/ams-modals";
+@import "../../../../scss/generals/ams-headings";
+@import "../../../../scss/generals/ams-tables";
+@import "../../../../scss/generals/ams-datepicker";
+@import "../../../../scss/generals/ams-buttons";
+@import "../../../../scss/generals/ams-forms";
+@import "../../../../scss/generals/ams-alerts";
+
+.travtion-modal{
+    width: 600px;
+    min-height: 516px;
+    border-radius: 3px 3px 0 0;
+}
+
+.compose-modal-header{
+    padding: 0 20px;
+    height: 42px;
+    background-color: $blue;
+    h1{
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 0px;
+    }
+    .close{
+        font-size: 15px;
+        color: $grey;
+        text-shadow: none;
+        opacity: 1;
+    }
+}
+
+.compose-modal-content{
+    padding: 10px 10px 20px 10px;
+    min-height: 474px;
+    background-color: #fff;
+    label{
+        font-weight: normal;
+        margin-bottom: 0px;
+    }
+    .form-group{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .send-to{
+        margin-bottom: 0px !important;
+    }
+    input{
+        width: 468px;
+    }
+    textarea{
+        width: 468px;
+        height: 265px;
+        resize: none;
+    }
+    .send{
+        width: 70px;
+        height: 34px;
+    }
+    .pill-wrapper{
+        margin: 5px 0;
+        max-width: 468px;
+        .pill{
+            padding: 0 5px;
+            height: 20px;
+            /*span{
+                vertical-align: middle;
+            }
+            i{
+                vertical-align: middle;
+            }*/
+        }
+    }
+    .agency-email-pill{
+        background-color: #39B5c7;
+    }
+    .operator-email-pill{
+        background-color: #007987;
+    }
+    .passenger-email-pill{
+        background-color: $btn-red;
+    }
+}

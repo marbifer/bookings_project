@@ -1,0 +1,1606 @@
+<h1 class="page-title"></h1>
+
+<!-- RESPONSIVE CONTAINER -->
+<div class="overflow-x">
+    <!-- BOX CONTAINER CONTAINER -->
+    <div class="container ams-container file-container">
+        <div class="blue-heading d-flex align-items-center">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h2 class="title2">
+                        Agency Detail - <span>{{_edit_agencies.name}}</span>
+                    </h2>
+                </div>
+                <button *ngIf="it_come_from != 'right_click'" type="button" class="btn-red-xs btn-close" id="close-agency" (click)="close_agency_detail()">Close</button>
+            </div>
+        </div>
+        <div class="agency-detail">
+            <!-- Error specific Message if the field name and email is empty from Back-End (Agency Detail) -->
+            <div class="row">
+                <template [ngIf]="_edit_agencies.field_error[0] == 'name' || _edit_agencies.field_error[0] == 'email' || _edit_agencies.field_error[0] == 'cutoff_hotel_days' || _edit_agencies.field_error[0] == 'cutoff_attraction_days' || _edit_agencies.field_error[0] == 'cutoff_transfer_days' || _edit_agencies.field_error[0] == 'cutoff_car_days' || _edit_agencies.field_error[0] == 'cutoff_cruise_days' || _edit_agencies.field_error[0] == 'cutoff_flight_days' || _edit_agencies.field_error[0] == 'cutoff_package_days' || _edit_agencies.field_error[0] == 'cutoff_insurance_days' || _edit_agencies.field_error[0] == 'credit' || _edit_agencies.field_error[0] == 'credit_used' || _edit_agencies.field_error[0] == 'credit_tolerance'">
+                    <div class="danger-alert center d-flex align-items-center" id="danger-alert">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>
+                            <span>Something isn't quite right</span>. Please check the errors indicated below and try saving again.
+                        </p>
+                    </div>
+                </template>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 center">
+                    <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label for="name">Name</label> 
+                            <input type="text" name="name" id="name" class="form-control" [(ngModel)]="_edit_agencies.name_new" value="{{_edit_agencies.name}}" (focus)="focus_name()" (blur)="blur_name()" (keyup)="clean_field()">
+                            <template [ngIf]="_edit_agencies.name_new == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_name}}</span>
+                            </template>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="legal-name">Legal Name</label>
+                            <input type="text" [(ngModel)]="_edit_agencies.name_legal_new" value="{{_edit_agencies.name_legal}}" name="legal-name" id="legal-name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 form-group">
+                            <label for="adress">Address</label>
+                            <input type="text" [(ngModel)]="_edit_agencies.address_new" value="{{_edit_agencies.address}}" name="adress" id="address" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 form-group autocomplete-group">
+                            <label for="city">City</label>
+                            <input type="text" name="city" id="city" class="form-control" autocomplete="off" [(ngModel)]="_edit_agencies.relation_name" value="{{_edit_agencies.city}}" (click)="filter_city_name_click( _edit_agencies.relation_name, 'agency', '', $event)" 
+                                (focus)="focus_city()" (blur)="blur_name()">
+                            <!-- Message Error for field City from Front-End -->
+                            <template [ngIf]="_edit_agencies.state_validate_city == false && _edit_agencies.field_error_city == 'invalid'">
+                                <span id="tool-error-city" class="with-errors-text">No matches.</span>
+                            </template> 
+                            <!-- Message Error for field City from Backend -->
+                            <template [ngIf]="_edit_agencies.field_error_city == 'city'">
+                                <span id="tool-error-city" class="with-errors-text">{{_edit_agencies.message_city_save}}</span>
+                            </template>
+                            <template [ngIf]="_edit_agencies.field_city == 'city'">
+                                <span id="tool-error-city-auto" class="with-errors-text">{{_edit_agencies.message_city}}</span>
+                            </template>
+
+                            <!-- Autocomplete to Field City -->
+                            <!-- Show Scroll -->
+                            <template [ngIf]="_edit_agencies.filteredListCity.length > 6">
+                                <div class="list-city" *ngIf="_edit_agencies.filteredListCity.length > 0">
+                                    <ul class="margin-city" id="margin-city{{i}}" *ngFor="let item of _edit_agencies.filteredListCity; let i=index">
+                                        <li class="text-items-city{{i}}" (click)="select(item, _edit_agencies.list_of_codes_city[i],'agency')" (mouseover)='mouseover_color_text(".text-items-city" + i)' (mouseleave)='mouseleave_color_text(".text-items-city" + i)'>
+                                            <a>{{item}}</a>
+                                        </li>
+                                    </ul>
+                                    </div>
+                                </template>
+
+                            <!-- Hide Scroll -->
+                            <template [ngIf]="_edit_agencies.filteredListCity.length <= 6">
+                                <div class="list-city2 autocomplete-list2" *ngIf="_edit_agencies.filteredListCity.length > 0">
+                                    <ul class="margin-city" id="margin-city{{i}}" *ngFor="let item of _edit_agencies.filteredListCity; let i=index">
+                                        <li class="text-items-city{{i}}" (click)="select(item, _edit_agencies.list_of_codes_city[i],'agency')" (mouseover)='mouseover_color_text(".text-items-city" + i)' (mouseleave)='mouseleave_color_text(".text-items-city" + i)'>
+                                            <a>{{item}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </template>
+
+                            <!-- Message generic error for field City from Backend - Option REQUEST LIST AUTOCOMPLETE -->
+                            <div class="row message-gral-map" id="message-general-map" *ngIf="_edit_agencies.general_error_city != ''">
+                                <div id='arrow-tool-map' class='tooltip-arrow'></div>
+                                <div class="alert danger-alert alert-dismissible fade in generic-error" role="alert">
+                                    <i id='icon-generic-error' class='fa fa-times-circle' aria-hidden='true'></i>
+                                    <span>{{_edit_agencies.general_error_city}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 form-group">
+                            <label for="zip">Zip</label>
+                            <input type="text" [(ngModel)]="_edit_agencies.zip_new" value="{{_edit_agencies.zip}}" name="zip" id="zip" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" [(ngModel)]="_edit_agencies.phone_number_new" value="{{_edit_agencies.phone_number}}" name="phone" id="phone" class="form-control">
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" name="email" id="email-agency" class="form-control" [(ngModel)]="_edit_agencies.email_new" value="{{_edit_agencies.email}}" (focus)="focus_email()" (blur)="blur_name()" [ngClass]="{'border-errors': _edit_agencies.validation_email_filter == false}"  (keyup)="keyup_field_email_agency('agency', '')">
+                            <!-- MESSAGE E-MAIL FORM AGENCY FROM BACK -->
+                            <template [ngIf]="_edit_agencies.email_new == ''">
+                                  <span id="tool-error-email" class="with-errors-text">{{_edit_agencies.message_email}}</span>
+                            </template>
+
+                            <template [ngIf]="_edit_agencies.field_error == 'email'">
+                                <span class="with-errors-text">{{_edit_agencies.message_email}}</span>
+                            </template>
+                            
+                            <!-- MESSAGE VALIDATION E-MAIL FORM AGENCY FROM FRONT -->
+                            <template [ngIf]="_edit_agencies.validation_email_filter == false">
+                                <span class="with-errors-text">This value should be a valid email.</span>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label for="tax">Tax / EIN Number</label>
+                            <input type="text" [(ngModel)]="_edit_agencies.tax_number_new" value="{{_edit_agencies.tax_number}}" name="tax" id="tax" class="form-control">
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="licence-number">Licence Number</label>
+                            <input type="text" [(ngModel)]="_edit_agencies.license_number_new" value="{{_edit_agencies.license_number}}" name="licence-number" id="licence-number" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SEARCH AND RESULTS -->
+            <div class="row search-and-results">
+                <div class="col-xs-12 grey-heading d-flex align-items-center justify-content-center">
+                    <h3 class="title3">Search and results</h3>
+                </div>
+                <!-- Error specific Message if the fields Cut-offs is incorrect from Front-End (Agency Detail) -->
+                <template [ngIf]="_edit_agencies.field_error == 'cutoff_hotel_days' || _edit_agencies.field_error == 'cutoff_attraction_days' || _edit_agencies.field_error == 'cutoff_transfer_days' || _edit_agencies.field_error == 'cutoff_car_days' || _edit_agencies.field_error == 'cutoff_cruise_days' || _edit_agencies.field_error == 'cutoff_flight_days' || _edit_agencies.field_error == 'cutoff_package_days' || _edit_agencies.field_error == 'cutoff_insurance_days'">
+                </template>
+
+                <!-- RADIO BUTTONS -->
+                <div class="col-xs-4">
+                    <div class="handle-bookings">
+                        <h6>Show results if agency is in cut-off?</h6>
+                        <!-- Radio Button Show results if agency is in cut-off? (YES) -->
+                        <div class="radios">
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="show" id="yes" class="custom-control-input" (click)="change_state_cutoff(true)" [attr.checked]="_edit_agencies.show_result_cutoff == true ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Yes</span>
+                            </label>
+                        </div>
+                        <!-- Radio Button Show results if agency is in cut-off? (NO) -->
+                        <div class="radios">
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="show" id="no" class="custom-control-input" (click)="change_state_cutoff(false)" [attr.checked]="_edit_agencies.show_result_cutoff == false ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">No</span>
+                            </label>
+                        </div>
+
+                        <!-- Radio Button How to handle bookings in cut-off? (YES and NO) OPTION 1, 2, 3, 4 y 5 -->
+                        <h6>How to handle bookings in cut-off?</h6>
+                        <div class="radios">
+                            <label class="custom-control custom-radio">
+                                    <input type="radio" name="handle-bookings" id="allow-without-payment" class="custom-control-input" (click)="change_state_bookings(1)" [attr.checked]="_edit_agencies.how_handle_bookings_cutoff == 1 ? true : null">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Allow to book without payment</span>
+                                </label>
+                            <label class="custom-control custom-radio">
+                                    <input type="radio" name="handle-bookings" id="require-payment" class="custom-control-input" (click)="change_state_bookings(2)" [attr.checked]="_edit_agencies.how_handle_bookings_cutoff == 2 ? true : null">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Require a payment</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                                    <input type="radio" name="handle-bookings" id="require-payment-or-credit" class="custom-control-input" (click)="change_state_bookings(3)" [attr.checked]="_edit_agencies.how_handle_bookings_cutoff == 3 ? true : null">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Require a payment or use credit</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                                    <input type="radio" name="handle-bookings" id="book-on-request" class="custom-control-input" (click)="change_state_bookings(4)" [attr.checked]="_edit_agencies.how_handle_bookings_cutoff == 4 ? true : null">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Book on request</span>
+                                </label>
+                            <label class="custom-control custom-radio">
+                                    <input type="radio" name="handle-bookings" id="booking-not-allowed" class="custom-control-input" (click)="change_state_bookings(5)" [attr.checked]="_edit_agencies.how_handle_bookings_cutoff == 5 ? true : null">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Booking is not allowed</span>
+                            </label>
+                        </div>
+
+                        <h6>What status should the agency see during cut-off for available options?</h6>
+                        <!-- Radio Button What status should... (YES) -->
+                        <div class="radios">
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="status-should" id="available" class="custom-control-input" (click)="change_state_avaible_agency(true)" [attr.checked]="_edit_agencies.status_avail_agency_cutoff == true ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Available</span>
+                            </label>
+                        </div>
+                        <!-- Radio Button What status should... (NO) -->
+                        <div class="radios">
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="status-should" id="on-request" class="custom-control-input" (click)="change_state_avaible_agency(false)" [attr.checked]="_edit_agencies.status_avail_agency_cutoff == false ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">On Request</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION CUT-OFF -->
+                <div class="col-xs-4">
+                    <div class="cut-off">
+                        <div class="grey-heading d-flex align-items-center justify-content-center">
+                            <h3 class="title3">Cut-off</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 center inputs-groups-wrapper">
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="hotel"><i class="fa fa-bed" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="days-hotel" name="hotel" [(ngModel)]="_edit_agencies.cutoff_hotel_days_new" value="{{_edit_agencies.cutoff_hotel_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_hotel == 'cutoff_hotel_days'}"
+                                                    (focus)="focus_hotel()" (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_hotel == 'cutoff_hotel_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Hotel from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_hotel}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="attraction"><i class="fa fa-ticket" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="attraction" name="attraction" [(ngModel)]="_edit_agencies.cutoff_attraction_days_new" value="{{_edit_agencies.cutoff_attraction_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_attrac == 'cutoff_attraction_days'}"
+                                                    (focus)="focus_attrac()" (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_attrac == 'cutoff_attraction_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Attraction from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_attrac}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="transfer"><i class="fa fa-bus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="transfer" name="transfer" [(ngModel)]="_edit_agencies.cutoff_transfer_days_new" value="{{_edit_agencies.cutoff_transfer_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_transfer == 'cutoff_transfer_days'}"
+                                                    (focus)="focus_transfer()" (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_transfer == 'cutoff_transfer_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Attraction from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_transfer}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="car"><i class="fa fa-car" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="car" name="car" [(ngModel)]="_edit_agencies.cutoff_car_days_new" value="{{_edit_agencies.cutoff_car_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_car == 'cutoff_car_days'}" (focus)="focus_car()"
+                                                    (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_car == 'cutoff_car_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Attraction from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_car}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="flight"><i class="fa fa-plane" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Flight"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="flight" name="flight" [(ngModel)]="_edit_agencies.cutoff_flight_days_new" value="{{_edit_agencies.cutoff_flight_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_flight == 'cutoff_flight_days'}"
+                                                    (focus)="focus_flight()" (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_flight == 'cutoff_flight_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Attraction from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_flight}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="insurance"><i class="fa fa-shield" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="insurance" name="insurance" [(ngModel)]="_edit_agencies.cutoff_insurance_days_new" value="{{_edit_agencies.cutoff_insurance_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_insurance == 'cutoff_insurance_days'}"
+                                                    (focus)="focus_insurance()" (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_insurance == 'cutoff_insurance_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Attraction from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_insurance}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="cruise"><i class="fa fa-ship" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="cruise" name="cruise" [(ngModel)]="_edit_agencies.cutoff_cruise_days_new" value="{{_edit_agencies.cutoff_cruise_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_cruise == 'cutoff_cruise_days'}"
+                                                    (focus)="focus_cruise()" (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_cruise == 'cutoff_cruise_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Attraction from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_cruise}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-xs-3 text-center">
+                                            <label for="package"><i class="fa fa-th" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Package"></i></label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <div class="input-group input-group-lg">
+                                                <input type="text" class="form-control" id="package" name="package" [(ngModel)]="_edit_agencies.cutoff_package_days_new" value="{{_edit_agencies.cutoff_package_days}}" [ngClass]="{'border-errors': _edit_agencies.field_error_pack == 'cutoff_package_days'}"
+                                                    (focus)="focus_pack()" (blur)="blur_name()">
+                                                <span class="input-group-addon">DAYS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template [ngIf]="_edit_agencies.field_error_pack == 'cutoff_package_days'">
+                                        <div class="col-xs-9 col-xs-offset-3">
+                                            <!-- Message Error for field Attraction from Backend -->
+                                            <span id="tool-error-days" class="with-errors-text">{{_edit_agencies.message_cutoff_days_package}}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- LOADING ICON GIF -->
+                    <div class="load"></div>
+                </div>
+
+                <!-- Radio Button How to handle avaible bookings? (YES and NO) OPTION 1, 2, 3, 4 y 5 -->
+                <div class="col-xs-4">
+                    <div class="handle-bookings">
+                        <h6>How to handle avaible bookings?</h6>
+                        <div class="radios">
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="handle-books" id="without-payment" class="custom-control-input" (click)="change_state_avaible_book(1)" [attr.checked]="_edit_agencies.how_handle_available_bookings == 1 ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Allow to book without payment</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="handle-books" id="require-payment-avaible" class="custom-control-input" (click)="change_state_avaible_book(2)" [attr.checked]="_edit_agencies.how_handle_available_bookings == 2 ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Require a payment</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="handle-books" id="require-pay-avaible" class="custom-control-input" (click)="change_state_avaible_book(3)" [attr.checked]="_edit_agencies.how_handle_available_bookings == 3 ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Require a payment or use credit</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="handle-books" id="book-on-request-avaible" class="custom-control-input" (click)="change_state_avaible_book(4)" [attr.checked]="_edit_agencies.how_handle_available_bookings == 4 ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Book on request</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                                <input type="radio" name="handle-books" id="book-is-not-allowed" class="custom-control-input" (click)="change_state_avaible_book(5)" [attr.checked]="_edit_agencies.how_handle_available_bookings == 5 ? true : null">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Booking is not allowed</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row credit-agency-detail">
+                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                        <h3 class="title3">Credit</h3>
+                    </div>
+                </div>
+                <div class="col-xs-12 center">
+                    <div class="row justify-content-center align-items-end">
+                        <div class="col-xs-2">
+                            <label for="credit">Credit</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center">
+                                        USD
+                                    </button>
+
+                                </div><!-- END OF INPUT GROUP BUTTON -->  
+                                <input type="text" value="{{_edit_agencies.credit}}" name="credit" id="credit-new" class="form-control credit-new" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': _edit_agencies.validation_credit == false}" [(ngModel)]="_edit_agencies.credit_new" (focus)="focus_credit()" (blur)="blur_name()" (keyup)="keyup_fields_credit('credit')">
+                            </div><!-- END OF INPUT GROUP -->
+                            <!-- MESSAGES ERROR FIELD CREDIT from BACK -->
+                            <template [ngIf]="_edit_agencies.credit_new == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_credit}}</span>
+                            </template>
+
+                            <template [ngIf]="_edit_agencies.field_error == 'credit'">
+                                <span class="with-errors-text">{{_edit_agencies.message_credit}}</span>
+                            </template>
+
+                            <!-- MESSAGE VALIDATION FIELD CREDIT FROM FRONT -->
+                            <template [ngIf]="_edit_agencies.validation_credit == false">
+                                <span class="with-errors-text">Invalid field.</span>
+                            </template>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <label for="credit">Used</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center">
+                                        USD
+                                    </button>
+                                </div><!-- END OF INPUT GROUP BUTTON -->
+                                <input type="text" value="{{_edit_agencies.credit_used}}" name="credit" id="credit-used" class="form-control credit-used" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': _edit_agencies.validation_credit_used == false}" [(ngModel)]="_edit_agencies.credit_used_new" (focus)="focus_credit_used()" (blur)="blur_name()" (keyup)="keyup_fields_credit('credit-used')">
+                            </div><!-- END OF INPUT GROUP -->
+                            <!-- MESSAGES ERROR FIELD CREDIT USED from BACK -->
+                            <template [ngIf]="_edit_agencies.credit_used_new == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_credit_used}}</span>
+                            </template>
+
+                            <template [ngIf]="_edit_agencies.field_error == 'credit_used'">
+                                <span class="with-errors-text">{{_edit_agencies.message_credit_used}}</span>
+                            </template>
+
+                            <!-- MESSAGE VALIDATION FIELD CREDIT USED FROM FRONT -->
+                            <template [ngIf]="_edit_agencies.validation_credit_used == false">
+                                <span class="with-errors-text">Invalid field.</span>
+                            </template>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <label for="credit">Tolerance</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle d-flex justify-content-center align-items-center">
+                                        USD
+                                    </button>
+                                </div><!-- END OF INPUT GROUP BUTTON -->
+                                <input type="text" value="{{_edit_agencies.credit_tolerance}}" name="credit" id="credit-tolerance" class="form-control credit-tolerance" pattern="^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" [ngClass]="{'border-errors': _edit_agencies.validation_credit_tolerance == false}" [(ngModel)]="_edit_agencies.credit_tolerance_new" (focus)="focus_credit_tolerance()" (blur)="blur_name()" (keyup)="keyup_fields_credit('credit-tolerance')">
+                            </div><!-- END OF INPUT GROUP -->
+                            <!-- MESSAGES ERROR FIELD CREDIT from BACK -->
+                            <template [ngIf]="_edit_agencies.credit_tolerance_new == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_credit_tolerance}}</span>
+                            </template>
+
+                            <template [ngIf]="_edit_agencies.field_error == 'credit_tolerance'">
+                                <span class="with-errors-text">{{_edit_agencies.message_credit_tolerance}}</span>
+                            </template>
+
+                            <!-- MESSAGE VALIDATION FIELD CREDIT FROM FRONT -->
+                            <template [ngIf]="_edit_agencies.validation_credit_tolerance == false">
+                                <span class="with-errors-text">Invalid field.</span>
+                            </template>
+                        </div>
+                        
+                        <div class="col-xs-4">
+                            <div class="notification">
+                                <p class="small-italic">Tolerance is the allowable amount of variation above the available Credit that Agency has when making a booking.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                    <button type="button" class="btn-grey-transparent-md" (click)="cancel_edit_form_agency( i, _edit_agencies.name, _edit_agencies.name_legal, _edit_agencies.email,  _edit_agencies.tax_number, _edit_agencies.phone_number, _edit_agencies.city_code, _edit_agencies.address, _edit_agencies.zip, _edit_agencies.license_number,  _edit_agencies.cutoff_hotel_days, _edit_agencies.cutoff_attraction_days, _edit_agencies.cutoff_transfer_days,  _edit_agencies.cutoff_car_days, _edit_agencies.cutoff_cruise_days, _edit_agencies.cutoff_flight_days, _edit_agencies.cutoff_package_days, _edit_agencies.cutoff_insurance_days, _edit_agencies.show_result_cutoff,  _edit_agencies.how_handle_bookings_cutoff, _edit_agencies.status_avail_agency_cutoff, _edit_agencies.how_handle_available_bookings, _edit_agencies.credit_new, _edit_agencies.credit_used_new, _edit_agencies.credit_tolerance_new)">Cancel</button>
+                    <div class="dropdown">
+                        <button class="btn-red-md dropdown-toggle" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Save Changes <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="save-dorpdown">
+                            <li (click)="save_agency_detail(false)"><a>Save</a></li>
+                            <li (click)="save_agency_detail(true)"><a>Save & send Update</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message if there is not results from Back-End (Agency Detail) -->
+            <div class="row">
+                <template [ngIf]="_edit_agencies.updated_form == true">
+                    <div class="success-alert center d-flex align-items-center" id="success-alert">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                    </div>
+                </template>
+            </div>
+
+            <!-- General Error Message from Back-End (Agency Detail) 1er Request -->
+            <template [ngIf]="_edit_agencies.general_error_agencies != ''">
+                <div class="row">
+                    <div class="danger-alert center d-flex align-items-center">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>{{_edit_agencies.general_error_agencies}}</p>
+                    </div>
+                </div>
+            </template>
+
+            <!-- EXTERNAL PROVIDERS -->
+            <div class="row external-providers">
+                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                        <h3 class="title3">External providers</h3>
+                    </div>
+                </div>
+                <!-- General Error Message from Back-End (External Providers) -->
+                <template [ngIf]="_edit_agencies.general_error_ext_prov != ''">
+                    <div class="col-xs-12">
+                        <div class="danger-alert center d-flex align-items-center" id="danger-alert-prov">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p>{{_edit_agencies.general_error_ext_prov}}</p>
+                        </div>
+                    </div>
+                </template>
+                <!-- EXTERNAL PROVIDERS TABLE -->
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_edit_agencies.count_prov != 0">
+                        <tr>
+                            <th>Name</th>
+                            <th class="text-center"><i class="fa fa-bed" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i></th>
+                            <th class="text-center"><i class="fa fa-ticket" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i></th>
+                            <th class="text-center"><i class="fa fa-bus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i></th>
+                            <th class="text-center"><i class="fa fa-car" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i></th>
+                            <th class="text-center"><i class="fa fa-plane" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Air"></i></th>
+                            <th class="text-center"><i class="fa fa-shield" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i></th>
+                            <th class="text-center"><i class="fa fa-ship" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i></th>
+                            <th class="text-center"><i class="fa fa-th" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Packages"></i></th>
+
+                        </tr>
+                    </template>
+                    <template ngFor let-prov [ngForOf]="_edit_agencies.list_external_providers" let-i="index">
+                        <tr>
+                        <!--<tr *ngFor="let prov of _edit_agencies.list_external_providers; let i=index">-->
+                            <td>{{prov.name}}</td>
+
+                            <template ngFor let-toggle [ngForOf]="prov.status_services" let-x="index">
+                                <!-- Icon Hotel -->
+                                <template [ngIf]="toggle.service_type_code == 1 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                        <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+
+                            <!-- Icon Attraction -->
+                            <template [ngIf]="toggle.service_type_code == 2 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                        <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+
+                            <!-- Icon Transfer -->
+                            <template [ngIf]="toggle.service_type_code == 3 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                        <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+
+                            <!-- Icon Car -->
+                            <template [ngIf]="toggle.service_type_code == 7 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                        <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+
+                            <!-- Icon Air -->
+                            <template [ngIf]="toggle.service_type_code == 9 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                        <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+
+                            <!-- Icon Insurance -->
+                            <template [ngIf]="toggle.service_type_code == 11 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                        <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+
+                            <!-- Icon Cruise -->
+                            <template [ngIf]="toggle.service_type_code == 8 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                        <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+
+                            <!-- Icon Packages -->
+                            <template [ngIf]="toggle.service_type_code == 10 ">
+                                    <td class="text-center" (click)="enabled_disabled_toggles(prov.id, toggle.service_type_code, toggle.status, i, x, toggle.service_type_name)">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                            'fa-toggle-off': toggle.status==0,
+                                            'untoggled-icon': toggle.status==0,
+                                            'fa-toggle-on': toggle.status==1,
+                                            'toggled-icon': toggle.status==1,
+                                            'fa-times': toggle.status==2,
+                                            'unchecked-icon': toggle.status==2
+                                        }"></i>
+                                    </td>
+                                </template>
+                            </template>
+                        </tr>
+                    </template>
+                </table>
+
+                <!-- Notification Message if there is not results from Front-End (Table Ext. Providers) -->
+                <template [ngIf]="_edit_agencies.count_prov == 0">
+                    <div class="info-alert center d-flex align-items-center">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>Sorry, we couldn't find any results that met your search criteria.</p>
+                    </div>
+                </template>
+            </div>
+
+            <!-- NOTIFICATION RULES TITLE -->
+            <div class="row notification-rules">
+                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                        <h3 class="title3">Notification rules</h3>
+                    </div>
+                    <div class="col-xs-3 d-flex align-items-center justify-content-end">
+                        <button type="button" class="btn-blue-lg">New Notification Rule</button>
+                    </div>
+                </div>
+                <!-- General Error Message from Back-End (Notification Rules) -->
+                <template [ngIf]="_edit_agencies.general_error_not_rules != ''">
+                    <div class="col-xs-12">
+                        <div class="danger-alert center d-flex align-items-center" id="danger-alert-not">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p>{{_edit_agencies.general_error_not_rules}}</p>
+                        </div>
+                    </div>
+                </template>
+                <!-- NOTIFICATION RULES TABLE -->
+                <table class="table short-table table-striped table-hover">
+                    <template [ngIf]="_edit_agencies.count_not != 0">
+                        <tr>
+                            <th>Admin</th>
+                            <th class="text-center"><i class="fa fa-bed" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Hotel"></i></th>
+                            <th class="text-center"><i class="fa fa-ticket" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Attraction"></i></th>
+                            <th class="text-center"><i class="fa fa-bus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transfer"></i></th>
+                            <th class="text-center"><i class="fa fa-car" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Car"></i></th>
+                            <th class="text-center"><i class="fa fa-plane" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Air"></i></th>
+                            <th class="text-center"><i class="fa fa-shield" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Insurance"></i></th>
+                            <th class="text-center"><i class="fa fa-ship" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Cruise"></i></th>
+                            <th class="text-center"><i class="fa fa-th" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Packages"></i></th>
+                            <th class="text-center"><i class="fa fa-building-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Agency"></i></th>
+                            <th class="text-center"><i class="fa fa-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User"></i></th>
+                            <th class="text-center"><i class="fa fa-cog" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="System"></i></th>
+                            <th>Rule Name</th>
+                            <th class="short-th"></th>
+                            <th class="short-th"></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-not_rules [ngForOf]="_edit_agencies.list_notifications" let-i="index">
+                        <tr>
+                        <!--<tr *ngFor="let not_rules of _edit_agencies.list_notifications; let i=index">-->
+                            <td class="admin-td">
+                                <template ngFor let-admin [ngForOf]="not_rules.admins" let-x="index">
+                                {{admin}}
+                                </template>
+                            </td>
+                            <td class="text-center hotels">
+                                <i class="fa fa-check checked-icon" aria-hidden="true"></i>
+                            </td>
+                            <td class="text-center attractions">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.apply_to_attractions==true,
+                                    'checked-icon': not_rules.apply_to_attractions==true,
+                                    'fa-times': not_rules.apply_to_attractions==false,
+                                    'unchecked-icon': not_rules.apply_to_attractions==false
+                                }"></i>
+                            </td>
+                            <td class="text-center transfer">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.apply_to_transfers==true,
+                                    'checked-icon': not_rules.apply_to_transfers==true,
+                                    'fa-times': not_rules.apply_to_transfers==false,
+                                    'unchecked-icon': not_rules.apply_to_transfers==false
+                                }"></i>
+                            </td>
+                            <td class="text-center car">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.apply_to_cars==true,
+                                    'checked-icon': not_rules.apply_to_cars==true,
+                                    'fa-times': not_rules.apply_to_cars==false,
+                                    'unchecked-icon': not_rules.apply_to_cars==false
+                                }"></i>
+                            </td>
+                            <td class="text-center air">
+                                <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.apply_to_flights==true,
+                                    'checked-icon': not_rules.apply_to_flights==true,
+                                    'fa-times': not_rules.apply_to_flights==false,
+                                    'unchecked-icon': not_rules.apply_to_flights==false
+                                }"></i>
+                            </td>
+                            <td class="text-center insurance">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.apply_to_insurances==true,
+                                    'checked-icon': not_rules.apply_to_insurances==true,
+                                    'fa-times': not_rules.apply_to_insurances==false,
+                                    'unchecked-icon': not_rules.apply_to_insurances==false
+                                }"></i>
+                            </td>
+                            <td class="text-center cruise">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.apply_to_cruises==true,
+                                    'checked-icon': not_rules.apply_to_cruises==true,
+                                    'fa-times': not_rules.apply_to_cruises==false,
+                                    'unchecked-icon': not_rules.apply_to_cruises==false
+                                }"></i>
+                            </td>
+                            <td class="text-center package">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.apply_to_packages==true,
+                                    'checked-icon': not_rules.apply_to_packages==true,
+                                    'fa-times': not_rules.apply_to_packages==false,
+                                    'unchecked-icon': not_rules.apply_to_packages==false
+                                }"></i>
+                            </td>
+                            <td class="text-center agency">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.agency_event==true,
+                                    'checked-icon': not_rules.agency_event==true,
+                                    'fa-times': not_rules.agency_event==false,
+                                    'unchecked-icon': not_rules.agency_event==false
+                                }"></i>
+                            </td>
+                            <td class="text-center user">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.user_event==true,
+                                    'checked-icon': not_rules.user_event==true,
+                                    'fa-times': not_rules.user_event==false,
+                                    'unchecked-icon': not_rules.user_event==false
+                                }"></i>
+                            </td>
+                            <td class="text-center system">
+                                    <i class="fa" aria-hidden="true" [ngClass]="{
+                                    'fa-check': not_rules.system_event==true,
+                                    'checked-icon': not_rules.system_event==true,
+                                    'fa-times': not_rules.system_event==false,
+                                    'unchecked-icon': not_rules.system_event==false
+                                }"></i>
+                            </td>
+                            <td class="rule-name-td">{{not_rules.name}}</td>
+                            <td class="text-center" (mouseover)="mouseover_icons('#' + i + 'icon-edit')" (mouseleave)="mouseleave_icons()">
+                                <i id="{{i}}icon-edit" class="fa fa-pencil edit-icon" aria-hidden="true"></i>
+                            </td>
+                            <td class="text-center" (mouseover)="mouseover_icons('#' + i + 'icon-delete')" (mouseleave)="mouseleave_icons()">
+                                <template [ngIf]="not_rules.avail_remove == true">
+                                    <i id="{{i}}icon-delete" class="fa fa-trash-o delete-icon" aria-hidden="true" (click)="delete_not_rules(not_rules.code)"></i>
+                                </template>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+
+                <!-- Notification Message if there is not results from Front-End (Table Not. Rules) -->
+                <template [ngIf]="_edit_agencies.count_not == 0">
+                    <div class="info-alert center d-flex align-items-center">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>There are no notification rules for this agency.</p>
+                    </div>
+                </template>
+            </div>
+
+            <!-- USERS FORM -->
+            <div id="goUser" class="row users ">
+                <div class="col-xs-12 grey-heading d-flex align-items-center">
+                    <div class="col-xs-6 col-xs-offset-3 text-center">
+                        <h3 class="title3">Users</h3>
+                    </div>
+                    <div class="col-xs-3 d-flex align-items-center justify-content-end">
+                        <button type="button" id="new-user-button" class="btn-blue-lg" data-toggle="collapse" data-target="#newUser" (click)="get_data_users_new()">New User</button>
+                    </div>
+                </div>
+
+                <!-- Error specific Message if the field First name, Last name, and email is empty from Back-End (Form New User) -->
+                <template [ngIf]="_edit_agencies.only_error_new == true">
+                    <div class="danger-alert center d-flex align-items-center" id="danger-alert-user">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                    </div>
+                </template>
+
+                <!-- General Error Message from Back-End (Form New User) -->
+                <template [ngIf]="_edit_agencies.general_error_agencies_save != ''"> 
+                    <div class="danger-alert center d-flex align-items-center" id="danger-alert-user">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>{{_edit_agencies.general_error_agencies_save}}</p>
+                    </div>
+                </template>
+
+                <!-- FORM ADD NEW USER -->
+                <div id="newUser" class="col-xs-9 center collapse new-user">
+                    <div class="row">
+                        <div id="scrollToError" class="col-xs-4 form-group">
+                            <label for="first-name-new">First Name</label>
+                            <input type="text" name="first-name-new" id="first-name-new" class="form-control first-name-new" [(ngModel)]="_edit_agencies.first_name_new_user" (focus)="focus_new_user()" (blur)="blur_name()" (keyup)="clean_field()">
+                            <template [ngIf]="_edit_agencies.first_name_new_user == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_last_name_new_user}}</span>
+                            </template>
+                        </div>
+                        <div class="col-xs-4 form-group">
+                            <label for="middle-name-user">Middle Name <span>(optional)</span></label>
+                            <input type="text" name="middle-name-new" id="middle-name-new" class="form-control middle-name-new" [(ngModel)]="_edit_agencies.middle_name_new_user">
+                        </div>
+                        <div class="col-xs-4 form-group">
+                            <label for="last-name-new">Last Name</label>
+                            <input type="text" name="last-name-new" id="last-name-new" class="form-control last-name-new" [(ngModel)]="_edit_agencies.last_name_new_user" (focus)="focus_users(i)" (blur)="blur_name()" (keyup)="clean_field()">
+                            <template [ngIf]="_edit_agencies.last_name_new_user == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_last_name_new_user}}</span>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label for="office-phone-new">Office Phone</label>
+                            <input type="tel" name="office-phone-new" id="office-phone-new" class="form-control office-phone-new" [(ngModel)]="_edit_agencies.office_phone_new_user">
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="mobile-phone">Phone Number</label>
+                            <input type="tel" name="mobile-phone" id="mobile-phone-new" class="form-control mobile-phone-new" [(ngModel)]="_edit_agencies.mobile_phone_new_user">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 form-group">
+                            <label for="adress-new">Address</label>
+                            <input type="text" name="address-new" id="address-new" class="form-control address-new" [(ngModel)]="_edit_agencies.address_user_new_user">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 form-group">
+                            <label for="city-new">City</label>
+                            <input type="text" name="city-new" id="city-user-new" class="form-control" autocomplete="off" [(ngModel)]="_edit_agencies.relation_name_new_users" (click)="filter_city_name_click(_edit_agencies.relation_name_new_users, 'new-user', '', $event)" (keyup)="filter_city_name(_edit_agencies.relation_name_new_users, 'new-user', '', $event)">
+                            <!-- Message Error for field City from Front-End -->
+                            <template [ngIf]="_edit_agencies.state_validate_city_new_user == false && _edit_agencies.field_error_city == 'invalidNewUser'">
+                                <span id="tool-error-city" class="with-errors-text">No matches.</span>
+                            </template> 
+                            <!-- Message Error for field City from Backend -->
+                            <template [ngIf]="_edit_agencies.field_error_city == 'city'">
+                                <span id="tool-error-city" class="with-errors-text">{{_edit_agencies.message_city_new_user}}</span>
+                            </template>
+
+                            <!-- Autocomplete to Field City -->
+                            <!-- Show Scroll -->
+                            <template [ngIf]="_edit_agencies.filteredListCityNewUser.length > 6">              
+                                <div class="list-city" *ngIf="_edit_agencies.filteredListCityNewUser.length > 0">
+                                    <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _edit_agencies.filteredListCityNewUser; let x=index">
+                                        <li class="text-items-city{{x}}" (click)="select_city_user(i, item, _edit_agencies.list_of_codes_city[x], 'new-user')" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                            <a>{{item}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </template>
+
+                            <!-- Hide Scroll -->
+                            <template [ngIf]="_edit_agencies.filteredListCityNewUser.length <= 6">                          
+                                <div class="list-city2 autocomplete-list2" *ngIf="_edit_agencies.filteredListCityNewUser.length > 0">
+                                    <ul class="margin-city" id="margin-city{{x}}" *ngFor="let item of _edit_agencies.filteredListCityNewUser; let x=index">
+                                        <li class="text-items-city{{x}}" (click)="select_city_user(i, item, _edit_agencies.list_of_codes_city[x],'new-user')" (mouseover)='mouseover_color_text(".text-items-city" + x)' (mouseleave)='mouseleave_color_text(".text-items-city" + x)'>
+                                            <a>{{item}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </template>
+
+                            <!-- Message generic error for field City from Backend - Option REQUEST LIST AUTOCOMPLETE -->
+                            <div class="row message-gral-map" id="message-general-map" *ngIf="_edit_agencies.general_error_city != ''">
+                                <div id='arrow-tool-map' class='tooltip-arrow'></div>
+                                <div class="alert danger-alert alert-dismissible fade in generic-error" role="alert">
+                                    <i id='icon-generic-error' class='fa fa-times-circle' aria-hidden='true'></i>
+                                    <span>{{_edit_agencies.general_error_city}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 form-group">
+                            <label for="zip-new">Zip</label>
+                            <input type="text" name="zip-new" id="zip-new" class="form-control zip-new" [(ngModel)]="_edit_agencies.zip_new_user" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label for="email-new">E-mail</label>
+                            <input type="mail" name="email-new" id="email-new-user" class="form-control email-new-user" [(ngModel)]="_edit_agencies.email_new_user" (focus)="focus_new_user()" (blur)="blur_name()" [ngClass]="{'border-errors': _edit_agencies.validation_email_filter_new_users == false}" (keyup)="keyup_field_email_agency('new-user', '')">
+                            <!-- MESSAGE E-MAIL FORM NEW USER FROM BACK -->
+                            <template [ngIf]="_edit_agencies.email_new_user == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_last_name_new_user}}</span>
+                            </template>
+
+                            <template [ngIf]="_edit_agencies.error_email_new_user == 'email'">
+                                <span class="with-errors-text">{{_edit_agencies.message_last_name_new_user}}</span>
+                            </template>
+
+                            <!-- MESSAGE VALIDATION E-MAIL FORM NEW USER FROM FRONT -->
+                            <template [ngIf]="_edit_agencies.validation_email_filter_new_users == false">
+                                <span class="with-errors-text">This value should be a valid email.</span>
+                            </template>
+
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="password-new">Password</label>
+                            <input type="password" name="password-new" id="password-new" class="form-control password-new" [(ngModel)]="_edit_agencies.password_new_user" (focus)="focus_new_user()" (blur)="blur_name()" (keyup)="clean_field()">
+                            <template [ngIf]="_edit_agencies.password_new_user == ''">
+                                <span class="with-errors-text">{{_edit_agencies.message_last_name_new_user}}</span>
+                            </template>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <!-- SIMILAR RADIO BUTTONS -->
+                    <div class="row d-flex align-items-end btn-groups-wrapper">
+                        <div class="col-xs-3">
+                            <h5 class="title5">Is admin?</h5>
+                            <div class="btn-group" role="group" aria-label="...">
+                                <!-- Button Is admin? (YES) -->
+                                <template [ngIf]="_edit_agencies.is_admin_new_user == true">
+                                    <button type="button" class="btn btn-default active" id="yes-admin-new" (click)="change_state_is_admin_new_user(true)">Yes</button>
+                                    <button type="button" class="btn btn-default" id="no-admin-new" (click)="change_state_is_admin_new_user(false)">No</button>
+                                </template>
+                                <!-- Button Is admin? (NO) -->
+                                <template [ngIf]="_edit_agencies.is_admin_new_user == false">
+                                    <button type="button" class="btn btn-default" (click)="change_state_is_admin_new_user(true)">Yes</button>
+                                    <button type="button" class="btn btn-default active" (click)="change_state_is_admin_new_user(false)">No</button>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="title5">Type of prices to show</h5>
+                            <div class="btn-group" role="group" aria-label="...">
+                                <!-- Button Type of prices to show (COMISSIONABLE) -->
+                                <template [ngIf]="_edit_agencies.is_comissionable_new_user == true">
+                                    <button type="button" class="btn btn-default active" id="commissionable" (click)="change_state_is_comissionable_new_user(true)">Commissionable</button>
+                                    <button type="button" class="btn btn-default" id="net" (click)="change_state_is_comissionable_new_user(false)">Net</button>
+                                </template>
+                                <!-- Button Type of prices to show (NET) -->
+                                <template [ngIf]="_edit_agencies.is_comissionable_new_user == false">
+                                    <button type="button" class="btn btn-default" id="commissionable" (click)="change_state_is_comissionable_new_user(true)">Commissionable</button>
+                                    <button type="button" class="btn btn-default active" id="net" (click)="change_state_is_comissionable_new_user(false)">Net</button>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="col-xs-5">
+                            <h5 class="title5">How does this user <br> access the platform?</h5>
+                            <div class="btn-group" role="group" aria-label="...">
+                                <!-- Button How does this user... ( OPTION FRONT) -->
+                                <template [ngIf]="_edit_agencies.user_access_new_user == 1">
+                                    <button type="button" class="btn btn-default active" id="front" (click)="change_state_user_access_new_user(1)">Front</button>
+                                    <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access_new_user(2)">WebService</button>
+                                    <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access_new_user(3)">WhiteLabel</button>
+                                </template>
+
+                                <!-- Button How does this user... ( OPTION WEBSERVICE) -->
+                                <template [ngIf]="_edit_agencies.user_access_new_user == 2">
+                                    <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access_new_user(1)">Front</button>
+                                    <button type="button" class="btn btn-default active" id="web-service" (click)="change_state_user_access_new_user(2)">WebService</button>
+                                    <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access_new_user(3)">WhiteLabel</button>
+                                </template>
+
+                                <!-- Button How does this user... ( OPTION WHITELABEL) -->
+                                <template [ngIf]="_edit_agencies.user_access_new_user == 3">
+                                    <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access_new_user(1)">Front</button>
+                                    <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access_new_user(2)">WebService</button>
+                                    <button type="button" class="btn btn-default active" id="white-label" (click)="change_state_user_access_new_user(3)">WhiteLabel</button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row d-flex align-items-middle btn-groups-wrapper d-flex align-items-center">
+                        <div class="col-xs-6">
+                            <div class="checkbox abc-checkbox check-results d-flex align-items-center">
+                                <div class="icon-check" id="icon-check">
+                                    <input class="check-never check-table-users" name="options" id="checkbox" type="checkbox" [attr.checked]="_edit_agencies.never_disable_new_user == true ? true : null" (click)="change_checkbox_new()">
+                                    <label class="label-selected" attr.for="checkbox" for="checkbox"></label>
+                                </div>
+                                <h5 class="title5 title-never">Never disable this user</h5>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 form-group user-language-wrapper">
+                            <label for="language">Language</label>
+
+                            <!-- Dropdown field Language New User -->
+                            <div class="dropdown status-only">
+                                <button class="language-users dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <input type="text" name="language-new-user" id="language-new-user{{i}}" class="form-control language" autocomplete="off" [ngModel]="_edit_agencies.language_new_user" value="{{_edit_agencies.language_new_user_default}}" (click)="editing_language()">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" id="dropdownMenuUser" aria-labelledby="dropdownMenu2">
+                                    <li class="text-items-language{{i}}" *ngFor="let lan of _edit_agencies.language_name; let i=index" (click)="_edit_agencies.select_language_new_user(lan.name, lan.code)" (mouseover)='mouseover_color_text(".text-items-language" + i)' (mouseleave)='mouseleave_color_text(".text-items-language" + i)'>
+                                        <a>{{lan.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                            <button type="button" class="btn-grey-transparent-md" (click)="cancel_edit_form_new_user(_edit_agencies.first_name, _edit_agencies.middle_name, _edit_agencies.last_name, _edit_agencies.email, _edit_agencies.office_phone, _edit_agencies.mobile_phone, _edit_agencies.address, _edit_agencies.location_users, _edit_agencies.password, _edit_agencies.agency_code, _edit_agencies.is_admin, _edit_agencies.is_comissionable, _edit_agencies.user_access, _edit_agencies.never_disable, _edit_agencies.language)">Cancel</button>
+                            <div class="dropdown">
+                                <button class="btn-red-md dropdown-toggle" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Save New User <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="save-dropdown">
+                                    <li (click)="save_form_new_user(false)"><a>Save</a></li>
+                                    <li (click)="save_form_new_user(true)"><a>Save & send Update</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Message if there is not results from Back-End (New User) -->
+                <div class="col-xs-12">
+                    <template [ngIf]="_edit_agencies.updated_form == true">
+                        <div class="success-alert center d-flex align-items-center" id="success-alert-user-new">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- USERS TABLE -->
+                <table id="usersTable" class="table short-table table-striped table-hover">
+                    <template [ngIf]="_edit_agencies.count_users_data_table != 0">
+                        <tr>
+                            <th width="5">Name</th>
+                            <th width="5">Surname</th>
+                            <th width="10" class="text-right">Phone<br>Number</th>
+                            <th width="30">E-mail</th>
+                            <th width="5" class="location">Location</th>
+                            <th width="3" class="text-center"><i class="fa fa-shopping-cart" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Bookings"></i></th>
+                            <th width="7" class="text-center">Registered</th>
+                            <th width="3" class="text-center">Status</th>
+                            <th class="short-th"></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-users [ngForOf]="_edit_agencies.list_users" let-i="index">
+                        <tr (mouseover)='showEllipsisIcon(i)' (mouseleave)='hideEllipsisIcon()'>
+                            <td id="scrollToError{{i}}">{{users.first_name}}</td>
+                            <td>{{users.last_name}}</td>
+                            <td class="text-right">{{users.mobile_phone}}</td>                           
+                            <td class="nowrap-whitespace">{{users.email}}</td>
+                            <td class="normal-whitespace">{{users.location}}</td>                           
+                            <td class="text-center bookings">{{users.bookings}}</td>
+                            <td class="text-center">{{users.registered}}</td>
+
+                            <!-- NEW STATES TOGGLE -->
+                            <template [ngIf]="users.status == 1">
+                                <td class="text-center">
+                                    <div class="radio-wrapper disabled-toggle-icon center d-flex align-items-center" (click)="enabled_disabled_toggles_users(2, users.code, i)">
+                                        <span for="isDisabled"></span>
+                                    </div>
+                                </td>
+                            </template>
+                            <!-- SUSPENDED USER -->
+                            <template [ngIf]="users.status == 2">
+                                <td class="text-center">
+                                    <div class="radio-wrapper suspended-toggle-icon center d-flex align-items-center" (click)="enabled_disabled_toggles_users(3, users.code, i)">
+                                        <span for="isDisabled"></span>
+                                    </div>
+                                </td>
+                            </template>
+                            <template [ngIf]="users.status == 3">
+                                <td class="text-center">
+                                    <div class="radio-wrapper enabled-toggle-icon center d-flex align-items-center" (click)="enabled_disabled_toggles_users(1, users.code, i)">
+                                        <span for="isDisabled"></span>
+                                    </div>
+                                </td>
+                            </template>
+
+                            <!--<td class="text-center" (mouseover)="mouseover_icons('#' +  i + 'icon-edit-user')" (mouseleave)="mouseleave_icons()">
+                                <i id="{{i}}icon-edit-user" class="fa fa-pencil edit-icon" aria-hidden="true" (click)="get_data_users_form(users.code, i)" [ngClass]="{'form-inline-users': !_edit_agencies.remove_class[i]}"></i>
+                            </td>
+                            <td class="text-center" (mouseover)="mouseover_icons('#' + i + 'icon-delete-user')" (mouseleave)="mouseleave_icons()">
+                                <i id="{{i}}icon-delete-user" class="fa fa-trash-o delete-icon" aria-hidden="true"></i>
+                            </td>-->
+                            <td class="text-center folder-td-wrapper" (mouseleave)="removeOpenedEllipsis(i)">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <div class="ellipsis-wrapper center" id="fixed-ellipsis-users" [ngClass]="{'form-inline-users': !_edit_agencies.remove_class[i]}">
+                                            <div class="ellipsis" id="{{i}}ellipsisIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                                (click)="focusEllipsis(i)">
+                                                ...
+                                            </div>
+                                            <ul class="dropdown-menu" id="drop{{i}}" aria-labelledby="dorpdown">
+                                                <li>
+                                                    <a (click)="get_data_users_form(users.code, i)">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a>Forged Session</a>
+                                                </li> 
+                                                <li>
+                                                    <a>Activity log</a>
+                                                </li>
+                                                <li>
+                                                    <a>Add IFE</a>
+                                                </li>
+                                                <hr class="divider">
+                                                <li>
+                                                    <a>Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- FORM EDIT USERS EXIST -->
+                        <div class="inline-table-detail" id="form-inline-users{{i}}" [ngClass]="{'form-inline-users': _edit_agencies.remove_class[i]}">
+                            <td colspan="10" class="normal-whitespace edit-user-td">
+                                <div>
+                                    <!-- Error specific Message if the field First name, Last name, and email is empty from Back-End (Agency Detail) -->
+                                    <template [ngIf]="_edit_agencies.only_error[i] == true">
+                                        <template [ngIf]="_edit_agencies.field_error_first_name == 'first_name' || _edit_agencies.field_error_last_name == 'last_name' || _edit_agencies.field_error_email == 'email'">
+                                            <div class="danger-alert center d-flex align-items-center" [ngClass]="'danger-alert-user-exist'">
+                                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                                <p><span>Something isn't quite right</span>. Please check the errors indicated below and try saving again<span></span></p>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <div class="row edit-tr-container">
+                                        <div class="col-xs-9 center edit-user">
+                                            <div class="row">
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="first-name">First Name</label>
+                                                    <input type="text" name="first-name" id="first-name{{i}}" class="form-control first-name" [(ngModel)]="_edit_agencies.first_name_new[i]" value="{{_edit_agencies.first_name_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()" (keyup)="clean_field()">
+                                                    <template [ngIf]="_edit_agencies.only_error[i] == true"> 
+                                                        <template [ngIf]="_edit_agencies.first_name_new[i] == ''">
+                                                            <span class="with-errors-text">{{_edit_agencies.message_name}}</span>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="middle-name">Middle Name <span>(optional)</span></label>
+                                                    <input type="text" name="middle-name" id="middle-name{{i}}" class="form-control middle-name" [(ngModel)]="_edit_agencies.middle_name_new[i]" value="{{_edit_agencies.middle_name_data_form[i]}}">
+                                                </div>
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="last-name">Last Name</label>
+                                                    <input type="text" name="last-name" id="last-name{{i}}" class="form-control last-name" [(ngModel)]="_edit_agencies.last_name_new[i]" value="{{_edit_agencies.last_name_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()" (keyup)="clean_field()">
+                                                    <template [ngIf]="_edit_agencies.only_error[i] == true">
+                                                        <template [ngIf]="_edit_agencies.last_name_new[i] == ''">
+                                                            <span class="with-errors-text">{{_edit_agencies.message_name}}</span>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="office-phone">Office Phone</label>
+                                                    <input type="text" name="office-phone" id="office-phone{{i}}" class="form-control office-phone" [(ngModel)]="_edit_agencies.office_phone_new[i]" value="{{_edit_agencies.office_phone_data_form[i]}}">
+                                                </div>
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="mobile-phone">Phone Number</label>
+                                                    <input type="text" name="mobile-phone" id="mobile-phone{{i}}" class="form-control mobile-phone" [(ngModel)]="_edit_agencies.mobile_phone_new[i]" value="{{_edit_agencies.mobile_phone_data_form[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 form-group">
+                                                    <label for="adress">Address</label>
+                                                    <input type="text" name="adress" id="address-user{{i}}" class="form-control address-user" [(ngModel)]="_edit_agencies.address_user_new[i]" value="{{_edit_agencies.address_data_form[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-8 form-group">
+                                                    <label for="city">City</label>
+                                                    <input type="text" name="city" id="city-user{{i}}" class="form-control" autocomplete="off" [(ngModel)]="_edit_agencies.relation_name_users[i]" value="{{_edit_agencies.location_data_form[i]}}" (click)="filter_city_name_click(_edit_agencies.relation_name_users[i], 'users', i, $event)"
+                                                        (keyup)="filter_city_name(_edit_agencies.relation_name_users[i], 'users', i, $event)">
+                                                    <!-- Message Error for field City from Front-End -->
+                                                    <template [ngIf]="_edit_agencies.state_validate_city_user_exist == false && _edit_agencies.field_error_city == 'invalidUserExist'">
+                                                      <span id="tool-error-city" class="with-errors-text">No matches.</span>
+                                                    </template> 
+                                                    <template [ngIf]="_edit_agencies.field_error_city == 'city'">
+                                                        <span id="tool-error-city" class="with-errors-text">{{_edit_agencies.message_city_save}}</span>
+                                                    </template> 
+                                                    <template [ngIf]="_edit_agencies.field_city_user[i] == 'city'">
+                                                        <span id="tool-error-city-auto" class="with-errors-text">{{_edit_agencies.message_city_user[i]}}</span>
+                                                    </template>
+
+                                                    <!-- Autocomplete to Field City -->
+                                                    <!-- Show Scroll -->
+                                                    <template [ngIf]="_edit_agencies.filteredListCityUser > 6">
+                                                        <div class="list-city" *ngIf="_edit_agencies.filteredListCityUser > 0">
+                                                            <ul class="margin-city" id="margin-city{{z}}" *ngFor="let item of _edit_agencies.filteredListCityUser; let z=index">
+                                                                <li class="text-items-city{{z}}" (click)="select_city_user(i, item, _edit_agencies.list_of_codes_city[z],'users')" (mouseover)='mouseover_color_text(".text-items-city" + z)' (mouseleave)='mouseleave_color_text(".text-items-city" + z)'>
+                                                                    <a>{{item}}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+
+                                                    <!-- Hide Scroll -->
+                                                    <template [ngIf]="_edit_agencies.length_of_filteredList[i] <= 6">
+                                                        <div class="list-city2 autocomplete-list2" *ngIf="_edit_agencies.length_of_filteredList[i] > 0">
+                                                            <ul class="margin-city" id="margin-city{{z}}" *ngFor="let item of _edit_agencies.filteredListCityUser[i]; let z=index">
+                                                                <li class="text-items-city{{z}}" (click)="select_city_user(i,item, _edit_agencies.list_of_codes_city[z],'users')" (mouseover)='mouseover_color_text(".text-items-city" + z)' (mouseleave)='mouseleave_color_text(".text-items-city" + z)'>
+                                                                    <a>{{item}}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+
+                                                    <!-- Message generic error for field City from Backend - Option REQUEST LIST AUTOCOMPLETE -->
+                                                    <div class="row message-gral-map" id="message-general-map" *ngIf="_edit_agencies.general_error_city != ''">
+                                                        <div id='arrow-tool-map' class='tooltip-arrow'></div>
+                                                        <div class="alert danger-alert alert-dismissible fade in generic-error" role="alert">
+                                                            <i id='icon-generic-error' class='fa fa-times-circle' aria-hidden='true'></i>
+                                                            <span>{{_edit_agencies.general_error_city}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 form-group">
+                                                    <label for="zip">Zip</label>
+                                                    <input type="text" name="zip{{i}}" id="zip-user{{i}}" class="form-control zip-user" [(ngModel)]="_edit_agencies.zip_user_new[i]" value="{{_edit_agencies.zip_data_form[i]}}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="email">E-mail</label>
+                                                    <input type="text" name="email" id="email-user{{i}}" class="form-control email-user" [(ngModel)]="_edit_agencies.email_user_new[i]" value="{{_edit_agencies.email_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()" [ngClass]="{'border-errors': _edit_agencies.validation_email_filter_users[i] == false}" (keyup)="keyup_field_email_agency('users', i)">
+                                                    <!-- MESSAGE VALIDATION E-MAIL FORM USER EXIST FROM BACK -->
+                                                    <template [ngIf]="_edit_agencies.only_error[i] == true">
+                                                        <template [ngIf]="_edit_agencies.email_user_new[i] == ''">
+                                                            <span class="with-errors-text">{{_edit_agencies.message_name}}</span>
+                                                        </template>
+
+                                                        <template [ngIf]="_edit_agencies.field_error_email == 'email'">
+                                                            <span class="with-errors-text">{{_edit_agencies.message_name}}</span>
+                                                        </template>
+                                                    </template>
+                    
+                                                    <!-- MESSAGE VALIDATION E-MAIL FORM USER EXIST FROM FRONT -->
+                                                    <template [ngIf]="_edit_agencies.validation_email_filter_users[i] == false">
+                                                        <span class="with-errors-text">This value should be a valid email.</span>
+                                                    </template>
+                                                </div>
+                                                <div class="col-xs-6 form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" name="password" id="password{{i}}" class="form-control password" [(ngModel)]="_edit_agencies.password_new[i]" value="{{_edit_agencies.password_data_form[i]}}" (focus)="focus_users(i)" (blur)="blur_name()">
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <!-- SIMIL RADIO BUTTONS -->
+                                            <div class="row d-flex align-items-end btn-groups-wrapper">
+                                                <div class="col-xs-3">
+                                                    <h5 class="title5">Is admin?</h5>
+                                                    <div class="btn-group" role="group" aria-label="...">
+                                                        <!-- Button Is admin? (YES) -->
+                                                        <template [ngIf]="_edit_agencies.is_admin_data_form[i] == true">
+                                                            <button type="button" class="btn btn-default active" id="yes-admin" (click)="change_state_is_admin(true, i)">Yes</button>
+                                                            <button type="button" class="btn btn-default" id="no-admin" (click)="change_state_is_admin(false, i)">No</button>
+                                                        </template>
+                                                        <!-- Button Is admin? (NO) -->
+                                                        <template [ngIf]="_edit_agencies.is_admin_data_form[i] == false">
+                                                            <button type="button" class="btn btn-default" id="yes-admin" (click)="change_state_is_admin(true, i)">Yes</button>
+                                                            <button type="button" class="btn btn-default active" id="no-admin" (click)="change_state_is_admin(false, i)">No</button>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <h5 class="title5">Type of prices to show</h5>
+                                                    <div class="btn-group" role="group" aria-label="...">
+                                                        <!-- Button Type of prices to show (COMISSIONABLE) -->
+                                                        <template [ngIf]="_edit_agencies.is_comissionable_data_form[i] == true">
+                                                            <button type="button" class="btn btn-default active" id="commissionable" (click)="change_state_is_comissionable(true, i)">Commissionable</button>
+                                                            <button type="button" class="btn btn-default" id="net" (click)="change_state_is_comissionable(false, i)">Net</button>
+                                                        </template>
+                                                        <!-- Button Type of prices to show (NET) -->
+                                                        <template [ngIf]="_edit_agencies.is_comissionable_data_form[i] == false">
+                                                            <button type="button" class="btn btn-default" id="commissionable" (click)="change_state_is_comissionable(true, i)">Commissionable</button>
+                                                            <button type="button" class="btn btn-default active" id="net" (click)="change_state_is_comissionable(false, i)">Net</button>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <!-- Button How does this user... ( OPTION ADMIN) -->
+                                                    <template [ngIf]="_edit_agencies.user_access_data_form[i] == 4">
+                                                        <h5 class="title5 admin">User Admin</h5>
+                                                    </template>
+                                                    <template [ngIf]="_edit_agencies.user_access_data_form[i] == 1 || _edit_agencies.user_access_data_form[i] == 2 || _edit_agencies.user_access_data_form[i] == 3">
+                                                        <h5 class="title5">How does this user <br>access the platform?</h5>
+                                                    </template>
+                                                    <div class="btn-group" role="group" aria-label="...">
+                                                        <!-- Button How does this user... ( OPTION FRONT) -->
+                                                        <template [ngIf]="_edit_agencies.user_access_data_form[i] == 1">
+                                                            <button type="button" class="btn btn-default active" id="front" (click)="change_state_user_access(1, i)">Front</button>
+                                                            <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access(2, i)">WebService</button>
+                                                            <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access(3, i)">WhiteLabel</button>
+                                                        </template>
+
+                                                        <!-- Button How does this user... ( OPTION WEBSERVICE) -->
+                                                        <template [ngIf]="_edit_agencies.user_access_data_form[i] == 2">
+                                                            <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access(1, i)">Front</button>
+                                                            <button type="button" class="btn btn-default active" id="web-service" (click)="change_state_user_access(2, i)">WebService</button>
+                                                            <button type="button" class="btn btn-default" id="white-label" (click)="change_state_user_access(3, i)">WhiteLabel</button>
+                                                        </template>
+
+                                                        <!-- Button How does this user... ( OPTION WHITELABEL) -->
+                                                        <template [ngIf]="_edit_agencies.user_access_data_form[i] == 3">
+                                                            <button type="button" class="btn btn-default" id="front" (click)="change_state_user_access(1, i)">Front</button>
+                                                            <button type="button" class="btn btn-default" id="web-service" (click)="change_state_user_access(2, i)">WebService</button>
+                                                            <button type="button" class="btn btn-default active" id="white-label" (click)="change_state_user_access(3, i)">WhiteLabel</button>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row d-flex align-items-middle btn-groups-wrapper d-flex align-items-center">
+                                                <div class="col-xs-6">
+                                                    <div class="checkbox abc-checkbox check-table d-flex align-items-center">
+                                                        <div class="icon-check" id="icon-check">
+                                                            <input class="check-never check-table-users" name="options" id="checkbox{{i}}" type="checkbox" [attr.checked]="_edit_agencies.never_disable_data_form[i] == true ? true : null" (click)="change_checkbox(i)">
+                                                            <label class="label-selected" attr.for="checkbox{{i}}"></label>
+                                                        </div>
+                                                        <h5 class="title5 title-never">Never disable this user</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 form-group user-language-wrapper">
+                                                    <label for="language">Language</label>
+
+                                                    <!-- Dropdown field Language User Exist -->
+                                                    <div class="dropdown status-only">
+                                                        <button class="edit-lenguage-users language-users dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                            <input attr.data-langcode="{{users.code}}" type="text" name="language" id="language{{i}}" class="form-control language" autocomplete="off" [ngModel]="_edit_agencies.language_new[i]" value="{{_edit_agencies.language_data_form[i]}}" (click)="editing_language()">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" id="dropdownMenuUser" aria-labelledby="dropdownMenu1">
+                                                            <li class="text-items-language{{a}}" *ngFor="let lan of _edit_agencies.language_name; let a=index" (click)="_edit_agencies.select_language(lan.name, lan.code, i)" (mouseover)='mouseover_color_text(".text-items-language" + a)' (mouseleave)='mouseleave_color_text(".text-items-language" + a)'>
+                                                                <a>{{lan.name}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-xs-12 d-flex justify-content-end save-or-cancel">
+                                                    <button type="button" (click)="cancel_edit_form_user(i, _edit_agencies.first_name[i], _edit_agencies.middle_name[i], _edit_agencies.last_name[i], _edit_agencies.email[i], _edit_agencies.office_phone[i], _edit_agencies.mobile_phone[i], _edit_agencies.address[i], _edit_agencies.location_users[i], _edit_agencies.password[i], _edit_agencies.agency_code[i], _edit_agencies.is_admin[i], _edit_agencies.is_comissionable[i], _edit_agencies.user_access[i], _edit_agencies.never_disable[i], _edit_agencies.language[i])" class="btn-grey-transparent-md">Cancel</button>
+                                                    <div class="dropdown">
+                                                    <button class="btn-red-md dropdown-toggle" type="button" id="save-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Save User <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu" aria-labelledby="save-dropdown">
+                                                            <li (click)="save_form_users(false, i)"><a>Save</a></li>
+                                                            <li (click)="save_form_users(true, i)"><a>Save & send Update</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Success Message if there is not results from Back-End (User Exist) -->
+                                <div class="col-xs-12">
+                                    <template [ngIf]="_edit_agencies.updated_form_user[i] == true">
+                                        <div class="success-alert center d-flex align-items-center" id="success-alert-user{{i}}">
+                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                            <p>Your <strong>changes</strong> were <strong>saved successfully!</strong></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </td>
+                        </div>
+                    </template>
+                </table>
+
+                <!-- Notification Message if there is not results from Front-End (Table Users) -->
+                <template [ngIf]="_edit_agencies.count_users_data_table < 1">
+                    <div class="info-alert center d-flex align-items-center">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>This agency doesn't have any users yet.</p>
+                    </div>
+                </template>
+            </div>
+
+            <!-- PRICE RULES TITLE -->
+            <div class="row price-rules">
+                <div class="col-xs-12 grey-heading d-flex align-items-center justify-content-center">
+                    <h3 class="title3">Price Rules</h3>
+                </div>
+                <!-- General Error Message from Back-End (Price Rules) -->
+                <template [ngIf]="_edit_agencies.general_error_price_rules != ''">
+                    <div class="col-xs-12">
+                        <div class="danger-alert center d-flex align-items-center" id="danger-alert-not">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <p>{{_edit_agencies.general_error_price_rules}}</p>
+                        </div>
+                    </div>
+                </template>
+                <!-- PRICE RULES TABLE -->
+                <table class="table short-table table-hover">
+                    <template [ngIf]="_edit_agencies.count_price != 0">
+                        <tr>
+                            <th>Service Type</th>
+                            <th>Rule Name</th>
+                            <th>Price Range</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th class="short-th"></th>
+                            <th class="short-th"></th>
+                        </tr>
+                    </template>
+                    <template ngFor let-price [ngForOf]="_edit_agencies.list_rules" let-i="index">
+                        <tr>
+                        <!--<tr *ngFor="let price of _edit_agencies.list_rules; let i=index">-->
+                            <td>
+                                <!-- Icon ALL -->
+                                <template [ngIf]="price.service_type == 'all'">
+                                    <div>
+                                        All
+                                    </div>
+                                </template>
+                                <!-- Icon Hotel -->
+                                <template [ngIf]="price.service_type == 'hotel'">
+                                    <div>
+                                        <i class="fa fa-bed"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Attraction -->
+                                <template [ngIf]="price.service_type == 'attraction'">                                        
+                                    <div>
+                                        <i class="fa fa-ticket" ></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Transfer -->
+                                <template [ngIf]="price.service_type == 'transfer'">
+                                    <div>
+                                        <i class="fa fa-bus" ></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Car -->
+                                <template [ngIf]="price.service_type == 'car'">
+                                    <div>
+                                        <i class="fa fa-car"></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Cruise -->
+                                <template [ngIf]="price.service_type == 'cuise'">
+                                    <div>
+                                        <i class="fafa-ship" ></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Flight/Air -->
+                                <template [ngIf]="price.service_type == 'flight'">
+                                    <div>
+                                        <i class="fa fa-plane" ></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Package -->
+                                <template [ngIf]="price.service_type == 'package'">
+                                    <div>
+                                        <i class="fa fa-th" ></i>
+                                    </div>
+                                </template>
+                                <!-- Icon Insurance -->
+                                <template [ngIf]="price.service_type == 'insurance'">
+                                    <div>
+                                        <i class="fa fa-shield"></i>
+                                    </div>
+                                </template>
+                                    
+                            </td>
+                            <td>{{price.name}}</td>
+                            <!-- PRICE RANGE -->
+                            <td>
+                                <template [ngIf]="price.amount_start == '0.000' && price.amount_end == '0.000'">Any</template>
+                                <template [ngIf]="price.amount_start != '0.000' && price.amount_end != '0.000'">{{price.currency_default_symbol}} {{price.amount_start}} to {{price.currency_default_symbol}} {{price.amount_end}}</template>
+                            </td>
+                            <!-- AMOUNT -->
+                            <td>
+                                <template [ngIf]="price.amount_type == 0"></template>
+                                <template [ngIf]="price.amount_type == 1">{{price.amount_symbol}} {{price.amount}}</template><!-- Moneda -->
+                                <template [ngIf]="price.amount_type == 2">{{price.amount}}{{price.amount_symbol}}</template><!-- /Porcentaje -->
+                            </td>
+                            <td>{{price.rule_type_name}}</td>
+                            <td class="text-center" (mouseover)="mouseover_icons('#' +  i + 'icon-edit-price')" (mouseleave)="mouseleave_icons()">
+                                <i id="{{i}}icon-edit-price" class="fa fa-pencil edit-icon" aria-hidden="true"></i>
+                            </td>
+                            <td class="text-center" (mouseover)="mouseover_icons('#' + i + 'icon-delete-price')" (mouseleave)="mouseleave_icons()">
+                                <template [ngIf]="price.avail_remove == true">
+                                    <i id="{{i}}icon-delete-price" class="fa fa-trash-o delete-icon" aria-hidden="true" (click)="delete_price_rules(price.code)"></i>
+                                </template>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+                <!-- Notification Message if there is not results from Front-End (Table Price Rules) -->
+                <template [ngIf]="_edit_agencies.count_price == 0">
+                    <div class="info-alert center d-flex align-items-center">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <p>Sorry, we couldn't find any results that met your search criteria.</p>
+                    </div>
+                </template>
+            </div>
+            <footer>©2017 - Travtion Solutions LLC - <a href="#">http://www.travtion.com/</a></footer>
+        </div>
+    </div>
+</div>

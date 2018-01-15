@@ -1,0 +1,218 @@
+/*-----------------------------*/
+/*           BUTTONS           */
+/*-----------------------------*/
+
+button:focus {
+    outline: none !important;
+}
+
+.btn-xs {
+    -webkit-appearance: none;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 2.4px;
+}
+
+.btn-md {
+    -webkit-appearance: none;
+    font-size: 14px;
+    padding: 5px 14px;
+    border-radius: 3px;
+}
+
+.btn-lg {
+    -webkit-appearance: none;
+    font-size: 14px;
+    padding: 5px 18px;
+    border-radius: 3px;
+}
+
+.btn-transparent{
+    background-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+}
+
+.btn-red-xs {
+    @extend .btn-xs;
+    background-color: $btn-red;
+    border: none;
+    font-weight: bold;
+    color: #fff;
+}
+
+.btn-grey-transparent-md {
+    @extend .btn-md;
+    background-color: transparent;
+    border: 1px solid $grey;
+    font-weight: normal;
+    color: $grey;
+}
+
+.btn-red-md {
+    @extend .btn-md;
+    background-color: $btn-red;
+    border: none;
+    font-weight: bold;
+    color: #fff;
+    height: 100%;
+}
+
+.btn-blue-md{
+    @extend .btn-md;
+    font-weight: bold;
+    border: 2px solid $lightblue;
+    color: $lightblue;
+    background-color: #fff;
+}
+
+.btn-blue-lg {
+    @extend .btn-lg;
+    font-weight: bold;
+    border: 2px solid $lightblue;
+    color: $lightblue;
+    background-color: #fff;
+}
+
+.btn-red-lg {
+    @extend .btn-lg;
+    background-color: $btn-red;
+    border: none;
+    font-weight: bold;
+    color: #fff;
+    height: 100%;
+}
+
+.btn-red-medium {
+    @extend .btn-lg;
+    background-color: $btn-red !important;
+    border: none;
+    font-weight: bold;
+    color: #ffffff !important;
+    width: 143px;
+    height: 45px;
+}
+
+.btn-gray-medium {
+    @extend .btn-lg;
+    background-color: $gray-default;
+    border: none;
+    font-weight: bold;
+    //color: #000;
+    width: 142px;
+    height: 45px;
+}
+
+.filter-button {
+    height: 45px;
+    width: 299px;
+    padding: 13px;
+    border-radius: 4px;
+    border: none;
+    font-size: 13px;
+    font-weight: normal;
+    font-family: Montserrat, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    background-color: #DCDCDC;
+    color: #9F9F9F;
+    -webkit-appearance: none;
+}
+
+.active-button-add-filter {
+    background-color: $btn-red !important;
+    color: #fff !important;
+    box-shadow: none;
+    font-weight: bold;
+}
+
+/*.save-or-cancel{
+    .dropdown{
+        .dropdown-menu{
+            li{
+                &:hover{
+                    background: #e7403f;
+                    padding: 0;
+                    a{
+                        color: #fff;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}*/
+
+.pill{
+    border-radius: 3px;
+    padding: 1px 5px 2px;
+    margin: 2px;
+    display: inline-block;
+    button{
+        background-color: transparent;
+        border: none;
+    }
+    i{
+        font-size: 10px;
+        color: #fff;
+    }
+    span{
+        font-size: 11px;
+        color: #fff;
+        margin-right: 10px;
+    }
+}
+
+.btn-toolbar{
+    .btn-group{
+        float: none;
+        margin-left: 0px;
+        button{
+            margin-left: 0px;
+            &:first-child{
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+            &:last-child{
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+        }
+    }
+}
+
+.btn-group{
+    button{
+        /*background-color: #fff;*/
+        border-color: $disabled;
+        height: 40px;
+        color: #474747;
+        &:hover{
+            border-color: $disabled;
+            z-index: 0;
+        }
+    }
+    .active{
+        background-color: #E7403F !important;
+        color: #fff !important;
+        border-color: #d4181d !important;
+        box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.24);
+    }
+    i{
+        margin-right: 7px;
+        font-size: 18px;
+    }
+}
+
+.filtrable-btn{
+    button{
+        font-size: 12px;
+        height: 25px;
+        padding: 0 !important;
+        width: 40px;
+        &:first-child{
+            width: 44px;
+        }
+    }
+}

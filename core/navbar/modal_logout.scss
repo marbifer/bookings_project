@@ -1,0 +1,121 @@
+@import "../../../scss/variables";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../node_modules/messenger/build/css/messenger";
+@import "../../components/messenger/messenger";
+
+/***********************************/
+/**   MY STYLES MODAL CONFIRM     **/
+/***********************************/
+
+/* Styles modal Cancel File detail */ 
+#modal-logout{
+    width: 514px;
+    text-align: center;
+    position: relative;
+    /*left: -112px;*/
+    top: 186px;
+    .yellow {
+        font-size: 35px;
+        color: #FDBE27;
+        margin-top: 16px;
+    }
+    .header-logout{       
+        background: #EEEEEE;
+        border-radius: 7px 7px 0 0;
+        border: 1px solid #DCDCDC;
+        height: 128px;
+        width: 514px;
+        position: relative;
+        left: -25px;
+        top: -36px;
+        p {
+            font-size: 18px;
+            color: #474747;
+            margin-top: 6px;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        #cross-logout {
+            float: right;
+            font-size: 20px;
+            font-weight: 700;
+            background: transparent;
+            border: none;
+            line-height: 1;
+            color: #9f9f9f !important;
+            text-shadow: 0 1px 0 #9f9f9f;
+            opacity: 9 !important;
+            margin: -9px -4px 0 0;
+            span {
+                font-size: 20px;
+            }
+        }
+    }
+    #no-bground-logout{
+        background: transparent;
+    } 
+    div#width-logout {
+        width: 106%;
+        text-align: left;
+        margin-top: -30px;
+        color: #474747;
+    } 
+    div#modal_logout {
+        text-align: center;
+        margin: 11px 0 -8px 69px;
+        width: 435px;
+        .no-logout{
+            background: #ffffff;
+            border: 1px solid #9F9F9F;
+            border-radius: 3px;
+            font-size: 14px;
+            color: #9F9F9F;
+            margin-right: 10px;
+            height: 34px;
+            width: 155px;
+        }
+        .yes-logout {
+            background: #DE1A1F;
+            border-radius: 3px;
+            border: #DE1A1F;
+            font-size: 14px;
+            color: #FFFFFF;
+            height: 34px;
+            width: 155px;
+            padding-left: 12px;
+        }
+    } 
+}
+div#modal_logout {
+    text-align: center;
+    width: 150px;
+    height: 34px;
+    padding: 0;
+    font-size: 14px;
+}
+
+div#modal-logout {
+    .widget-login-container {
+        background: #fff;
+        border-radius: 7px;
+        width: 514px;
+    }
+}
+
+div#modal_log section.widget.widget-login.animated.fadeInUp {
+    padding:  0;
+}
+
+.modal-content{
+    box-shadow: 0 0;
+    background: transparent;
+    overflow: visible !important;
+}
+
+
+
+
+
+

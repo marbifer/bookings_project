@@ -1,0 +1,87 @@
+@import "../../../scss/variables";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../node_modules/messenger/build/css/messenger";
+@import "../../components/messenger/messenger";
+
+/*******************************************************/
+/*    Visual Design Sidebar Menú TRAVTION Solutions    */
+/*******************************************************/
+/* Visual Design Sidebar Menu */
+
+ul.sidebar-nav {
+    li {
+        .icon {
+            i {
+                font-size: 20px !important;
+                color: #9F9F9F;
+                line-height: 31px;
+                position: relative;
+                font-size: 20px;
+                padding-top: 0px;
+            }
+        }
+    }
+}
+
+.sidebar-nav>li>a {
+    line-height: 47px;
+    font-weight: 100;
+    font-size: 14px;
+    height: 46px;
+    color: #9f9f9f;
+    border-top: 1px solid #9f9f9f !important;
+    .toggle {
+        line-height: 44px;
+        color: #9f9f9f;
+    }
+}
+
+.sidebar-nav>li>a:hover {
+    border: none !important;
+    color: $sidebar-item-active-color-text;
+    font-weight: bold;
+    i {
+        color: #FFFFFF !important;
+    }
+}
+
+.sidebar-nav>.active>a {
+    color: #FFFFFF !important;
+    background-color: #eb5155 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    border: 1px solid #eb5155 !important;
+}
+
+.sidebar-nav>.active>a>span{
+    padding-left: 9.5px !important;
+}
+
+img#logo-text {
+    margin: -0.5em 0 0 -0.5em;
+}
+
+img#logo-circle {
+    margin: -5.1em 0 0 -0.5em;
+}
+
+#logo-img-text {
+    margin: -0.5em 0 0 -0.5em;
+    display: none;
+}
+
+#logo-img-circle {
+    margin: -0.5em 0 0 -0.5em;
+    display: none;
+}
+
+.visible {
+    display: inline-block !important;
+    transition: all .3s linear;
+}
+
+.hidden {
+    display: none !important;
+    transition: all .3s linear;
+}

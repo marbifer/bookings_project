@@ -1,0 +1,151 @@
+<input type="text" name="agency-user" id="{{pr_rules_type_request_data}}-price{{indexer}}" class="form-control agency" autocomplete="off" [(ngModel)]="relation_name_autocomplete" value="{{value_of_input}}" (click)="filter_auto_name_click(relation_name_autocomplete, 'users', indexer, $event)" (keyup)="filter_auto_name(relation_name_autocomplete, 'price_exist', indexer, $event)" [ngClass]="{'border-errors': get_error_from_parent == true, 'opacity-price': disabled_autocomplete == false}">
+<span class="caret"></span>
+<!--Message Error for All Autocompletes Price Rules from Front-End-->
+<template [ngIf]="_edit_price.state_validate_auto_price_exist == false && _edit_price.field_error_price_rules == 'invalidPriceRules'">
+    <span id="tool-error-city" class="with-errors-text">No matches.</span>
+</template>
+
+<!-- Message Error for All Autocompletes from Backend -->
+<template [ngIf]="get_error_from_parent == true">
+   <span id="tool-error-city" class="with-errors-text">{{general_error_autocompletes}}</span>
+</template>
+
+<!-- Show Scroll -->
+<template [ngIf]="length_of_filteredList >= 6">
+        <div class="list-city autocomplete-list2" style="overflow-y: auto; height: 153px;" *ngIf="length_of_filteredList > 0">
+            <ul class="margin-agency" id="margin-agency{{z}}" *ngFor="let item of filteredListAutocomplete; let z=index">
+                <li class="text-items-agency{{z}} d-flex align-items-center justify-content-between" (click)="select_autocomplete(item, list_of_codes_autocomplete[z], list_of_types_autocomplete[z])" (mouseover)='mouseover_color_text(".text-items-agency" + z)' (mouseleave)='mouseleave_color_text(".text-items-agency" + z)'>
+                    <a>{{item}}</a>
+                    <!-- Options Service Types Autocomplete Hotels -->
+                    <template [ngIf]="pr_rules_type_request_data == 'hotels'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.hotels[indexer] == 'add', 'fa-exclamation-circle': _edit_price.hotels[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Attractions -->
+					<template [ngIf]="pr_rules_type_request_data == 'attractions'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.attractions[indexer] == 'add', 'fa-exclamation-circle': _edit_price.attractions[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Transfers -->
+					<template [ngIf]="pr_rules_type_request_data == 'transfers'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.transfers[indexer] == 'add', 'fa-exclamation-circle': _edit_price.transfers[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Cars -->
+					<template [ngIf]="pr_rules_type_request_data == 'cars'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.cars[indexer] == 'add', 'fa-exclamation-circle': _edit_price.cars[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Cruises -->
+					<template [ngIf]="pr_rules_type_request_data == 'cruises'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.cruises[indexer] == 'add', 'fa-exclamation-circle': _edit_price.cruises[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Flights -->
+					<template [ngIf]="pr_rules_type_request_data == 'flights'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.flights[indexer] == 'add', 'fa-exclamation-circle': _edit_price.flights[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Packages -->
+					<template [ngIf]="pr_rules_type_request_data == 'packages'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.packages[indexer] == 'add', 'fa-exclamation-circle': _edit_price.packages[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Insurances -->
+					<template [ngIf]="pr_rules_type_request_data == 'insurances'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.insurances[indexer] == 'add', 'fa-exclamation-circle': _edit_price.insurances[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Agencies Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'agencies'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.agencies[indexer] == 'add', 'fa-exclamation-circle': _edit_price.agencies[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Int. Providers Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'int_provider'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.internal_providers[indexer] == 'add', 'fa-minus-circle': _edit_price.internal_providers[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Ext. Providers Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'ext_provider'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.external_providers[indexer] == 'add', 'fa-exclamation-circle': _edit_price.external_providers[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Destinations Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'destination'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.destinations[indexer] == 'add', 'fa-exclamation-circle': _edit_price.destinations[indexer] == 'remove'}"></i>
+                    </template>
+				</li>
+			</ul>
+		</div>
+</template>
+
+<!-- Hide Scroll -->
+<template [ngIf]="length_of_filteredList < 6">
+	<div class="list-city2 autocomplete-list2" *ngIf="length_of_filteredList > 0">
+	    <ul class="margin-agency" id="margin-agency{{z}}" *ngFor="let item of filteredListAutocomplete; let z=index">
+	        <li class="text-items-agency{{z}} d-flex align-items-center justify-content-between" (click)="select_autocomplete(item, list_of_codes_autocomplete[z], list_of_types_autocomplete[z])" (mouseover)='mouseover_color_text(".text-items-agency" + z)' (mouseleave)='mouseleave_color_text(".text-items-agency" + z)'>
+	            <a>{{item}}</a>
+	            	<!-- Options Service Types Autocomplete Hotels -->
+	            	<template [ngIf]="pr_rules_type_request_data == 'hotels'">
+	            		<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.hotels[indexer] == 'add', 'fa-exclamation-circle': _edit_price.hotels[indexer] == 'remove'}"></i>
+	            	</template>
+
+					<!-- Options Service Types Autocomplete Attractions -->
+					<template [ngIf]="pr_rules_type_request_data == 'attractions'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.attractions[indexer] == 'add', 'fa-exclamation-circle': _edit_price.attractions[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Transfers -->
+					<template [ngIf]="pr_rules_type_request_data == 'transfers'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.transfers[indexer] == 'add', 'fa-exclamation-circle': _edit_price.transfers[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Cars -->
+					<template [ngIf]="pr_rules_type_request_data == 'cars'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.cars[indexer] == 'add', 'fa-exclamation-circle': _edit_price.cars[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Cruises -->
+					<template [ngIf]="pr_rules_type_request_data == 'cruises'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.cruises[indexer] == 'add', 'fa-exclamation-circle': _edit_price.cruises[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Flights -->
+					<template [ngIf]="pr_rules_type_request_data == 'flights'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.flights[indexer] == 'add', 'fa-exclamation-circle': _edit_price.flights[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Packages -->
+					<template [ngIf]="pr_rules_type_request_data == 'packages'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.packages[indexer] == 'add', 'fa-exclamation-circle': _edit_price.packages[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Service Types Autocomplete Insurances -->
+					<template [ngIf]="pr_rules_type_request_data == 'insurances'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.insurances[indexer] == 'add', 'fa-exclamation-circle': _edit_price.insurances[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Agencies Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'agencies'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.agencies[indexer] == 'add', 'fa-exclamation-circle': _edit_price.agencies[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Int. Providers Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'int_provider'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.internal_providers[indexer] == 'add', 'fa-exclamation-circle': _edit_price.internal_providers[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Ext. Providers Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'ext_provider'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.external_providers[indexer] == 'add', 'fa-exclamation-circle': _edit_price.external_providers[indexer] == 'remove'}"></i>
+                    </template>
+
+					<!-- Options Destinations Autocomplete -->
+					<template [ngIf]="pr_rules_type_request_data == 'destination'">
+                    	<i class="fa" aria-hidden="true" [ngClass]="{'fa-plus-circle': _edit_price.destinations[indexer] == 'add', 'fa-exclamation-circle': _edit_price.destinations[indexer] == 'remove'}"></i>
+                    </template>
+				</li>
+			</ul>
+		</div>
+</template>

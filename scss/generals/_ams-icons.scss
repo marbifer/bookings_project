@@ -1,0 +1,153 @@
+/*-----------------------------*/
+/*            ICONS            */
+/*-----------------------------*/
+.empty-icon{
+    cursor: pointer;
+    font-size: 22px;
+    color: $grey;
+}
+
+.default-icon{
+    @extend .empty-icon;
+    font-size: 27px;
+    &:last-child{
+        margin-left: 10px;
+    }
+}
+
+.enabled-icon{
+    /*@extend .enabled;*/
+    color: $btn-red;
+    font-size: 27px;
+    &:last-child{
+        margin-left: 10px;
+    }
+}
+
+.toggle-icon{
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.toggled-icon{
+    @extend .toggle-icon;
+    color: $btn-red;
+}
+
+.untoggled-icon{
+    @extend .toggle-icon;
+    color: $disabled;
+}
+
+.open-icon{
+    cursor: pointer;
+    display: none;
+    font-size: 20px;
+}
+
+.icon-pencil{
+    color: $btn-red !important;
+}
+
+.checked-icon{
+    color: $green;
+    font-size: 14px !important;
+}
+
+.unchecked-icon{
+    color: $disabled;
+    font-size: 14px !important;
+}
+
+.radio-wrapper {
+    width: 45px;
+    height: 17px;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 10px;
+    position: relative;
+    span{
+        z-index: 9;
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        position: absolute;
+        transition: transform 1s;
+        cursor: pointer;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.disabled-toggle-icon{
+    background-color: #E7403F;
+    span{
+        background-color: #fff;
+        left: 0.8px;
+    }
+}
+
+.suspended-toggle-icon{
+    background-color: #d8d8d8;
+    span{
+        background-color: #9F9F9F;
+        left: 33%;
+    }
+}
+
+.enabled-toggle-icon{
+    background-color: #24B160;
+    span{
+        background-color: #fff;
+        right: 0.8px;
+    }
+}
+
+.retrieve-icon{
+    font-size: 24px;
+    color: $disabled;
+}
+
+.abc-checkbox{
+    margin-top: 0px !important;
+    label{
+        &::before{
+            outline: none !important;
+            width: 16px !important;
+            height: 16px !important;
+            border: 1px solid $grey !important;
+        }
+        &::after{
+            border-radius: 3px !important;
+            line-height: 15px;
+            text-align: center !important;
+            padding-left: 0px !important;
+            background-color: #eb5155 !important;
+            color: #FFF !important;
+            outline: none !important;
+        }
+    }
+}
+
+.ellipsis-icon{
+    font-size: 17px;
+    border: 1.5px solid #e7403f;
+    color: #e7403f;
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+    line-height: 7px;
+    text-align: center;
+    display: none;
+    margin-bottom: 0px;
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.focused-ellipsis-icon{
+    color: #fff !important;
+    background-color: #e7403f !important;
+    border: 1.5px solid #e7403f !important;
+}

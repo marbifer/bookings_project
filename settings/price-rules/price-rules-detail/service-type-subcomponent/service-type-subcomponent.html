@@ -1,0 +1,514 @@
+<!-- EJEMPLO DE ADD HOTELS-->
+<template [ngIf]="service_type_type == 'hotels'">
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                          
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                        
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_hotel_button('all', i)" [ngClass]="{'active': _edit_price.hotels[i] == undefined || _edit_price.hotels[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_hotel_button('add', i)" [ngClass]="{'active': _edit_price.hotels[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_hotel_button('remove', i)" [ngClass]="{'active': _edit_price.hotels[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>                       
+                    </div>
+                        <template [ngIf]="_edit_price.hotels[i] != undefined || _edit_price.hotels[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.hotels_array_apply[i]?.length > 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_hotels[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.hotels_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('hotels', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.hotels_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_hotels[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.hotels_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('hotels', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Hotels  --> 
+                    <template [ngIf]="_edit_price.hotels[i] != undefined && _edit_price.hotels[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"hotels"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+<!-- EJEMPLO DE ADD ATTRACTION -->
+<template [ngIf]="service_type_type == 'attractions'"> 
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                     
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                      
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_attraction_button('all', i)" [ngClass]="{'active': _edit_price.attractions[i] == undefined || _edit_price.attractions[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_attraction_button('add', i)" [ngClass]="{'active': _edit_price.attractions[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_attraction_button('remove', i)" [ngClass]="{'active': _edit_price.attractions[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>
+                    </div>
+                        <template [ngIf]="_edit_price.attractions[i] != undefined || _edit_price.attractions[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.attractions_array_apply[i]?.length> 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_attractions[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.attractions_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('attractions', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.attractions_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_attractions[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.attractions_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('attractions', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Attraction --> 
+                    <template [ngIf]="_edit_price.attractions[i] != undefined && _edit_price.attractions[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"attractions"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+<!-- EJEMPLO DE ADD TRANSFER -->
+<template [ngIf]="service_type_type == 'transfers'"> 
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                     
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                      
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_transfer_button('all', i)" [ngClass]="{'active': _edit_price.transfers[i] == undefined || _edit_price.transfers[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_transfer_button('add', i)" [ngClass]="{'active': _edit_price.transfers[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_transfer_button('remove', i)" [ngClass]="{'active': _edit_price.transfers[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>
+                    </div>
+                        <template [ngIf]="_edit_price.transfers[i] != undefined || _edit_price.transfers[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.transfers_array_apply[i]?.length> 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_transfers[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.transfers_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('transfers', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.transfers_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_transfers[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.transfers_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('transfers', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Transfers(NO TIENE AUTOCOMPLETE) --> 
+                    <template [ngIf]="_edit_price.transfers[i] != undefined && _edit_price.transfers[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"transfers"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+<!-- EJEMPLO DE ADD CAR -->
+<template [ngIf]="service_type_type == 'cars'"> 
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                     
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                      
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_car_button('all', i)" [ngClass]="{'active': _edit_price.cars[i] == undefined || _edit_price.cars[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_car_button('add', i)" [ngClass]="{'active': _edit_price.cars[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_car_button('remove', i)" [ngClass]="{'active': _edit_price.cars[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>
+                    </div>
+                        <template [ngIf]="_edit_price.cars[i] != undefined || _edit_price.cars[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.cars_array_apply[i]?.length> 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_cars[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.cars_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('cars', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.cars_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_cars[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.cars_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('cars', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Cars --> 
+                    <template [ngIf]="_edit_price.cars[i] != undefined && _edit_price.cars[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"cars"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+<!-- EJEMPLO DE ADD CRUISE -->
+<template [ngIf]="service_type_type == 'cruises'"> 
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                     
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                      
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_cruise_button('all', i)" [ngClass]="{'active': _edit_price.cruises[i] == undefined || _edit_price.cruises[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_cruise_button('add', i)" [ngClass]="{'active': _edit_price.cruises[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_cruise_button('remove', i)" [ngClass]="{'active': _edit_price.cruises[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>
+                    </div>
+                        <template [ngIf]="_edit_price.cruises[i] != undefined || _edit_price.cruises[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.cruises_array_apply[i]?.length> 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_cruises[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.cruises_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('cruises', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.cruises_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_cruises[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.cruises_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('cruises', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Cruises(NO TIENE AUTOCOMPLETE) --> 
+                    <template [ngIf]="_edit_price.cruises[i] != undefined && _edit_price.cruises[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"cruises"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+<!-- EJEMPLO DE ADD FLIGTH/AIR -->
+<template [ngIf]="service_type_type == 'flights'"> 
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                     
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                      
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_flight_button('all', i)" [ngClass]="{'active': _edit_price.flights[i] == undefined || _edit_price.flights[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_flight_button('add', i)" [ngClass]="{'active': _edit_price.flights[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_flight_button('remove', i)" [ngClass]="{'active': _edit_price.flights[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>
+                    </div>
+                        <template [ngIf]="_edit_price.flights[i] != undefined || _edit_price.flights[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.flights_array_apply[i]?.length> 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_flights[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.flights_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('flights', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.flights_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_flights[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.flights_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('flights', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Flights --> 
+                    <template [ngIf]="_edit_price.flights[i] != undefined && _edit_price.flights[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"flights"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+<!-- EJEMPLO DE ADD PACKAGE -->
+<template [ngIf]="service_type_type == 'packages'"> 
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                     
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                      
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_package_button('all', i)" [ngClass]="{'active': _edit_price.packages[i] == undefined || _edit_price.packages[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_package_button('add', i)" [ngClass]="{'active': _edit_price.packages[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_package_button('remove', i)" [ngClass]="{'active': _edit_price.packages[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>
+                    </div>
+                        <template [ngIf]="_edit_price.packages[i] != undefined || _edit_price.packages[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.packages_array_apply[i]?.length> 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_packages[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.packages_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('packages', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.packages_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_packages[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.packages_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('packages', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Packages --> 
+                    <template [ngIf]="_edit_price.packages[i] != undefined && _edit_price.packages[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"packages"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+<!-- EJEMPLO DE ADD INSURANCE -->
+<template [ngIf]="service_type_type == 'insurances'"> 
+    <template [ngIf]="_edit_price.services_button_all_types[i] != true">                     
+    <div class="row to-which-applies-box">
+        <div class="col-xs-12"> 
+            <label class="title5">{{title}} TO WHICH THIS RULE APPLIES</label> 
+        </div>
+        <div class="col-xs-12">
+            <div class="row d-flex align-items-start">
+                <div class="col-xs-8">
+                    <div class="btn-group types-buttons" role="group">                      
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center all" (click)="_edit_price.select_insurance_button('all', i)" [ngClass]="{'active': _edit_price.insurances[i] == undefined || _edit_price.insurances[i] == 'all'}">All {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_insurance_button('add', i)" [ngClass]="{'active': _edit_price.insurances[i] == 'add'}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>Add {{service_type_type}}
+                        </button>
+                        <button type="button" class="btn btn-default d-flex justify-content-center align-items-center" (click)="_edit_price.select_insurance_button('remove', i)" [ngClass]="{'active': _edit_price.insurances[i] == 'remove'}">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>Indicate an Exception
+                        </button>
+                    </div>
+                        <template [ngIf]="_edit_price.insurances[i] != undefined || _edit_price.insurances[i] != 'all'">
+                            <!-- RULE APPLY -->
+                            <template [ngIf]="_edit_price.insurances_array_apply[i]?.length> 0">
+                                <template [ngIf]="_edit_price.apply_not_apply_insurances[i] == 'apply'">
+                                    <div class="notification">
+                                        <p class="small-italic">The rule will only apply to {{service_type_type}} added in this list.</p>
+                                    </div>
+                                    <div *ngFor="let age of _edit_price.insurances_array_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                        <p>{{age.name}}</p>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('insurances', i, z)"></i>
+                                    </div>
+                            </template>
+                        </template>
+
+                        <!-- RULE NOT APPLY -->
+                        <template [ngIf]="_edit_price.insurances_array_not_apply[i]?.length > 0">
+                            <template [ngIf]="_edit_price.apply_not_apply_insurances[i] == 'not_apply'">
+                                <div class="notification">
+                                    <p class="small-italic">The rule will not apply to the <strong>exceptions</strong> listed below.</p>
+                                </div>
+                                <div *ngFor="let age of _edit_price.insurances_array_not_apply[i]; let z=index" class="service-applied d-flex align-items-center justify-content-between">
+                                    <p>{{age.name}}</p>
+                                    <i class="fa fa-trash-o" aria-hidden="true" (click)="_edit_price.remove_item('insurances', i, z)"></i>
+                                </div>
+                            </template>
+                        </template>
+                </template>
+
+                </div>
+                <div class="col-xs-4 search-services-to-apply">
+                    <span class="caret"></span>
+                    <!-- Autocomplete Insurances(NO TIENE AUTOCOMPLETE) --> 
+                    <template [ngIf]="_edit_price.insurances[i] != undefined && _edit_price.insurances[i] != 'all'"> 
+                        <div class="col-xs-4 search-services-to-apply">
+                            <autocomplete-subcomponent #length_of_filteredList [get_error_from_parent]='_edit_price.error_autocomplete_to_send' [indexer]='i' [value_of_input]='""' [cleaner]='clean_data' [pr_rules_type_request_data]='"insurances"'></autocomplete-subcomponent>
+                        </div>
+                    </template>               
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+</template>
+
+
+
